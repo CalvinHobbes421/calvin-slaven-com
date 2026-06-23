@@ -1,15 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Calvin's Goofy Site</title>
+    <meta charset="UTF-8">
+    <title>Neon Cube Survival</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #050505; font-family: 'Courier New', Courier, monospace; }
+        #ui { position: absolute; top: 20px; left: 20px; color: #00ffff; font-size: 28px; font-weight: bold; text-shadow: 0 0 10px #00ffff; pointer-events: none; z-index: 10; }
+        #gameover { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ff00ff; font-size: 60px; font-weight: bold; text-align: center; text-shadow: 0 0 20px #ff00ff; display: none; z-index: 10; cursor: pointer; }
+        .subtext { font-size: 24px; color: #fff; text-shadow: none; margin-top: 10px; }
+        #controls { position: absolute; bottom: 20px; width: 100%; text-align: center; color: #555; font-size: 16px; pointer-events: none; }
+    </style>
 </head>
-<body style="background-color: #121212; color: white; font-family: sans-serif; text-align: center; padding-top: 50px;">
+<body>
+    <div id="ui">SCORE: <span id="score">0</span></div>
+    <div id="controls">Use A / D or LEFT / RIGHT arrows to dodge</div>
+    <div id="gameover" onclick="resetGame()">GAME OVER<div class="subtext">Click here to restart</div></div>
 
-    <h1>Welcome to the Goofy Website</h1>
-    <p>This is officially running on my own custom domain!</p>
-    
-    <!-- You can change this image link to whatever you want later -->
-    <img src="https://images.unsplash.com/photo-1531747118685-ca8fa6e08806?w=500" alt="Goofy" style="border-radius: 10px; margin-top: 20px; max-width: 90%;">
+    <!-- Pulling in the 3D Engine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // 1. Setup the Scene, Camera, and Renderer
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050505, 0.015); // Adds a cool fade-to-black in the distance
 
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 5, 10);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // 2. Lighting
+        const light = new THREE.PointLight(0x00ffff, 2, 50);
+        light.position.set(0, 10, 10);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0x222222));
+
+        // 3. Create the Player (Glowing Cyan Cube)
+        const playerGeo = new THREE.BoxGeometry(1, 1, 1);
+        const playerMat = new THREE.MeshStandardMaterial({ color: 0x00ffff, emissive: 0x00ffff, emissiveIntensity: 0.6 });
+        const player = new THREE.Mesh(playerGeo, playerMat);
+        player.position.y = 0.5;
+        scene.add(player);
+
+        // 4. Create the Vaporwave Grid Floor
+        const gridHelper = new THREE.GridHelper(200, 100, 0xff00ff, 0x440044);
+        gridHelper.position.y = 0;
+        scene.add(gridHelper);
+
+        // 5. Game Logic Variables
+        let obstacles = [];
+        let speed = 0.6;
+        let score = 0;
+        let isGameOver = false;
+        let moveLeft = false;
+        let moveRight = false;
+
+        // 6. Player Controls
+        window.addEventListener('keydown', (e) => {
+            if(e.code === 'ArrowLeft' || e.code === 'KeyA') moveLeft = true;
+            if(e.code === 'ArrowRight' || e.code === 'KeyD') moveRight = true;
+        });
+        window.addEventListener('keyup', (e) => {
+            if(e.code === 'ArrowLeft' || e.code === 'KeyA') moveLeft = false;
+            if(e.code === 'ArrowRight' || e.code === 'KeyD') moveRight = false;
+        });
+
+        // 7. Auto-resize to fit the monitor
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // 8. Enemy Spawner
+        function spawnObstacle() {
+            if(isGameOver) return;
+            const obsGeo = new THREE.BoxGeometry(1.5, 1.5, 1.5);
+            const obsMat = new THREE.MeshStandardMaterial({ color: 0xff00ff, emissive: 0xff00ff, emissiveIntensity: 0.5 });
+            const obs = new THREE.Mesh(obsGeo, obsMat);
+            
+            // Random spawn location on the X axis
+            obs.position.x = (Math.random() - 0.5) * 30;
+            obs.position.y = 0.75;
+            obs.position.z = -100; // Spawn far away
+            
+            scene.add(obs);
+            obstacles.push(obs);
+            
+            // Spawn faster as the score goes up
+            setTimeout(spawnObstacle, Math.max(150, 800 - (score * 2)));
+        }
+
+        // 9. Reset Function
+        function resetGame() {
+            isGameOver = false;
+            score = 0;
+            speed = 0.6;
+            document.getElementById('score').innerText = score;
+            document.getElementById('gameover').style.display = 'none';
+            
+            obstacles.forEach(obs => scene.remove(obs));
+            obstacles = [];
+            player.position.x = 0;
+            
+            spawnObstacle();
+            animate();
+        }
+
+        // 10. The Main Game Engine Loop
+        function animate() {
+            if(isGameOver) return;
+            requestAnimationFrame(animate);
+
+            // Move player (capped at the edges of the grid)
+            if(moveLeft && player.position.x > -15) player.position.x -= 0.4;
+            if(moveRight && player.position.x < 15) player.position.x += 0.4;
+
+            // Animate grid moving toward the camera for a sense of speed
+            gridHelper.position.z += speed;
+            if(gridHelper.position.z > 2) gridHelper.position.z = 0;
+
+            // Move Obstacles and check for crashes
+            for(let i = obstacles.length - 1; i >= 0; i--) {
+                let obs = obstacles[i];
+                obs.position.z += speed;
+
+                // Hitbox detection
+                if(
+                    Math.abs(player.position.x - obs.position.x) < 1.2 &&
+                    Math.abs(player.position.z - obs.position.z) < 1.2
+                ) {
+                    isGameOver = true;
+                    document.getElementById('gameover').style.display = 'block';
+                }
+
+                // Delete obstacles when they pass the camera and add score
+                if(obs.position.z > 15) {
+                    scene.remove(obs);
+                    obstacles.splice(i, 1);
+                    score += 10;
+                    document.getElementById('score').innerText = score;
+                    speed += 0.003; // Slowly increase the game speed
+                }
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // Boot up the game
+        spawnObstacle();
+        animate();
+    </script>
 </body>
 </html>
