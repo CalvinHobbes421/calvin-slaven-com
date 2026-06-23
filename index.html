@@ -454,6 +454,50 @@
             box-shadow: 0 0 15px var(--sheikah-glow);
         }
 
+        /* --- ARCHIVIST BIO VIEW --- */
+        .archivist-bio {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 50px;
+            padding-top: 100px;
+        }
+
+        .bio-container {
+            background: var(--bubble-bg);
+            border-radius: 24px;
+            padding: 50px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 30px var(--gold-glow);
+            backdrop-filter: blur(15px);
+        }
+
+        .bio-container h2 {
+            color: var(--gold);
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .bio-container p {
+            color: var(--text-main);
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .bio-quote {
+            background: rgba(0, 209, 255, 0.1);
+            border-left: 3px solid var(--sheikah-blue);
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            font-style: italic;
+            color: var(--sheikah-blue);
+            font-family: 'HyliaSerif', 'Georgia', serif;
+        }
+
         /* --- MAP SECTION --- */
         #map-view {
             padding-top: 100px;
@@ -566,6 +610,87 @@
             backdrop-filter: blur(10px);
             display: none;
             animation: fadeIn 0.4s ease-out;
+        }
+
+        /* --- RANDOM FACT BUTTON --- */
+        .random-fact-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+
+        .random-fact-btn {
+            background: linear-gradient(135deg, var(--sheikah-blue), #00a8cc);
+            color: #030509;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'HyliaSerif', 'Georgia', serif;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(0, 209, 255, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .random-fact-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(0, 209, 255, 0.6);
+        }
+
+        .fact-popup {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: rgba(3, 5, 9, 0.95);
+            border: 2px solid var(--sheikah-blue);
+            border-radius: 16px;
+            padding: 20px;
+            max-width: 350px;
+            box-shadow: 0 15px 40px rgba(0, 209, 255, 0.3);
+            display: none;
+            animation: slideUp 0.4s ease-out;
+            z-index: 101;
+            backdrop-filter: blur(10px);
+        }
+
+        .fact-popup.show {
+            display: block;
+        }
+
+        .fact-popup h4 {
+            color: var(--sheikah-blue);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .fact-popup p {
+            color: var(--text-main);
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .fact-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: var(--sheikah-blue);
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .fact-close:hover {
+            color: var(--gold);
         }
 
         /* --- SETTINGS SECTION --- */
@@ -697,6 +822,11 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @keyframes ping {
             0% { transform: scale(1); opacity: 0.8; }
             100% { transform: scale(1.8); opacity: 0; }
@@ -736,6 +866,15 @@
                 right: 10px;
                 width: calc(100% - 20px);
             }
+            .random-fact-container {
+                bottom: 20px;
+                right: 20px;
+            }
+            .fact-popup {
+                bottom: 80px;
+                right: 20px;
+                max-width: 280px;
+            }
         }
     </style>
 </head>
@@ -749,6 +888,7 @@
         <div class="menu">
             <a id="nav-home" class="active" onclick="switchView('home-view')">Timeline</a>
             <a id="nav-map" onclick="switchView('map-view')">Interactive Map</a>
+            <a id="nav-bio" onclick="switchView('archivist-view')">The Archivist</a>
             <a id="nav-settings" onclick="switchView('settings-view')">Settings</a>
         </div>
     </nav>
@@ -793,11 +933,40 @@
         </div>
     </div>
 
+    <!-- ARCHIVIST BIO VIEW -->
+    <div id="archivist-view" class="view-section">
+        <div class="archivist-bio">
+            <div class="bio-container">
+                <h2>About the Archivist</h2>
+                <p>
+                    Greetings. I am <strong>Calvin Slaven</strong>, Keeper of the Archives, Guardian of Questionably Accurate Zelda Lore, and Consumer of Excessive Quantities of Mountain Dew.
+                </p>
+                <p>
+                    For years, I have been cataloging the vast and increasingly convoluted history of Hyrule. My quest began not with the official timeline—no, I sought to understand the deeper mysteries that Nintendo left ambiguous. Why does the timeline split? What happened between each game? And most importantly: where did all these Maps and Timelines come from?
+                </p>
+                <div class="bio-quote">
+                    "The greatest treasure in all of Hyrule is not the Triforce or the Master Sword. It's a properly indexed spreadsheet."
+                </div>
+                <p>
+                    This archive was created to serve as a beacon for fellow Zelda enthusiasts, speedrunners, lore hunters, and anyone who has ever wondered why there are three separate timelines. If you've scrolled through forums at 2 AM debating whether the Kingdom of Hyrule exists in a flat plane or a spherical realm, this place is for you.
+                </p>
+                <p>
+                    The Hyrule Archives is my contribution to preserving the legacy of one of gaming's greatest franchises—complete with interactive timelines, hidden easter eggs (if you know where to look), and a sincere belief that someday, Nintendo will release a game that canonically clarifies everything we've been arguing about.
+                </p>
+                <p style="margin-top: 30px; text-align: center; color: var(--sheikah-blue); font-style: italic;">
+                    May your wifi be strong and your discoveries legendary.
+                    <br><br>
+                    — Calvin Slaven, Archivist
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- MAP VIEW -->
     <div id="map-view" class="view-section">
         <div style="padding: 0 50px; margin-bottom: 50px;">
             <h2 style="font-size: 2.5rem; border-bottom: 2px solid var(--gold); padding-bottom: 10px;">Cartography of Hyrule</h2>
-            <p style="margin-top: 10px; color: var(--text-muted); font-family: 'Nunito', sans-serif;">Select active geographical coordinates to view historical events associated with these key landmarks.</p>
+            <p style="margin-top: 10px; color: var(--text-muted); font-family: 'Nunito', sans-serif;">Select active geographical coordinates to view historical events associated with these key locations.</p>
             
             <div class="map-container">
                 <div class="map-bg"></div>
@@ -861,13 +1030,47 @@
                 <div class="settings-group">
                     <h3>Compendium Data State</h3>
                     <p>Restore default historical chronology parameters and wipe temporary browser cache layers.</p>
-                    <button class="filter-btn" onclick="alert('Compendium records validated. Synchronized with the Royal Library.')" style="border-color: var(--gold); color: var(--gold);">Re-Verify Data</button>
+                    <button class="filter-btn" onclick="alert('Compendium records validated. Synchronized with the Royal Library.')" style="border-color: var(--gold); color: var(--gold);">Re-Verify Records</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Random Fact Button & Popup -->
+    <div class="random-fact-container">
+        <button class="random-fact-btn" onclick="showRandomFact()">💡 Tell me something weird</button>
+        <div class="fact-popup" id="fact-popup">
+            <button class="fact-close" onclick="closeRandomFact()">✕</button>
+            <h4>Zelda Trivia</h4>
+            <p id="fact-text"></p>
+        </div>
+    </div>
+
     <script>
+        // --- RANDOM ZELDA FACTS DATABASE ---
+        const zeldaFacts = [
+            "The moon in Majora's Mask has a fully modeled face—you can see it breathing and blinking throughout the game.",
+            "Link never speaks a word in any Zelda game. All his communication is through grunts, yells, and the occasional epic scream.",
+            "In Ocarina of Time, if you don't feed your sword after catching it, it dies. Nintendo removed this mechanic before release.",
+            "The Triforce represents Power (Ganondorf), Wisdom (Zelda), and Courage (Link). The missing fourth piece represents the player.",
+            "Wind Waker's Tingle debuted so obsessively collecting rupees that he nearly broke the game's economy on first release.",
+            "Speedrunners have discovered that certain glitches in Ocarina of Time can sequence break the entire game in under 15 minutes.",
+            "The Hyrule Historia timeline book officially splits into three separate timelines, causing decades of fan debates.",
+            "In Breath of the Wild, you can complete the final boss fight without ever speaking to any NPC in the entire game.",
+            "Majora's Mask was originally intended to be a dream sequence in Ocarina of Time before becoming its own game.",
+            "The Master Sword respawns infinitely in the Lost Woods, but it was originally coded to be a one-time pickup.",
+            "In A Link to the Past, the Triforce was originally going to be collectible by the player, but Nintendo decided against it.",
+            "Every incarnation of Link across timelines is supposedly the same person reincarnated through magic.",
+            "Darknuts in the Legend of Zelda series are actually possessed suits of armor—their souls are being controlled.",
+            "The lost kingdom of Lorule in A Link Between Worlds is actually the inverse/dark world of Hyrule.",
+            "Link's Awakening takes place in Link's dream, meaning everyone in that game is a figment of his imagination.",
+            "In Windwaker, the entire Hyrule you explored in Ocarina of Time is actually underwater, submerged by the flood.",
+            "The Ocarina from Ocarina of Time has 12 different songs you can learn, each with mystical properties tied to time itself.",
+            "Sheikah are an ancient tribe of ninja-like beings—their name translates to 'those who see.' They have a third eye.",
+            "Zoras were originally humanoid fish-like creatures until Twilight Princess redesigned them to look more dragon-like.",
+            "If you melt all the ice in certain areas of Breath of the Wild, you can find completely different landscapes hidden underneath."
+        ];
+
         // --- COMPLETE HIGH-RESOLUTION RECONSTRUCTED DATA ENGINE ---
         const zeldaDatabase = {
             "totk": {
@@ -877,7 +1080,7 @@
                 chronologyIndex: 8,
                 platform: "Nintendo Switch",
                 shortDesc: "The skies open up above a changing kingdom in absolute physics-driven chaos.",
-                longDesc: "A direct sequel to Breath of the Wild that expands Hyrule into both the sky islands and the dark depths below. It introduces revolutionary building mechanics that allow you to construct vehicles, structures, and contraptions from raw materials found throughout the world. Fuse any two items to create powerful combinations, and explore three distinct layers of Hyrule.",
+                longDesc: "A direct sequel to Breath of the Wild that expands Hyrule into both the sky islands and the dark depths below. It introduces revolutionary building mechanics that allow players to create their own vehicles and weapons on the fly.",
                 coverImg: "https://images.unsplash.com/photo-1685019803155-2ff1b6264d8a?q=80&w=800&auto=format&fit=crop", 
                 mechanics: [
                     "Ultrahand: Seamlessly assemble objects to build dynamic vehicles.",
@@ -897,7 +1100,7 @@
                 chronologyIndex: 7,
                 platform: "Nintendo Switch / Wii U",
                 shortDesc: "Climb anything. Go anywhere. Complete open-world freedom.",
-                longDesc: "Waking up after a century-long slumber, Link must explore a ruined, quiet Hyrule to defeat Calamity Ganon. It shattered every established convention of the Zelda formula, introducing true open-world freedom where players could approach dungeons and bosses in any order. Revolutionary climbing mechanics let you scale any surface in the game world.",
+                longDesc: "Waking up after a century-long slumber, Link must explore a ruined, quiet Hyrule to defeat Calamity Ganon. It shattered every established convention of the Zelda formula.",
                 coverImg: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
                     "Climbing Engine: Scale any vertical surface from mountains to structures.",
@@ -917,7 +1120,7 @@
                 chronologyIndex: 5,
                 platform: "GameCube / Wii",
                 shortDesc: "Dark, gritty, and epic. The shadow invasion of the Twilight Realm.",
-                longDesc: "Hyrule is being slowly consumed by the shadowy Twilight Realm. Link must ally with the mischievous imp Midna and transform into a blue-eyed wolf to tear through the darkness consuming the land. The game blends dark fantasy with epic adventure, featuring some of the most memorable boss fights and story moments in the franchise.",
+                longDesc: "Hyrule is being slowly consumed by the shadowy Twilight Realm. Link must ally with the mischievous imp Midna and transform into a blue-eyed wolf to tear through the darkness.",
                 coverImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
                     "Wolf Transformation: Utilize animal instincts, track scents, and dig through terrain.",
@@ -937,7 +1140,7 @@
                 chronologyIndex: 6,
                 platform: "Nintendo GameCube",
                 shortDesc: "Sail the Great Sea. A vibrant, beautiful cel-shaded masterpiece.",
-                longDesc: "Set centuries after Ocarina of Time, the physical land of Hyrule was flooded to seal away Ganondorf. Now, a young hero from Outset Island must sail the vast ocean, discovering islands and uncovering the mystery of the Triforce. Featuring a revolutionary cel-shading art style that made the game timeless and beautiful.",
+                longDesc: "Set centuries after Ocarina of Time, the physical land of Hyrule was flooded to seal away Ganondorf. Now, a young hero from Outset Island must sail the vast ocean, discovering new lands.",
                 coverImg: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop", 
                 mechanics: [
                     "Sailing: Navigate a vast, seamless ocean aboard the sentient boat King of Red Lions.",
@@ -957,7 +1160,7 @@
                 chronologyIndex: 4,
                 platform: "Nintendo 64",
                 shortDesc: "72 Hours remain. The darkest, most atmospheric game in the franchise.",
-                longDesc: "Link is pulled into the surreal, parallel world of Termina, where a terrifying, grimacing moon is destined to crash-land in exactly three days. You must manage a ticking clock, resetting the world repeatedly while gradually uncovering secrets. It's a dark, psychologically engaging adventure unlike any other Zelda game.",
+                longDesc: "Link is pulled into the surreal, parallel world of Termina, where a terrifying, grimacing moon is destined to crash-land in exactly three days. You must manage a ticking clock.",
                 coverImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
                     "72-Hour Cycle: Complete objectives and rewind time before the moon impacts.",
@@ -977,7 +1180,7 @@
                 chronologyIndex: 3,
                 platform: "Nintendo 64",
                 shortDesc: "The Hero of Time awakens. The transition to 3D adventure.",
-                longDesc: "A young forest boy is chosen by destiny to protect the Triforce. Traveling back and forth across a span of seven years, Link must stop the Gerudo thief Ganondorf from conquering Hyrule. Ocarina of Time revolutionized gaming by being the first truly immersive 3D adventure, setting the gold standard for the entire industry.",
+                longDesc: "A young forest boy is chosen by destiny to protect the Triforce. Traveling back and forth across a span of seven years, Link must stop the Gerudo thief Ganondorf.",
                 coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop", 
                 mechanics: [
                     "Time Manipulation: Travel freely between the child and adult eras of Hyrule.",
@@ -997,73 +1200,86 @@
                 chronologyIndex: 2,
                 platform: "Super Nintendo",
                 shortDesc: "The 16-bit gold standard. Light and Dark worlds collide.",
-                longDesc: "Setting the template for structural progression throughout the franchise, A Link to the Past tasks the hero with traveling between the peaceful Light World and the corrupted Dark World. It introduced many mechanics that would become series staples and remains one of the most influential games ever created.",
-                coverImg: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=800&auto=format&fit=crop",
+                longDesc: "Setting the template for structural progression throughout the franchise, A Link to the Past tasks the hero with traveling between the peaceful Light World and the corrupted Dark World.",
+                coverImg: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
-                    "Parallel Worlds: Traverse between light and dark dimensions to solve puzzles.",
-                    "Multi-tiered Dungeons: Complex, multi-floor maps designed for spatial navigation.",
-                    "Spin Attack: Introduces Link's classic sweeping charging sword technique."
+                    "Dual World System: Transition between Light and Dark realms to solve puzzles.",
+                    "Classic Dungeon Design: Solve intricate puzzles and master a unique item in each temple.",
+                    "Dynamic Sword/Shield Progression: Upgrade gear by discovering new artifacts."
                 ],
                 items: [
+                    "Master Sword",
                     "Pegasus Boots",
-                    "Magic Cape",
-                    "Fire Rod"
+                    "Magic Mirror"
                 ]
             },
-            "loz1": {
+            "zelda1": {
                 title: "The Legend of Zelda",
                 year: "1986",
                 releaseIndex: 8,
                 chronologyIndex: 1,
                 platform: "Nintendo Entertainment System",
-                shortDesc: "It all began here. The original adventure that defined gaming.",
-                longDesc: "The game that started it all. With only a sword, shield, and your wits, you must explore the lands of Hyrule, conquer eight dungeons, and defeat Ganon. A groundbreaking title that essentially created the action-adventure genre and remains timeless in its design.",
-                coverImg: "https://images.unsplash.com/photo-1582522534106-2205847ab5af?q=80&w=800&auto=format&fit=crop",
+                shortDesc: "It all began here. The game that changed everything.",
+                longDesc: "The game that launched a thousand sequels. A young boy emerges in a vast overworld filled with monsters, dungeons, and ancient secrets. Simple, yet infinitely replayable.",
+                coverImg: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
-                    "Overworld Exploration: Discover secrets hidden throughout the open landscape.",
-                    "Dungeon Crawling: Navigate interconnected rooms filled with puzzles and enemies.",
-                    "Power-ups and Progression: Collect items that unlock new areas and abilities."
+                    "Overworld Exploration: Discover secrets and hidden dungeons scattered across a vast landscape.",
+                    "Dungeon Crawling: Master the art of puzzle-solving and enemy combat.",
+                    "Item Collection: Gather weapons and tools to progress."
                 ],
                 items: [
                     "Wooden Sword",
                     "Boomerang",
-                    "Recorder"
+                    "Blue Candle"
                 ]
             }
         };
 
-        let currentSortOrder = 'release';
-        let currentGameDetail = null;
+        let currentSort = 'release';
+        let currentGameId = null;
 
-        // --- PAGINATION & RENDERING ---
+        // Random Fact Functions
+        function showRandomFact() {
+            const randomIndex = Math.floor(Math.random() * zeldaFacts.length);
+            const fact = zeldaFacts[randomIndex];
+            document.getElementById('fact-text').textContent = fact;
+            document.getElementById('fact-popup').classList.add('show');
+        }
+
+        function closeRandomFact() {
+            document.getElementById('fact-popup').classList.remove('show');
+        }
+
+        // Timeline rendering
         function renderTimeline() {
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
             const container = document.getElementById('timeline-container');
             container.innerHTML = '';
 
-            let gamesArray = Object.entries(zeldaDatabase).map(([key, game]) => ({
-                key,
-                ...game
+            let games = Object.keys(zeldaDatabase).map(key => ({
+                id: key,
+                ...zeldaDatabase[key]
             }));
 
-            if (currentSortOrder === 'release') {
-                gamesArray.sort((a, b) => a.releaseIndex - b.releaseIndex);
+            if (currentSort === 'chronology') {
+                games.sort((a, b) => a.chronologyIndex - b.chronologyIndex);
             } else {
-                gamesArray.sort((a, b) => a.chronologyIndex - b.chronologyIndex);
+                games.sort((a, b) => a.releaseIndex - b.releaseIndex);
             }
 
-            gamesArray.forEach(game => {
+            games.forEach(game => {
                 if (game.title.toLowerCase().includes(searchTerm) || 
+                    game.year.includes(searchTerm) ||
                     game.shortDesc.toLowerCase().includes(searchTerm)) {
                     
                     const card = document.createElement('div');
                     card.className = 'game-card';
-                    card.onclick = () => showGameDetail(game.key);
+                    card.onclick = () => showDeepDive(game.id);
                     
                     card.innerHTML = `
                         <div class="card-img-container">
                             <img src="${game.coverImg}" alt="${game.title}">
-                            <span class="badge">${game.year}</span>
+                            <div class="badge">${game.year}</div>
                         </div>
                         <h3>${game.title}</h3>
                         <div class="metadata">${game.platform}</div>
@@ -1076,119 +1292,121 @@
         }
 
         function setSortOrder(order) {
-            currentSortOrder = order;
-            document.getElementById('btn-release').classList.toggle('active');
-            document.getElementById('btn-chronology').classList.toggle('active');
+            currentSort = order;
+            document.getElementById('btn-release').classList.toggle('active', order === 'release');
+            document.getElementById('btn-chronology').classList.toggle('active', order === 'chronology');
             renderTimeline();
         }
 
-        // --- DEEP DIVE FUNCTIONALITY ---
-        function showGameDetail(gameKey) {
-            currentGameDetail = gameKey;
-            const game = zeldaDatabase[gameKey];
-            const deepDiveContent = document.getElementById('deep-dive-content');
-
-            deepDiveContent.innerHTML = `
+        function showDeepDive(gameId) {
+            currentGameId = gameId;
+            const game = zeldaDatabase[gameId];
+            
+            const content = document.getElementById('deep-dive-content');
+            content.innerHTML = `
                 <div class="dive-header">
                     <img src="${game.coverImg}" alt="${game.title}">
                     <div class="dive-info">
                         <h2>${game.title}</h2>
-                        <p><strong>Release Year:</strong> ${game.year}</p>
-                        <p><strong>Platform:</strong> ${game.platform}</p>
+                        <p><strong>Released:</strong> ${game.year} on ${game.platform}</p>
                         <p>${game.longDesc}</p>
                     </div>
                 </div>
-
+                
                 <div class="dive-grid">
                     <div class="dive-section">
-                        <h3>Key Mechanics</h3>
+                        <h3>Signature Mechanics</h3>
                         <ul>
                             ${game.mechanics.map(m => `<li>${m}</li>`).join('')}
                         </ul>
                     </div>
                     <div class="dive-section">
-                        <h3>Essential Items</h3>
+                        <h3>Key Items</h3>
                         <ul>
                             ${game.items.map(i => `<li>${i}</li>`).join('')}
                         </ul>
                     </div>
                 </div>
             `;
-
+            
             switchView('deep-dive');
         }
 
-        // --- NAVIGATION ---
         function switchView(viewId) {
             document.querySelectorAll('.view-section').forEach(section => {
                 section.classList.remove('active');
             });
             document.getElementById(viewId).classList.add('active');
-
-            document.querySelectorAll('.menu a').forEach(link => link.classList.remove('active'));
-            if (viewId === 'home-view') document.getElementById('nav-home').classList.add('active');
-            if (viewId === 'map-view') document.getElementById('nav-map').classList.add('active');
-            if (viewId === 'settings-view') document.getElementById('nav-settings').classList.add('active');
+            
+            document.querySelectorAll('.menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const navMap = {
+                'home-view': 'nav-home',
+                'map-view': 'nav-map',
+                'archivist-view': 'nav-bio',
+                'settings-view': 'nav-settings'
+            };
+            
+            if (navMap[viewId]) {
+                document.getElementById(navMap[viewId]).classList.add('active');
+            }
         }
 
-        // --- SETTINGS ---
+        // Settings functions
         function toggleGlow() {
-            const isEnabled = document.getElementById('glow-toggle').checked;
-            document.body.classList.toggle('glow-disabled', !isEnabled);
-            document.getElementById('glow-status').textContent = isEnabled ? 'Enabled' : 'Disabled';
-            localStorage.setItem('glowEnabled', isEnabled);
+            const isChecked = document.getElementById('glow-toggle').checked;
+            document.body.classList.toggle('glow-disabled', !isChecked);
+            document.getElementById('glow-status').textContent = isChecked ? 'Enabled' : 'Disabled';
         }
 
         function setFontScheme(scheme) {
-            document.body.classList.remove('font-serif', 'font-sans', 'font-hylia');
-            document.getElementById('btn-font-hylia')?.classList.remove('active');
-            document.getElementById('btn-font-serif')?.classList.remove('active');
-            document.getElementById('btn-font-sans')?.classList.remove('active');
-
-            if (scheme === 'hylia') {
-                document.body.classList.add('font-hylia');
-                document.getElementById('btn-font-hylia').classList.add('active');
-            } else if (scheme === 'serif') {
-                document.body.classList.add('font-serif');
-                document.getElementById('btn-font-serif')?.classList.add('active');
-            } else if (scheme === 'sans') {
-                document.body.classList.add('font-sans');
-                document.getElementById('btn-font-sans').classList.add('active');
-            }
-            localStorage.setItem('fontScheme', scheme);
+            document.body.className = 'font-' + scheme;
+            
+            document.querySelectorAll('.font-button-group .filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('btn-font-' + scheme).classList.add('active');
         }
 
-        // --- MAP FUNCTIONALITY ---
-        const mapData = {
-            'hyrule-castle': { title: 'Hyrule Castle', desc: 'The seat of royal power. Ancient fortress holding secrets of the kingdom.' },
-            'temple-of-time': { title: 'Temple of Time', desc: 'A mystical temple where time itself can be manipulated. Home of the Master Sword.' },
-            'death-mountain': { title: 'Death Mountain', desc: 'A volcanic peak shrouded in flame. Home to the Goron race and their elemental trials.' },
-            'gerudo-desert': { title: 'Gerudo Desert', desc: 'A vast, hostile desert where the Gerudo tribe dwells. Conceals ancient secrets.' },
-            'zoras-domain': { title: "Zora's Domain", desc: 'A frozen or aquatic realm home to the Zora people. Rich in water-based magic.' }
+        // Map functions
+        const mapDetails = {
+            'hyrule-castle': {
+                title: 'Hyrule Castle',
+                desc: 'The royal stronghold of Hyrule. Home to the royal family and seat of the kingdom\'s power.'
+            },
+            'temple-of-time': {
+                title: 'Temple of Time',
+                desc: 'An ancient shrine dedicated to the flow of time itself. Contains the Master Sword.'
+            },
+            'death-mountain': {
+                title: 'Death Mountain',
+                desc: 'A volcanic region home to Gorons and various fire-based creatures and temples.'
+            },
+            'gerudo-desert': {
+                title: 'Gerudo Desert',
+                desc: 'A vast, unforgiving desert inhabited by the Gerudo tribe and their fortresses.'
+            },
+            'zoras-domain': {
+                title: 'Zora\'s Domain',
+                desc: 'A frozen or watery region home to the Zora race and their aquatic civilization.'
+            }
         };
 
-        function showMapDetail(locationId) {
-            const card = document.getElementById('map-info-card');
-            const location = mapData[locationId];
-            if (location) {
-                document.getElementById('map-info-title').textContent = location.title;
-                document.getElementById('map-info-desc').textContent = location.desc;
-                card.style.display = 'block';
-            }
+        function showMapDetail(id) {
+            const detail = mapDetails[id];
+            document.getElementById('map-info-title').textContent = detail.title;
+            document.getElementById('map-info-desc').textContent = detail.desc;
+            document.getElementById('map-info-card').style.display = 'block';
         }
 
         function closeMapDetail() {
             document.getElementById('map-info-card').style.display = 'none';
         }
 
-        // --- INITIALIZATION ---
-        window.addEventListener('load', () => {
-            renderTimeline();
-            const savedFont = localStorage.getItem('fontScheme') || 'hylia';
-            setFontScheme(savedFont);
-            const glowEnabled = localStorage.getItem('glowEnabled') !== 'false';
-            if (!glowEnabled) toggleGlow();
-        });
+        // Initialize
+        renderTimeline();
     </script>
 </body>
 </html>
