@@ -2,94 +2,509 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Calvin's Retro Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hyrule Compendium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background-color: #080808; 
-            color: #fff; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            height: 100vh;
-            background-image: radial-gradient(circle at 50% 0%, #1a1a2e 0%, #080808 60%);
+        :root {
+            --sheikah-blue: #00d1ff;
+            --sheikah-glow: rgba(0, 209, 255, 0.5);
+            --bg-dark: #0a0e17;
+            --bubble-bg: rgba(20, 25, 40, 0.7);
+            --text-main: #e0e6ed;
+            --gold: #d4af37;
         }
-        
-        #header { 
-            width: 100%; 
-            padding: 30px 20px; 
-            text-align: center; 
-            border-bottom: 1px solid #d4af37; 
-            box-shadow: 0 4px 25px rgba(212, 175, 55, 0.1); 
-            background: rgba(10, 10, 10, 0.8);
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        
-        h1 { 
-            margin: 0; 
-            font-size: 2.8em; 
-            text-transform: uppercase; 
-            letter-spacing: 6px; 
-            color: #d4af37; /* Zelda Gold */
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.4); 
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Nunito', sans-serif;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 209, 255, 0.1) 0%, transparent 50%),
+                url('https://images.unsplash.com/photo-1506452814347-19597371d3ce?q=80&w=2000&auto=format&fit=crop'); /* Placeholder starry background */
+            background-size: cover;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            overflow-x: hidden;
         }
-        
-        .subtitle { 
-            color: #888; 
-            font-size: 1.2em; 
-            margin-top: 10px; 
+
+        h1, h2, h3, .zelda-font {
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
             letter-spacing: 2px;
         }
-        
-        #game-wrapper { 
-            width: 85%; 
-            max-width: 1400px; 
-            height: 75vh; 
-            margin-top: 40px; 
-            border: 1px solid #333; 
-            border-radius: 8px; 
-            overflow: hidden; 
-            box-shadow: 0 15px 50px rgba(0,0,0,0.9); 
-            background: #000; 
+
+        /* --- NAVIGATION --- */
+        nav {
+            width: 100%;
+            padding: 20px 50px;
+            background: rgba(10, 14, 23, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--sheikah-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 0 20px var(--sheikah-glow);
         }
-        
-        .instructions { 
-            margin-top: 25px;
-            max-width: 700px; 
-            text-align: center; 
-            color: #666; 
-            line-height: 1.6; 
-            font-size: 1.1em;
+
+        nav h1 {
+            color: var(--sheikah-blue);
+            font-size: 24px;
+            text-shadow: 0 0 10px var(--sheikah-blue);
+            cursor: pointer;
         }
-        
-        .highlight { color: #d4af37; font-weight: bold; }
+
+        .menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .menu a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .menu a:hover {
+            color: var(--sheikah-blue);
+            text-shadow: 0 0 8px var(--sheikah-blue);
+        }
+
+        /* --- HERO BANNER --- */
+        #hero {
+            height: 60vh;
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, var(--bg-dark)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        #hero h1 {
+            font-size: 5rem;
+            color: var(--gold);
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.8);
+            margin-bottom: 10px;
+        }
+
+        /* --- TIMELINE CONTAINER --- */
+        #main-content {
+            padding: 50px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            padding-top: 20px;
+        }
+
+        /* --- MODERN BUBBLE CARDS --- */
+        .game-card {
+            background: var(--bubble-bg);
+            border-radius: 25px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--sheikah-blue);
+            box-shadow: 0 15px 40px var(--sheikah-glow);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .game-card h3 {
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .game-card p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #b0b8c4;
+        }
+
+        /* --- DEEP DIVE VIEW (Hidden by default) --- */
+        #deep-dive {
+            display: none;
+            padding-top: 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .dive-header {
+            display: flex;
+            gap: 40px;
+            background: var(--bubble-bg);
+            border-radius: 30px;
+            padding: 40px;
+            border: 1px solid var(--sheikah-blue);
+            box-shadow: 0 0 30px var(--sheikah-glow);
+            margin-bottom: 40px;
+        }
+
+        .dive-header img {
+            width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .dive-info h2 {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .dive-info p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .dive-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .dive-section {
+            background: var(--bubble-bg);
+            border-radius: 25px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .dive-section h3 {
+            color: var(--sheikah-blue);
+            border-bottom: 1px solid var(--sheikah-blue);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .dive-section ul {
+            list-style-type: none;
+        }
+
+        .dive-section li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .dive-section li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 0.8rem;
+            top: 5px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--sheikah-blue);
+            border: 1px solid var(--sheikah-blue);
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--sheikah-blue);
+            color: #000;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
-    <div id="header">
-        <h1>Hyrule Web Terminal</h1>
-        <div class="subtitle">Direct-to-Browser Hardware Emulation</div>
-    </div>
-    
-    <div id="game-wrapper">
-        <div style="width:100%;height:100%;max-width:100%">
-            <div id="game"></div>
+
+    <nav>
+        <h1 onclick="showTimeline()">Hyrule Archives</h1>
+        <div class="menu">
+            <a onclick="showTimeline()">Timeline</a>
+            <a href="#">Interactive Maps</a>
+            <a href="#">Settings</a>
         </div>
+    </nav>
+
+    <div id="home-view">
+        <section id="hero">
+            <h1>The Legend of Zelda</h1>
+            <p class="zelda-font" style="font-size: 1.5rem; color: #fff;">A comprehensive visual timeline</p>
+        </section>
+
+        <section id="main-content">
+            <h2 style="font-size: 2.5rem; border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-bottom: 30px;">Historical Timeline</h2>
+            <div class="timeline-grid" id="timeline-container">
+                </div>
+        </section>
     </div>
 
-    <div class="instructions">
-        <p>System is ready. Click the folder icon in the center of the screen to load a local ROM file from your PC.</p>
-        <p>Currently configured for N64 (<span class="highlight">.z64, .n64</span>). Full gamepad support is automatically enabled.</p>
+    <div id="deep-dive">
+        <button class="back-btn" onclick="showTimeline()">Return to Timeline</button>
+        <div id="deep-dive-content">
+            </div>
     </div>
 
     <script>
-        EJS_player = '#game';
-        EJS_biosUrl = ''; 
-        EJS_gameUrl = ''; // Left blank intentionally so you can upload your own local files
-        EJS_core = 'n64'; // Booting the N64 core
-        EJS_pathtodata = 'https://raw.githack.com/EmulatorJS/EmulatorJS/main/data/';
+        // --- THE MASSIVE GAME DATABASE ENGINE ---
+        // This is where we will inject the thousands of lines of game lore later.
+        // For Chunk 1, we set up Ocarina of Time and Wind Waker to prove the engine works.
+
+const zeldaDatabase = {
+            "oot_remake": {
+                title: "Ocarina of Time: Reawakened",
+                year: "2024 (Rumored)",
+                platform: "Nintendo Switch 2",
+                shortDesc: "The return of the king. The ultimate launch title.",
+                longDesc: "The highly anticipated, full ground-up remake of the greatest game of all time. Built to push the next-generation hardware to its limits, featuring ray-traced lighting, seamless time-travel mechanics, and a fully reimagined Hyrule.",
+                coverImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop", 
+                mechanics: [
+                    "Next-Gen Engine: Uncapped framerates and massive draw distances.",
+                    "Seamless Eras: Transition between Child and Adult Link instantly.",
+                    "Expanded Dungeons: Master Quest integrated naturally into the world."
+                ],
+                items: [
+                    "Hylian Shield (4K Resolution)",
+                    "Ocarina of Time",
+                    "Master Sword"
+                ]
+            },
+            "totk": {
+                title: "Tears of the Kingdom",
+                year: "2023",
+                platform: "Nintendo Switch",
+                shortDesc: "The skies open up. Absolute physics-driven chaos.",
+                longDesc: "A direct sequel to Breath of the Wild that expands Hyrule into the sky and the dark depths below. It introduces revolutionary building mechanics that let you craft mechs, flying machines, and chaotic weapons to break the game's physics engine.",
+                coverImg: "https://images.unsplash.com/photo-1612404730960-5c71577fca11?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Ultrahand: Glue objects together to build massive vehicles.",
+                    "Fuse: Attach any item in the game to your weapons or arrows.",
+                    "Ascend: Swim upward through solid ceilings to skip climbing."
+                ],
+                items: [
+                    "Zonai Devices (Fans, Rockets, Lasers)",
+                    "Purah Pad",
+                    "Decayed Master Sword"
+                ]
+            },
+            "botw": {
+                title: "Breath of the Wild",
+                year: "2017",
+                platform: "Nintendo Switch / Wii U",
+                shortDesc: "Climb anything. Go anywhere. Complete freedom.",
+                longDesc: "Waking up after a 100-year slumber, Link must explore a ruined Hyrule to defeat Calamity Ganon. It shattered every Zelda formula, introducing a massive chemistry and physics engine that lets you tackle any problem your own way.",
+                coverImg: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Climbing Engine: Scale literally any surface in the game.",
+                    "Physics Sandbox: Use magnetism, time-stasis, and ice blocks.",
+                    "Non-linear: Walk straight to the final boss in the first 10 minutes."
+                ],
+                items: [
+                    "Paraglider",
+                    "Sheikah Slate",
+                    "Ancient Arrows"
+                ]
+            },
+            "tp": {
+                title: "Twilight Princess",
+                year: "2006",
+                platform: "GameCube / Wii",
+                shortDesc: "Dark, gritty, and epic. The shadow invasion.",
+                longDesc: "Hyrule is being swallowed by the Twilight Realm. Link must team up with the imp Midna, transforming into a blue-eyed wolf to tear through the shadows and confront Zant and Ganondorf in a brutally dark cinematic adventure.",
+                coverImg: "https://images.unsplash.com/photo-1506452814347-19597371d3ce?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Wolf Transformation: Use beast senses to track scents and dig.",
+                    "Mounted Combat: Epic sword fights while riding Epona at full speed.",
+                    "Hidden Skills: Learn 7 devastating sword techniques from the Hero's Shade."
+                ],
+                items: [
+                    "Double Clawshots - Grapple like Spider-Man.",
+                    "Spinner - Ride walls on an ancient top.",
+                    "Ball and Chain - Destroy heavy armor and ice."
+                ]
+            },
+            "ww": {
+                title: "The Wind Waker",
+                year: "2002",
+                platform: "Nintendo GameCube",
+                shortDesc: "Sail the Great Sea. A vibrant, cel-shaded masterpiece.",
+                longDesc: "Set hundreds of years after Ocarina of Time, the land of Hyrule was flooded to seal away Ganondorf. Now, a new hero must sail the vast Great Sea, command the wind with a magical baton, and rescue his sister.",
+                coverImg: "https://images.unsplash.com/photo-1498623116890-37e912163d5d?q=80&w=800&auto=format&fit=crop", 
+                mechanics: [
+                    "Sailing: Navigate a massive seamless ocean using the King of Red Lions.",
+                    "Wind Waker: Conduct melodies to change the wind direction.",
+                    "Parrying: Wait for a visual cue to dodge and counter-attack."
+                ],
+                items: [
+                    "Grappling Hook",
+                    "Deku Leaf",
+                    "Skull Hammer"
+                ]
+            },
+            "mm": {
+                title: "Majora's Mask",
+                year: "2000",
+                platform: "Nintendo 64",
+                shortDesc: "72 Hours remain. The darkest game in the series.",
+                longDesc: "Link is trapped in the parallel world of Termina, where a terrifying moon is falling from the sky. You have exactly 3 days to stop it, forcing you to constantly rewind time, learn the schedules of the townsfolk, and wear masks containing the souls of the dead.",
+                coverImg: "https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "The 3-Day Cycle: Manage your time as the clock constantly ticks down.",
+                    "Transformation Masks: Turn into a Deku Scrub, Goron, or Zora.",
+                    "Bomber's Notebook: Track the intricate lives and schedules of NPCs."
+                ],
+                items: [
+                    "Fierce Deity's Mask",
+                    "Gilded Sword",
+                    "Bunny Hood"
+                ]
+            },
+            "oot": {
+                title: "Ocarina of Time",
+                year: "1998",
+                platform: "Nintendo 64",
+                shortDesc: "The Hero of Time awakens. The legend defined.",
+                longDesc: "A young boy from the Kokiri Forest is thrust into a massive quest spanning seven years to stop the evil Gerudo King, Ganondorf. It introduced Z-targeting and context-sensitive buttons, defining 3D action games forever.",
+                coverImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop", 
+                mechanics: [
+                    "Time Travel: Shift between child and adult Link.",
+                    "Ocarina Songs: Play 12 magical melodies.",
+                    "Z-Targeting: Lock onto enemies for precise combat."
+                ],
+                items: [
+                    "Hookshot",
+                    "Megaton Hammer",
+                    "Hover Boots"
+                ]
+            },
+            "alttp": {
+                title: "A Link to the Past",
+                year: "1991",
+                platform: "Super Nintendo",
+                shortDesc: "The 16-bit perfection. Two worlds collide.",
+                longDesc: "The game that established the modern Zelda formula. Link must travel between the Light World and the corrupted Dark World using a magic mirror, tackling intricate dungeons and collecting pendants to forge the Master Sword.",
+                coverImg: "https://images.unsplash.com/photo-1605901309584-818e25960b8f?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Parallel Worlds: Actions in the Light World affect the Dark World.",
+                    "Multi-level Dungeons: Puzzles that span across different floors.",
+                    "Spin Attack: The first game to introduce Link's signature move."
+                ],
+                items: [
+                    "Pegasus Boots",
+                    "Magic Cape",
+                    "Fire Rod"
+                ]
+            }
+        };
+        // --- RENDER FUNCTIONS ---
+
+        function initTimeline() {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = '';
+
+            for (const [key, game] of Object.entries(zeldaDatabase)) {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.onclick = () => loadDeepDive(key);
+                
+                card.innerHTML = `
+                    <img src="${game.coverImg}" alt="${game.title}">
+                    <h3>${game.title} <span style="font-size: 0.8rem; color: var(--sheikah-blue);">(${game.year})</span></h3>
+                    <p>${game.shortDesc}</p>
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        function loadDeepDive(gameKey) {
+            const game = zeldaDatabase[gameKey];
+            
+            // Hide timeline, show dive
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('deep-dive').style.display = 'block';
+            window.scrollTo(0, 0); // scroll to top
+
+            const diveContent = document.getElementById('deep-dive-content');
+            
+            // Generate lists
+            let mechanicsList = game.mechanics.map(m => `<li>${m}</li>`).join('');
+            let itemsList = game.items.map(i => `<li>${i}</li>`).join('');
+
+            diveContent.innerHTML = `
+                <div class="dive-header">
+                    <img src="${game.coverImg}" alt="${game.title}">
+                    <div class="dive-info">
+                        <h2>${game.title}</h2>
+                        <h4 style="color: var(--sheikah-blue); margin-bottom: 20px;">${game.platform} | ${game.year}</h4>
+                        <p>${game.longDesc}</p>
+                    </div>
+                </div>
+                
+                <div class="dive-grid">
+                    <div class="dive-section">
+                        <h3>Core Mechanics</h3>
+                        <ul>${mechanicsList}</ul>
+                    </div>
+                    <div class="dive-section">
+                        <h3>Notable Items</h3>
+                        <ul>${itemsList}</ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showTimeline() {
+            document.getElementById('deep-dive').style.display = 'none';
+            document.getElementById('home-view').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        // Boot the website
+        initTimeline();
     </script>
-    <script src="https://raw.githack.com/EmulatorJS/EmulatorJS/main/data/loader.js"></script>
 </body>
 </html>
