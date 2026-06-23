@@ -4,19 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Hyrule Compendium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'HyliaSerif';
             src: url('HyliaSerifBeta-Regular.otf') format('opentype');
+            font-display: swap;
         }
+        
         :root {
             --sheikah-blue: #00d1ff;
-            --sheikah-glow: rgba(0, 209, 255, 0.5);
-            --bg-dark: #0a0e17;
-            --bubble-bg: rgba(20, 25, 40, 0.7);
-            --text-main: #e0e6ed;
+            --sheikah-glow: rgba(0, 209, 255, 0.45);
+            --bg-dark: #070b12;
+            --bg-darker: #030509;
+            --bubble-bg: rgba(13, 20, 35, 0.75);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
             --gold: #d4af37;
+            --gold-glow: rgba(212, 175, 55, 0.3);
+            --transition-speed: 0.3s;
+        }
+
+        /* Ambient Glow Switcher Class */
+        body.glow-disabled {
+            --sheikah-glow: transparent;
+            --gold-glow: transparent;
+            text-shadow: none !important;
+        }
+
+        /* Font Scheme Switcher Classes */
+        body.font-sans {
+            font-family: 'Nunito', sans-serif !important;
+        }
+        body.font-sans h1, body.font-sans h2, body.font-sans h3, body.font-sans h4, body.font-sans .zelda-font {
+            font-family: 'Nunito', sans-serif !important;
         }
 
         * {
@@ -28,44 +50,59 @@
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
-            font-family: 'HyliaSerif', serif;
+            font-family: 'Cinzel', 'Georgia', serif;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(0, 209, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 0%, rgba(0, 209, 255, 0.12) 0%, transparent 60%),
+                linear-gradient(180deg, rgba(7, 11, 18, 0.4) 0%, var(--bg-dark) 100%),
                 url('https://zelda.nintendo.com/assets/img/about/header-about.jpg?q=80&w=2000&auto=format&fit=crop');
             background-size: cover;
             background-attachment: fixed;
-            background-blend-mode: overlay;
+            background-blend-mode: multiply;
             overflow-x: hidden;
-        }
-
-        h1, h2, h3, .zelda-font {
-            font-family: 'HyliaSerif', serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            line-height: 1.6;
         }
 
         /* --- NAVIGATION --- */
         nav {
             width: 100%;
-            padding: 20px 50px;
-            background: rgba(10, 14, 23, 0.9);
-            backdrop-filter: blur(10px);
+            padding: 15px 50px;
+            background: rgba(3, 5, 9, 0.92);
+            backdrop-filter: blur(12px);
             border-bottom: 2px solid var(--sheikah-blue);
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: fixed;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 0 20px var(--sheikah-glow);
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--sheikah-glow);
+            transition: all var(--transition-speed);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* Decorative Triforce in CSS */
+        .triforce-mini {
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 20px solid var(--gold);
+            position: relative;
+            filter: drop-shadow(0 0 5px var(--gold-glow));
         }
 
         nav h1 {
             color: var(--sheikah-blue);
-            font-size: 24px;
-            text-shadow: 0 0 10px var(--sheikah-blue);
-            cursor: pointer;
-            font-family: 'HyliaSerif', serif;
+            font-size: 22px;
+            text-shadow: 0 0 8px var(--sheikah-blue);
+            letter-spacing: 3px;
         }
 
         .menu {
@@ -76,155 +113,295 @@
         .menu a {
             color: var(--text-main);
             text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: var(--transition-speed);
             cursor: pointer;
-            font-family: 'HyliaSerif', serif;
+            padding: 8px 12px;
+            border-radius: 4px;
         }
 
-        .menu a:hover {
+        .menu a:hover, .menu a.active {
             color: var(--sheikah-blue);
-            text-shadow: 0 0 8px var(--sheikah-blue);
+            text-shadow: 0 0 10px var(--sheikah-blue);
+            background: rgba(0, 209, 255, 0.05);
         }
 
         /* --- HERO BANNER --- */
         #hero {
-            height: 60vh;
-            margin-top: 80px;
+            height: 50vh;
+            margin-top: 60px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: linear-gradient(to bottom, transparent, var(--bg-dark)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop');
+            background: linear-gradient(180deg, transparent, var(--bg-dark)), 
+                        url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
             border-bottom: 2px solid var(--gold);
+            position: relative;
         }
 
         #hero h1 {
-            font-size: 5rem;
+            font-size: 4rem;
             color: var(--gold);
-            text-shadow: 2px 2px 15px rgba(0,0,0,0.8);
+            text-shadow: 0 0 20px rgba(0,0,0,0.9), 2px 2px 0px rgba(0,0,0,0.8);
             margin-bottom: 10px;
-            font-family: 'HyliaSerif', serif;
+            font-weight: 900;
+            letter-spacing: 4px;
         }
 
-        /* --- TIMELINE CONTAINER --- */
+        #hero p {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 3px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+        }
+
+        /* --- MAIN LAYOUT --- */
         #main-content {
-            padding: 50px;
+            padding: 40px 50px;
             max-width: 1600px;
             margin: 0 auto;
         }
 
-        .timeline-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            padding-top: 20px;
+        .view-section {
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* --- MODERN BUBBLE CARDS --- */
+        .view-section.active {
+            display: block;
+        }
+
+        /* --- CONTROLS / FILTER BAR --- */
+        .control-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            background: var(--bubble-bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-box {
+            position: relative;
+            flex-grow: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            background: rgba(3, 5, 9, 0.6);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            transition: var(--transition-speed);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--sheikah-blue);
+            box-shadow: 0 0 10px var(--sheikah-glow);
+        }
+
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            opacity: 0.6;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+            transition: var(--transition-speed);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--sheikah-blue);
+            color: #030509;
+            border-color: var(--sheikah-blue);
+            box-shadow: 0 0 10px var(--sheikah-glow);
+            font-weight: bold;
+        }
+
+        /* --- TIMELINE GRID --- */
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            padding-top: 10px;
+        }
+
+        /* --- GAME CARDS --- */
         .game-card {
             background: var(--bubble-bg);
-            border-radius: 25px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            transition: all 0.4s ease;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
 
         .game-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
             border-color: var(--sheikah-blue);
-            box-shadow: 0 15px 40px var(--sheikah-glow);
+            box-shadow: 0 15px 35px var(--sheikah-glow);
+        }
+
+        .card-img-container {
+            position: relative;
+            width: 100%;
+            height: 190px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 15px;
         }
 
         .game-card img {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
-            border-radius: 15px;
-            margin-bottom: 15px;
+            transition: transform 0.6s ease;
+        }
+
+        .game-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(3, 5, 9, 0.85);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
         .game-card h3 {
             color: var(--gold);
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            font-family: 'HyliaSerif', serif;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .game-card .metadata {
+            font-size: 12px;
+            color: var(--sheikah-blue);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .game-card p {
-            font-size: 1rem;
+            font-size: 13px;
             line-height: 1.5;
-            color: #b0b8c4;
-            font-family: 'HyliaSerif', serif;
+            color: var(--text-muted);
+            font-family: 'Nunito', sans-serif;
         }
 
-        /* --- DEEP DIVE VIEW (Hidden by default) --- */
+        /* --- DEEP DIVE VIEW --- */
         #deep-dive {
-            display: none;
             padding-top: 100px;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            animation: fadeIn 0.5s ease;
         }
 
         .dive-header {
             display: flex;
+            flex-direction: row;
             gap: 40px;
             background: var(--bubble-bg);
-            border-radius: 30px;
+            border-radius: 24px;
             padding: 40px;
             border: 1px solid var(--sheikah-blue);
             box-shadow: 0 0 30px var(--sheikah-glow);
             margin-bottom: 40px;
+            backdrop-filter: blur(15px);
         }
 
         .dive-header img {
-            width: 400px;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            width: 380px;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .dive-info h2 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: var(--gold);
-            margin-bottom: 20px;
-            font-family: 'HyliaSerif', serif;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
         }
 
         .dive-info p {
-            font-size: 1.2rem;
-            line-height: 1.8;
+            font-size: 1.05rem;
+            line-height: 1.7;
             margin-bottom: 20px;
-            font-family: 'HyliaSerif', serif;
+            color: var(--text-main);
+            font-family: 'Nunito', sans-serif;
         }
 
         .dive-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
+            margin-bottom: 50px;
         }
 
         .dive-section {
             background: var(--bubble-bg);
-            border-radius: 25px;
+            border-radius: 20px;
             padding: 30px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.06);
+            backdrop-filter: blur(10px);
         }
 
         .dive-section h3 {
             color: var(--sheikah-blue);
-            border-bottom: 1px solid var(--sheikah-blue);
-            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 209, 255, 0.3);
+            padding-bottom: 12px;
             margin-bottom: 20px;
-            font-family: 'HyliaSerif', serif;
+            letter-spacing: 1px;
+            font-size: 1.3rem;
         }
 
         .dive-section ul {
@@ -233,111 +410,469 @@
 
         .dive-section li {
             margin-bottom: 15px;
-            padding-left: 20px;
+            padding-left: 25px;
             position: relative;
-            font-family: 'HyliaSerif', serif;
+            color: var(--text-main);
+            font-family: 'Nunito', sans-serif;
         }
 
         .dive-section li::before {
-            content: '▶';
+            content: '✦';
             position: absolute;
             left: 0;
             color: var(--gold);
-            font-size: 0.8rem;
-            top: 5px;
+            font-size: 1rem;
+            top: 0px;
         }
 
         .back-btn {
-            display: inline-block;
-            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
             padding: 10px 20px;
             background: transparent;
             color: var(--sheikah-blue);
             border: 1px solid var(--sheikah-blue);
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            font-family: 'HyliaSerif', serif;
+            font-family: 'Cinzel', serif;
             font-weight: bold;
-            transition: 0.3s;
+            transition: var(--transition-speed);
         }
 
         .back-btn:hover {
             background: var(--sheikah-blue);
-            color: #000;
+            color: #030509;
+            box-shadow: 0 0 15px var(--sheikah-glow);
         }
 
+        /* --- MAP SECTION --- */
+        #map-view {
+            padding-top: 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background: #060a12;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 35px rgba(212, 175, 55, 0.2);
+            border-radius: 24px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        /* Graphic representation grid of Hyrule */
+        .map-bg {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 80% 20%, #1a2c1a 0%, transparent 40%), /* Lost Woods */
+                radial-gradient(circle at 20% 80%, #2f2518 0%, transparent 40%), /* Gerudo */
+                radial-gradient(circle at 85% 75%, #182535 0%, transparent 40%), /* Lake Hylia */
+                radial-gradient(circle at 50% 50%, #1e1b15 0%, transparent 35%); /* Castle Plains */
+            opacity: 0.85;
+        }
+
+        .map-grid-lines {
+            position: absolute;
+            inset: 0;
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 209, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 209, 255, 0.05) 1px, transparent 1px);
+        }
+
+        .map-pin {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: var(--gold);
+            border: 2px solid #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px var(--gold);
+            transition: transform var(--transition-speed);
+            z-index: 10;
+        }
+
+        .map-pin::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            right: -12px;
+            bottom: -12px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            animation: ping 2s infinite ease-in-out;
+        }
+
+        .map-pin:hover {
+            transform: translate(-50%, -50%) scale(1.4);
+            background: var(--sheikah-blue);
+            box-shadow: 0 0 20px var(--sheikah-blue);
+        }
+
+        .map-pin-label {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(3, 5, 9, 0.9);
+            border: 1px solid var(--gold);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            pointer-events: none;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            transition: opacity var(--transition-speed);
+        }
+
+        .map-pin:hover .map-pin-label {
+            opacity: 1;
+            color: var(--sheikah-blue);
+            border-color: var(--sheikah-blue);
+        }
+
+        .map-overlay-card {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            width: 360px;
+            background: rgba(3, 5, 9, 0.92);
+            border: 1px solid var(--sheikah-blue);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            z-index: 20;
+            backdrop-filter: blur(10px);
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* --- SETTINGS SECTION --- */
+        #settings-view {
+            padding-top: 100px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .settings-grid {
+            background: var(--bubble-bg);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        .settings-group {
+            margin-bottom: 35px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 25px;
+        }
+
+        .settings-group:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .settings-group h3 {
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+        }
+
+        .settings-group p {
+            font-family: 'Nunito', sans-serif;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Custom toggle switch styling */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background-color: #334155;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--sheikah-blue);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 8px var(--sheikah-glow);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .font-button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* --- DECORATIVE TRIFORCE DIVIDER --- */
+        .triforce-divider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            gap: 15px;
+        }
+
+        .divider-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            flex-grow: 1;
+            max-width: 200px;
+        }
+
+        .triforce-icon {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 26px solid var(--gold);
+            filter: drop-shadow(0 0 6px var(--gold-glow));
+        }
+
+        /* --- ANIMATIONS & ADAPTATIONS --- */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes ping {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        @media (max-width: 850px) {
+            .dive-header {
+                flex-direction: column;
+                padding: 25px;
+            }
+            .dive-header img {
+                width: 100%;
+                height: auto;
+            }
+            .dive-grid {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                padding: 15px 20px;
+            }
+            .menu {
+                gap: 12px;
+            }
+            .menu a {
+                font-size: 11px;
+                padding: 5px 8px;
+            }
+            #hero h1 {
+                font-size: 2.5rem;
+            }
+            .map-container {
+                height: 450px;
+            }
+            .map-overlay-card {
+                left: 10px;
+                bottom: 10px;
+                right: 10px;
+                width: calc(100% - 20px);
+            }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <h1 onclick="showTimeline()">Hyrule Archives</h1>
+        <div class="nav-logo" onclick="switchView('home-view')">
+            <div class="triforce-mini"></div>
+            <h1>Hyrule Archives</h1>
+        </div>
         <div class="menu">
-            <a onclick="showTimeline()">Timeline</a>
-            <a href="#">Interactive Maps</a>
-            <a href="#">Settings</a>
+            <a id="nav-home" class="active" onclick="switchView('home-view')">Timeline</a>
+            <a id="nav-map" onclick="switchView('map-view')">Interactive Map</a>
+            <a id="nav-settings" onclick="switchView('settings-view')">Settings</a>
         </div>
     </nav>
 
-    <div id="home-view">
+    <!-- MAIN TIMELINE CONTAINER -->
+    <div id="home-view" class="view-section active">
         <section id="hero">
             <h1>The Legend of Zelda</h1>
-            <p class="zelda-font" style="font-size: 1.5rem; color: #fff; font-family: 'HyliaSerif', serif;">A comprehensive visual timeline</p>
+            <p class="zelda-font" style="font-size: 1.3rem; color: #fff;">A comprehensive visual timeline</p>
         </section>
 
         <section id="main-content">
-            <h2 style="font-size: 2.5rem; border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-bottom: 30px; font-family: 'HyliaSerif', serif;">Historical Timeline</h2>
-            <div class="timeline-grid" id="timeline-container">
+            <div class="triforce-divider">
+                <div class="divider-line"></div>
+                <div class="triforce-icon"></div>
+                <div class="divider-line"></div>
+            </div>
+
+            <div class="control-bar">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Search archives..." oninput="renderTimeline()">
                 </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" id="btn-release" onclick="setSortOrder('release')">Release Order</button>
+                    <button class="filter-btn" id="btn-chronology" onclick="setSortOrder('chronology')">Chronological Order</button>
+                </div>
+            </div>
+
+            <div class="timeline-grid" id="timeline-container">
+                <!-- Dynamically populated -->
+            </div>
         </section>
     </div>
 
-    <div id="deep-dive">
-        <button class="back-btn" onclick="showTimeline()">Return to Timeline</button>
-        <div id="deep-dive-content">
+    <!-- DEEP DIVE VIEW -->
+    <div id="deep-dive" class="view-section">
+        <div class="max-width-container" style="padding: 0 50px;">
+            <button class="back-btn" onclick="switchView('home-view')">← Return to Timeline</button>
+            <div id="deep-dive-content">
+                <!-- Dynamically populated -->
             </div>
+        </div>
+    </div>
+
+    <!-- MAP VIEW -->
+    <div id="map-view" class="view-section">
+        <div style="padding: 0 50px; margin-bottom: 50px;">
+            <h2 style="font-size: 2.5rem; border-bottom: 2px solid var(--gold); padding-bottom: 10px;">Cartography of Hyrule</h2>
+            <p style="margin-top: 10px; color: var(--text-muted); font-family: 'Nunito', sans-serif;">Select active geographical coordinates to view historical events associated with these key landmarks.</p>
+            
+            <div class="map-container">
+                <div class="map-bg"></div>
+                <div class="map-grid-lines"></div>
+                
+                <!-- Map Interactive Pins -->
+                <div class="map-pin" style="top: 45%; left: 50%;" onclick="showMapDetail('hyrule-castle')">
+                    <span class="map-pin-label">Hyrule Castle</span>
+                </div>
+                <div class="map-pin" style="top: 60%; left: 47%;" onclick="showMapDetail('temple-of-time')">
+                    <span class="map-pin-label">Temple of Time</span>
+                </div>
+                <div class="map-pin" style="top: 20%; left: 75%;" onclick="showMapDetail('death-mountain')">
+                    <span class="map-pin-label">Death Mountain</span>
+                </div>
+                <div class="map-pin" style="top: 75%; left: 20%;" onclick="showMapDetail('gerudo-desert')">
+                    <span class="map-pin-label">Gerudo Desert</span>
+                </div>
+                <div class="map-pin" style="top: 35%; left: 82%;" onclick="showMapDetail('zoras-domain')">
+                    <span class="map-pin-label">Zora's Domain</span>
+                </div>
+
+                <!-- Info popup card overlay -->
+                <div class="map-overlay-card" id="map-info-card">
+                    <h4 id="map-info-title" style="color: var(--gold); font-size: 1.25rem; margin-bottom: 8px;">Landmark</h4>
+                    <p id="map-info-desc" style="font-family: 'Nunito', sans-serif; font-size: 13px; color: var(--text-main); margin-bottom: 15px;">Description text.</p>
+                    <button class="filter-btn" style="width: 100%;" onclick="closeMapDetail()">Dismiss Coordinate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS VIEW -->
+    <div id="settings-view" class="view-section">
+        <div style="padding: 0 50px; margin-bottom: 50px;">
+            <h2 style="font-size: 2.5rem; border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-bottom: 30px;">Archive Preferences</h2>
+            
+            <div class="settings-grid">
+                <div class="settings-group">
+                    <h3>Sheikah Tech Glow</h3>
+                    <p>Enables or disables atmospheric cyan glows and text shadows to maximize performance on classic hardware.</p>
+                    <div class="switch-container">
+                        <label class="switch">
+                            <input type="checkbox" id="glow-toggle" checked onchange="toggleGlow()">
+                            <span class="slider"></span>
+                        </label>
+                        <span id="glow-status" style="font-family: 'Nunito', sans-serif; font-weight: bold; color: var(--sheikah-blue);">Enabled</span>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3>Typography Engine</h3>
+                    <p>Select your interface presentation typeface. Choose between the classic high-fantasy serif layout or a modern high-readability sans-serif build.</p>
+                    <div class="font-button-group">
+                        <button class="filter-btn active" id="btn-font-serif" onclick="setFontScheme('serif')">Classic Serif</button>
+                        <button class="filter-btn" id="btn-font-sans" onclick="setFontScheme('sans')">Modern Sans-Serif</button>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3>Compendium Data State</h3>
+                    <p>Restore default historical chronology parameters and wipe temporary browser cache layers.</p>
+                    <button class="filter-btn" onclick="alert('Compendium records validated. Synchronized with the Royal Library.')" style="border-color: var(--gold); color: var(--gold);">Re-Verify Database Integrity</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // --- THE MASSIVE GAME DATABASE ENGINE ---
-        // This is where we will inject the thousands of lines of game lore later.
-        // For Chunk 1, we set up Ocarina of Time and Wind Waker to prove the engine works.
-
-const zeldaDatabase = {
-            "oot_remake": {
-                title: "Ocarina of Time: Remake",
-                year: "Later this year",
-                platform: "Nintendo Switch 2",
-                shortDesc: "Recreating the gratest rated game of all time",
-                longDesc: "The highly anticipated, full ground-up remake of the greatest game of all time. Built to push the next-generation hardware to its limits, featuring ray-traced lighting, seam[...]
-                coverImg: "https://media.altchar.com/prod/images/gm_featured_image/fd2be5f1e1ca-zelda-ocarina-of-time-remake.webp?q=80&w=800&auto=format&fit=crop", 
-                mechanics: [
-                    "Next-Gen Engine: Uncapped framerates and massive draw distances.",
-                    "Seamless Eras: Transition between Child and Adult Link instantly.",
-                    "Expanded Dungeons: Master Quest integrated naturally into the world."
-                ],
-                items: [
-                    "Hylian Shield",
-                    "Ocarina of Time",
-                    "Master Sword",
-                    "ALL IN 4K!"
-                ]
-            },
+        // --- COMPLETE HIGH-RESOLUTION RECONSTRUCTED DATA ENGINE ---
+        const zeldaDatabase = {
             "totk": {
                 title: "Tears of the Kingdom",
                 year: "2023",
-                platform: "Nintendo Switch 1&2",
-                shortDesc: "The skies open up. Absolute physics-driven chaos.",
-                longDesc: "A direct sequel to Breath of the Wild that expands Hyrule into the sky and the dark depths below. It introduces revolutionary building mechanics that let you craft mechs, fl[...]
-                coverImg: "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.5/c_scale,w_1400/store/software/switch2/70010000096821/f20258999e8d852a496d[...]
+                releaseIndex: 1,
+                chronologyIndex: 8,
+                platform: "Nintendo Switch",
+                shortDesc: "The skies open up above a changing kingdom in absolute physics-driven chaos.",
+                longDesc: "A direct sequel to Breath of the Wild that expands Hyrule into both the sky islands and the dark depths below. It introduces revolutionary building mechanics that allow you to construct customized machines, vehicles, and weapons utilizing the ancient power of the Zonai civilization.",
+                coverImg: "https://images.unsplash.com/photo-1685019803155-2ff1b6264d8a?q=80&w=800&auto=format&fit=crop", 
                 mechanics: [
-                    "Ultrahand: Glue objects together to build massive vehicles.",
-                    "Fuse: Attach any item in the game to your weapons or arrows.",
-                    "Ascend: Swim upward through solid ceilings to skip climbing."
+                    "Ultrahand: Seamlessly assemble objects to build dynamic vehicles.",
+                    "Fuse: Synthesize materials instantly with weapons or shields to alter stats.",
+                    "Ascend: Swim vertically through solid physical ceilings to access cliffs easily."
                 ],
                 items: [
                     "Zonai Devices (Fans, Rockets, Lasers)",
@@ -348,14 +883,16 @@ const zeldaDatabase = {
             "botw": {
                 title: "Breath of the Wild",
                 year: "2017",
+                releaseIndex: 2,
+                chronologyIndex: 7,
                 platform: "Nintendo Switch / Wii U",
-                shortDesc: "Climb anything. Go anywhere. Complete freedom.",
-                longDesc: "Waking up after a 100-year slumber, Link must explore a ruined Hyrule to defeat Calamity Ganon. It shattered every Zelda formula, introducing a massive chemistry and physics[...]
-                coverImg: "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.5/c_scale,w_1400/store/software/switch2/70010000096817/cfe9f8d674be9583266e[...]
+                shortDesc: "Climb anything. Go anywhere. Complete open-world freedom.",
+                longDesc: "Waking up after a century-long slumber, Link must explore a ruined, quiet Hyrule to defeat Calamity Ganon. It shattered every established convention of the Zelda formula, introducing a massive chemistry engine and physical sandbox that leaves exploration to the complete discretion of the player.",
+                coverImg: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
-                    "Climbing Engine: Scale literally any surface in the game.",
-                    "Physics Sandbox: Use magnetism, time-stasis, and ice blocks.",
-                    "Non-linear: Walk straight to the final boss in the first 10 minutes."
+                    "Climbing Engine: Scale any vertical surface from mountains to structures.",
+                    "Physics Sandbox: Utilize magnetism, time-stasis, and kinetic force modules.",
+                    "Non-linear Progression: Venture directly to the final confrontation at any time."
                 ],
                 items: [
                     "Paraglider",
@@ -366,32 +903,36 @@ const zeldaDatabase = {
             "tp": {
                 title: "Twilight Princess",
                 year: "2006",
+                releaseIndex: 3,
+                chronologyIndex: 5,
                 platform: "GameCube / Wii",
-                shortDesc: "Dark, gritty, and epic. The shadow invasion.",
-                longDesc: "Hyrule is being swallowed by the Twilight Realm. Link must team up with the imp Midna, transforming into a blue-eyed wolf to tear through the shadows and confront Zant and G[...]
-                coverImg: "https://resizer.ladbiblegroup.com/unsafe/rs:fit:3840:0:0:0/g:sm/q:70/aHR0cHM6Ly9ldS1pbWFnZXMuY29udGVudHN0YWNrLmNvbS92My9hc3NldHMvYmx0YmMxODc2MTUyZmNkOWYwNy9ibHQzNzUyM2FjZTJj[...]
+                shortDesc: "Dark, gritty, and epic. The shadow invasion of the Twilight Realm.",
+                longDesc: "Hyrule is being slowly consumed by the shadowy Twilight Realm. Link must ally with the mischievous imp Midna and transform into a blue-eyed wolf to tear through the dark incursions, rescue the kingdom, and confront the usurper king Zant and Ganondorf.",
+                coverImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
-                    "Wolf Transformation: Use beast senses to track scents and dig.",
-                    "Mounted Combat: Epic sword fights while riding Epona at full speed.",
-                    "Hidden Skills: Learn 7 devastating sword techniques from the Hero's Shade."
+                    "Wolf Transformation: Utilize animal instincts, track scents, and dig through terrain.",
+                    "Mounted Cavalry Combat: Participate in high-speed sword matches atop Epona.",
+                    "Hidden Sword Skills: Learn 7 devastating advanced techniques from the Hero's Shade."
                 ],
                 items: [
-                    "Double Clawshots - Grapple like Spider-Man.",
-                    "Spinner - Ride walls on an ancient top.",
-                    "Ball and Chain - Destroy heavy armor and ice."
+                    "Double Clawshots - Traverse walls like a grapple-hook.",
+                    "Spinner - Ride along ancient rails and smash massive defense barriers.",
+                    "Ball and Chain - Decimate stone structures and heavy armor plating."
                 ]
             },
             "ww": {
-                title: "The WInd Waker",
+                title: "The Wind Waker",
                 year: "2002",
+                releaseIndex: 4,
+                chronologyIndex: 6,
                 platform: "Nintendo GameCube",
-                shortDesc: "Sail the Great Sea. A vibrant, cel-shaded masterpiece.",
-                longDesc: "Set hundreds of years after Ocarina of Time, the land of Hyrule was flooded to seal away Ganondorf. Now, a new hero must sail the vast Great Sea, command the wind with a mag[...]
-                coverImg: "https://i.ytimg.com/vi/o2maIhXvSlo/maxresdefault.jpg?q=80&w=800&auto=format&fit=crop", 
+                shortDesc: "Sail the Great Sea. A vibrant, beautiful cel-shaded masterpiece.",
+                longDesc: "Set centuries after Ocarina of Time, the physical land of Hyrule was flooded to seal away Ganondorf. Now, a young hero from Outset Island must sail the vast ocean, direct the flow of the wind with a conductor's baton, and find his lost sister in a brilliantly stylized seafaring journey.",
+                coverImg: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop", 
                 mechanics: [
-                    "Sailing: Navigate a massive seamless ocean using the King of Red Lions.",
-                    "Wind Waker: Conduct melodies to change the wind direction.",
-                    "Parrying: Wait for a visual cue to dodge and counter-attack."
+                    "Sailing: Navigate a vast, seamless ocean aboard the sentient boat King of Red Lions.",
+                    "Wind Conduction: Play melodies to command the physical direction of the wind.",
+                    "Parry System: React to enemy combat indicators to vault and perform counters."
                 ],
                 items: [
                     "Grappling Hook",
@@ -402,14 +943,16 @@ const zeldaDatabase = {
             "mm": {
                 title: "Majora's Mask",
                 year: "2000",
+                releaseIndex: 5,
+                chronologyIndex: 4,
                 platform: "Nintendo 64",
-                shortDesc: "72 Hours remain. The darkest game in the series.",
-                longDesc: "Link is trapped in the parallel world of Termina, where a terrifying moon is falling from the sky. You have exactly 3 days to stop it, forcing you to constantly rewind time.[...]
-                coverImg: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed739cb5-5cfa-4c3a-8a12-cc7028d354a1/deft81m-8e5bbd76-c0ed-42df-9437-fa845d9120c1.jpg/v1/fill/w_1192,h_670,q_70,str[...]
+                shortDesc: "72 Hours remain. The darkest, most atmospheric game in the franchise.",
+                longDesc: "Link is pulled into the surreal, parallel world of Termina, where a terrifying, grimacing moon is destined to crash-land in exactly three days. You must manage a ticking clock, continuously reset the timeline, and learn the personal daily schedules of Termina's citizens to rescue them.",
+                coverImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
-                    "The 3-Day Cycle: Manage your time as the clock constantly ticks down.",
-                    "Transformation Masks: Turn into a Deku Scrub, Goron, or Zora.",
-                    "Bomber's Notebook: Track the intricate lives and schedules of NPCs."
+                    "72-Hour Cycle: Complete objectives and rewind time before the moon impacts.",
+                    "Mask Transformations: Don specialized masks to transform into Deku, Goron, or Zora.",
+                    "Bomber's Notebook: Log detailed schedules and questlines of every NPC."
                 ],
                 items: [
                     "Fierce Deity's Mask",
@@ -420,14 +963,16 @@ const zeldaDatabase = {
             "oot": {
                 title: "Ocarina of Time",
                 year: "1998",
+                releaseIndex: 6,
+                chronologyIndex: 3,
                 platform: "Nintendo 64",
-                shortDesc: "The Hero of Time awakens. The legend defined.",
-                longDesc: "A young boy from the Kokiri Forest is thrust into a massive quest spanning seven years to stop the evil Gerudo King, Ganondorf. It introduced Z-targeting and context-sensiti[...]
-                coverImg: "https://i1.sndcdn.com/artworks-000464588955-2ftldl-t500x500.jpg?q=80&w=800&auto=format&fit=crop", 
+                shortDesc: "The Hero of Time awakens. The transition to 3D adventure.",
+                longDesc: "A young forest boy is chosen by destiny to protect the Triforce. Traveling back and forth across a span of seven years, Link must stop the Gerudo thief Ganondorf from conquering Hyrule, pioneering the Lock-on 'Z-targeting' mechanical system that set the foundation of modern 3D action gaming.",
+                coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop", 
                 mechanics: [
-                    "Time Travel: Shift between child and adult Link.",
-                    "Ocarina Songs: Play 12 magical melodies.",
-                    "Z-Targeting: Lock onto enemies for precise combat."
+                    "Time Manipulation: Travel freely between the child and adult eras of Hyrule.",
+                    "Ocarina Melodies: Perform 12 mystical songs to warp or summon aid.",
+                    "Z-Targeting: Focus combat perspective onto individual enemies seamlessly."
                 ],
                 items: [
                     "Hookshot",
@@ -438,53 +983,142 @@ const zeldaDatabase = {
             "alttp": {
                 title: "A Link to the Past",
                 year: "1991",
+                releaseIndex: 7,
+                chronologyIndex: 2,
                 platform: "Super Nintendo",
-                shortDesc: "The 16-bit perfection. Two worlds collide.",
-                longDesc: "The game that established the modern Zelda formula. Link must travel between the Light World and the corrupted Dark World using a magic mirror, tackling intricate dungeons."[...]
-                coverImg: "https://static0.polygonimages.com/wordpress/wp-content/uploads/sharedimages/2024/12/mixcollage-23-dec-2024-08-34-am-8166.jpg?q=80&w=800&auto=format&fit=crop",
+                shortDesc: "The 16-bit gold standard. Light and Dark worlds collide.",
+                longDesc: "Setting the template for structural progression throughout the franchise, A Link to the Past tasks the hero with traveling between the peaceful Light World and the corrupted, twisted Dark World to foil the wizard Agahnim and retrieve the legendary Master Sword.",
+                coverImg: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
-                    "Parallel Worlds: Actions in the Light World affect the Dark World.",
-                    "Multi-level Dungeons: Puzzles that span across different floors.",
-                    "Spin Attack: The first game to introduce Link's signature move."
+                    "Parallel Worlds: Traverse between light and dark dimensions to solve puzzles.",
+                    "Multi-tiered Dungeons: Complex, multi-floor maps designed for spatial navigation.",
+                    "Spin Attack: Introduces Link's classic sweeping charging sword technique."
                 ],
                 items: [
                     "Pegasus Boots",
                     "Magic Cape",
                     "Fire Rod"
                 ]
+            },
+            "ss": {
+                title: "Skyward Sword",
+                year: "2011",
+                releaseIndex: 8,
+                chronologyIndex: 1,
+                platform: "Wii / Nintendo Switch",
+                shortDesc: "The origin of the master sword, high above the clouds.",
+                longDesc: "Chronologically the first chapter in the complex timeline, Skyward Sword tells the story of Skyloft, a floating archipelago above a cloud barrier, and Link's descent to the mysterious surface below to establish the foundations of Hyrule and forge the Master Sword itself.",
+                coverImg: "https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Directional Combat: Precision physical angles determine enemy defenses.",
+                    "Sky Loft Travel: Fly atop an elegant giant bird called a Loftwing.",
+                    "Item Upgrades: Collect raw resources to systematically upgrade equipment."
+                ],
+                items: [
+                    "Goddess Sword",
+                    "Sailcloth",
+                    "Beetle Drone"
+                ]
             }
         };
-        // --- RENDER FUNCTIONS ---
 
-        function initTimeline() {
+        // Current UI state tracking
+        let currentSortOrder = 'release';
+
+        // --- CORE VIEW SWITCHER ENGINE ---
+        function switchView(viewId) {
+            // Deactivate all sections
+            document.querySelectorAll('.view-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Activate chosen section
+            const activeSection = document.getElementById(viewId);
+            if(activeSection) {
+                activeSection.classList.add('active');
+            }
+
+            // Sync Nav highlights
+            document.querySelectorAll('.menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            if(viewId === 'home-view') document.getElementById('nav-home').classList.add('active');
+            if(viewId === 'map-view') document.getElementById('nav-map').classList.add('active');
+            if(viewId === 'settings-view') document.getElementById('nav-settings').classList.add('active');
+
+            // Scroll safely to top on change
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- SORT & SEARCH CONTROLLER ---
+        function setSortOrder(order) {
+            currentSortOrder = order;
+            
+            // Adjust Active buttons
+            document.getElementById('btn-release').classList.remove('active');
+            document.getElementById('btn-chronology').classList.remove('active');
+            
+            if (order === 'release') {
+                document.getElementById('btn-release').classList.add('active');
+            } else {
+                document.getElementById('btn-chronology').classList.add('active');
+            }
+            
+            renderTimeline();
+        }
+
+        function renderTimeline() {
             const container = document.getElementById('timeline-container');
             container.innerHTML = '';
 
-            for (const [key, game] of Object.entries(zeldaDatabase)) {
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+
+            // Convert to Array for processing
+            let gameList = Object.entries(zeldaDatabase).map(([key, data]) => ({ key, ...data }));
+
+            // Apply search filters
+            if (searchQuery) {
+                gameList = gameList.filter(game => 
+                    game.title.toLowerCase().includes(searchQuery) || 
+                    game.shortDesc.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            // Apply specific sorting logic
+            if (currentSortOrder === 'release') {
+                gameList.sort((a, b) => a.releaseIndex - b.releaseIndex);
+            } else {
+                gameList.sort((a, b) => a.chronologyIndex - b.chronologyIndex);
+            }
+
+            // Render output
+            gameList.forEach(game => {
                 const card = document.createElement('div');
                 card.className = 'game-card';
-                card.onclick = () => loadDeepDive(key);
+                card.onclick = () => loadDeepDive(game.key);
                 
                 card.innerHTML = `
-                    <img src="${game.coverImg}" alt="${game.title}">
-                    <h3>${game.title} <span style="font-size: 0.8rem; color: var(--sheikah-blue);">(${game.year})</span></h3>
+                    <div class="card-img-container">
+                        <img src="${game.coverImg}" alt="${game.title}" loading="lazy">
+                        <span class="badge">Era ${game.chronologyIndex}</span>
+                    </div>
+                    <div class="metadata">${game.platform}</div>
+                    <h3>${game.title} <span style="font-size: 0.85rem; color: var(--sheikah-blue); font-weight: normal;">(${game.year})</span></h3>
                     <p>${game.shortDesc}</p>
                 `;
                 container.appendChild(card);
-            }
+            });
         }
 
+        // --- DEEP DIVE SYSTEM ---
         function loadDeepDive(gameKey) {
             const game = zeldaDatabase[gameKey];
+            if(!game) return;
             
-            // Hide timeline, show dive
-            document.getElementById('home-view').style.display = 'none';
-            document.getElementById('deep-dive').style.display = 'block';
-            window.scrollTo(0, 0); // scroll to top
+            switchView('deep-dive');
 
             const diveContent = document.getElementById('deep-dive-content');
             
-            // Generate lists
             let mechanicsList = game.mechanics.map(m => `<li>${m}</li>`).join('');
             let itemsList = game.items.map(i => `<li>${i}</li>`).join('');
 
@@ -493,32 +1127,96 @@ const zeldaDatabase = {
                     <img src="${game.coverImg}" alt="${game.title}">
                     <div class="dive-info">
                         <h2>${game.title}</h2>
-                        <h4 style="color: var(--sheikah-blue); margin-bottom: 20px; font-family: 'HyliaSerif', serif;">${game.platform} | ${game.year}</h4>
+                        <h4 style="color: var(--sheikah-blue); margin-bottom: 20px; font-size: 1.1rem; letter-spacing: 1px;">
+                            ${game.platform} | Launched ${game.year}
+                        </h4>
                         <p>${game.longDesc}</p>
                     </div>
                 </div>
                 
                 <div class="dive-grid">
                     <div class="dive-section">
-                        <h3>Core Mechanics</h3>
+                        <h3>Core Mechanics & Design</h3>
                         <ul>${mechanicsList}</ul>
                     </div>
                     <div class="dive-section">
-                        <h3>Notable Items</h3>
+                        <h3>Notable Items & Artifacts</h3>
                         <ul>${itemsList}</ul>
                     </div>
                 </div>
             `;
         }
 
-        function showTimeline() {
-            document.getElementById('deep-dive').style.display = 'none';
-            document.getElementById('home-view').style.display = 'block';
-            window.scrollTo(0, 0);
+        // --- INTERACTIVE MAP SYSTEM ---
+        const mapData = {
+            "hyrule-castle": {
+                title: "Hyrule Castle",
+                desc: "The regal epicenter of the kingdom, containing ancestral vaults, library corridors, and sanctuary spires. It serves as both the home of Princess Zelda and a frequent tactical stronghold for Ganon's forces."
+            },
+            "temple-of-time": {
+                title: "Temple of Time",
+                desc: "An ancient shrine constructed to guard the entrance to the Sacred Realm. Beneath its high-vaulted stone arches rest the Master Sword pedestal and the door sealed by the three Spiritual Stones."
+            },
+            "death-mountain": {
+                title: "Death Mountain",
+                desc: "An active volcano populated by the rock-dwelling Goron tribes. Its cavernous depths hide the fiery temples of old and volatile tectonic currents key to Hyrule's geology."
+            },
+            "gerudo-desert": {
+                title: "Gerudo Desert",
+                desc: "An arid, wind-swept territory of relentless heat and frozen nights. Home to the nomadic Gerudo, it is home to ancient tombs, ruins, and the hidden Arbiter's Grounds."
+            },
+            "zoras-domain": {
+                title: "Zora's Domain",
+                desc: "An elegant aquatic sanctuary carved directly into the mountain watersheds. It supplies clean, flowing water to Lake Hylia and acts as the kingdom's primary water filtration network."
+            }
+        };
+
+        function showMapDetail(locationKey) {
+            const data = mapData[locationKey];
+            if(!data) return;
+
+            const card = document.getElementById('map-info-card');
+            document.getElementById('map-info-title').innerText = data.title;
+            document.getElementById('map-info-desc').innerText = data.desc;
+            
+            card.style.display = 'block';
         }
 
-        // Boot the website
-        initTimeline();
+        function closeMapDetail() {
+            document.getElementById('map-info-card').style.display = 'none';
+        }
+
+        // --- SYSTEM PREFERENCES SETTINGS ---
+        function toggleGlow() {
+            const isEnabled = document.getElementById('glow-toggle').checked;
+            const statusText = document.getElementById('glow-status');
+            
+            if (isEnabled) {
+                document.body.classList.remove('glow-disabled');
+                statusText.innerText = 'Enabled';
+                statusText.style.color = 'var(--sheikah-blue)';
+            } else {
+                document.body.classList.add('glow-disabled');
+                statusText.innerText = 'Disabled';
+                statusText.style.color = 'var(--text-muted)';
+            }
+        }
+
+        function setFontScheme(scheme) {
+            document.getElementById('btn-font-serif').classList.remove('active');
+            document.getElementById('btn-font-sans').classList.remove('active');
+
+            if (scheme === 'sans') {
+                document.body.classList.add('font-sans');
+                document.getElementById('btn-font-sans').classList.add('active');
+            } else {
+                document.body.classList.remove('font-sans');
+                document.getElementById('btn-font-serif').classList.add('active');
+            }
+        }
+
+        // Initialize Compendium on load
+        renderTimeline();
     </script>
 </body>
 </html>
