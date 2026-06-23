@@ -41,6 +41,13 @@
             font-family: 'Nunito', sans-serif !important;
         }
 
+        body.font-hylia {
+            font-family: 'HyliaSerif', 'Georgia', serif !important;
+        }
+        body.font-hylia h1, body.font-hylia h2, body.font-hylia h3, body.font-hylia h4, body.font-hylia .zelda-font {
+            font-family: 'HyliaSerif', 'Georgia', serif !important;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -50,7 +57,7 @@
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
-            font-family: 'Cinzel', 'Georgia', serif;
+            font-family: 'HyliaSerif', 'Georgia', serif;
             background-image: 
                 radial-gradient(circle at 50% 0%, rgba(0, 209, 255, 0.12) 0%, transparent 60%),
                 linear-gradient(180deg, rgba(7, 11, 18, 0.4) 0%, var(--bg-dark) 100%),
@@ -156,7 +163,7 @@
         }
 
         #hero p {
-            font-family: 'Cinzel', serif;
+            font-family: 'HyliaSerif', 'Georgia', serif;
             letter-spacing: 3px;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
         }
@@ -238,7 +245,7 @@
             padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
-            font-family: 'Cinzel', serif;
+            font-family: 'HyliaSerif', 'Georgia', serif;
             font-size: 12px;
             letter-spacing: 1px;
             transition: var(--transition-speed);
@@ -436,7 +443,7 @@
             border: 1px solid var(--sheikah-blue);
             border-radius: 8px;
             cursor: pointer;
-            font-family: 'Cinzel', serif;
+            font-family: 'HyliaSerif', 'Georgia', serif;
             font-weight: bold;
             transition: var(--transition-speed);
         }
@@ -458,7 +465,9 @@
             position: relative;
             width: 100%;
             height: 600px;
-            background: #060a12;
+            background-image: url('https://imgur.com/QH4qJ6n.jpg');
+            background-size: cover;
+            background-position: center;
             border: 2px solid var(--gold);
             box-shadow: 0 0 35px rgba(212, 175, 55, 0.2);
             border-radius: 24px;
@@ -471,11 +480,11 @@
             position: absolute;
             inset: 0;
             background-image: 
-                radial-gradient(circle at 80% 20%, #1a2c1a 0%, transparent 40%), /* Lost Woods */
-                radial-gradient(circle at 20% 80%, #2f2518 0%, transparent 40%), /* Gerudo */
-                radial-gradient(circle at 85% 75%, #182535 0%, transparent 40%), /* Lake Hylia */
-                radial-gradient(circle at 50% 50%, #1e1b15 0%, transparent 35%); /* Castle Plains */
-            opacity: 0.85;
+                radial-gradient(circle at 80% 20%, rgba(26, 44, 26, 0.4) 0%, transparent 40%), /* Lost Woods */
+                radial-gradient(circle at 20% 80%, rgba(47, 37, 24, 0.4) 0%, transparent 40%), /* Gerudo */
+                radial-gradient(circle at 85% 75%, rgba(24, 37, 53, 0.4) 0%, transparent 40%), /* Lake Hylia */
+                radial-gradient(circle at 50% 50%, rgba(30, 27, 21, 0.4) 0%, transparent 35%); /* Castle Plains */
+            opacity: 0.5;
         }
 
         .map-grid-lines {
@@ -730,7 +739,7 @@
         }
     </style>
 </head>
-<body>
+<body class="font-hylia">
 
     <nav>
         <div class="nav-logo" onclick="switchView('home-view')">
@@ -841,9 +850,10 @@
 
                 <div class="settings-group">
                     <h3>Typography Engine</h3>
-                    <p>Select your interface presentation typeface. Choose between the classic high-fantasy serif layout or a modern high-readability sans-serif build.</p>
+                    <p>Select your interface presentation typeface. Choose between the classic Hylia serif, elegant serif layout, or a modern high-readability sans-serif build.</p>
                     <div class="font-button-group">
-                        <button class="filter-btn active" id="btn-font-serif" onclick="setFontScheme('serif')">Classic Serif</button>
+                        <button class="filter-btn active" id="btn-font-hylia" onclick="setFontScheme('hylia')">Hylia Serif</button>
+                        <button class="filter-btn" id="btn-font-serif" onclick="setFontScheme('serif')">Classic Serif</button>
                         <button class="filter-btn" id="btn-font-sans" onclick="setFontScheme('sans')">Modern Sans-Serif</button>
                     </div>
                 </div>
@@ -851,7 +861,7 @@
                 <div class="settings-group">
                     <h3>Compendium Data State</h3>
                     <p>Restore default historical chronology parameters and wipe temporary browser cache layers.</p>
-                    <button class="filter-btn" onclick="alert('Compendium records validated. Synchronized with the Royal Library.')" style="border-color: var(--gold); color: var(--gold);">Re-Verify Database Integrity</button>
+                    <button class="filter-btn" onclick="alert('Compendium records validated. Synchronized with the Royal Library.')" style="border-color: var(--gold); color: var(--gold);">Re-Verify Data</button>
                 </div>
             </div>
         </div>
@@ -867,7 +877,7 @@
                 chronologyIndex: 8,
                 platform: "Nintendo Switch",
                 shortDesc: "The skies open up above a changing kingdom in absolute physics-driven chaos.",
-                longDesc: "A direct sequel to Breath of the Wild that expands Hyrule into both the sky islands and the dark depths below. It introduces revolutionary building mechanics that allow you to construct customized machines, vehicles, and weapons utilizing the ancient power of the Zonai civilization.",
+                longDesc: "A direct sequel to Breath of the Wild that expands Hyrule into both the sky islands and the dark depths below. It introduces revolutionary building mechanics that allow you to construct vehicles, structures, and contraptions from raw materials found throughout the world. Fuse any two items to create powerful combinations, and explore three distinct layers of Hyrule.",
                 coverImg: "https://images.unsplash.com/photo-1685019803155-2ff1b6264d8a?q=80&w=800&auto=format&fit=crop", 
                 mechanics: [
                     "Ultrahand: Seamlessly assemble objects to build dynamic vehicles.",
@@ -887,7 +897,7 @@
                 chronologyIndex: 7,
                 platform: "Nintendo Switch / Wii U",
                 shortDesc: "Climb anything. Go anywhere. Complete open-world freedom.",
-                longDesc: "Waking up after a century-long slumber, Link must explore a ruined, quiet Hyrule to defeat Calamity Ganon. It shattered every established convention of the Zelda formula, introducing a massive chemistry engine and physical sandbox that leaves exploration to the complete discretion of the player.",
+                longDesc: "Waking up after a century-long slumber, Link must explore a ruined, quiet Hyrule to defeat Calamity Ganon. It shattered every established convention of the Zelda formula, introducing true open-world freedom where players could approach dungeons and bosses in any order. Revolutionary climbing mechanics let you scale any surface in the game world.",
                 coverImg: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
                     "Climbing Engine: Scale any vertical surface from mountains to structures.",
@@ -907,7 +917,7 @@
                 chronologyIndex: 5,
                 platform: "GameCube / Wii",
                 shortDesc: "Dark, gritty, and epic. The shadow invasion of the Twilight Realm.",
-                longDesc: "Hyrule is being slowly consumed by the shadowy Twilight Realm. Link must ally with the mischievous imp Midna and transform into a blue-eyed wolf to tear through the dark incursions, rescue the kingdom, and confront the usurper king Zant and Ganondorf.",
+                longDesc: "Hyrule is being slowly consumed by the shadowy Twilight Realm. Link must ally with the mischievous imp Midna and transform into a blue-eyed wolf to tear through the darkness consuming the land. The game blends dark fantasy with epic adventure, featuring some of the most memorable boss fights and story moments in the franchise.",
                 coverImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
                     "Wolf Transformation: Utilize animal instincts, track scents, and dig through terrain.",
@@ -927,7 +937,7 @@
                 chronologyIndex: 6,
                 platform: "Nintendo GameCube",
                 shortDesc: "Sail the Great Sea. A vibrant, beautiful cel-shaded masterpiece.",
-                longDesc: "Set centuries after Ocarina of Time, the physical land of Hyrule was flooded to seal away Ganondorf. Now, a young hero from Outset Island must sail the vast ocean, direct the flow of the wind with a conductor's baton, and find his lost sister in a brilliantly stylized seafaring journey.",
+                longDesc: "Set centuries after Ocarina of Time, the physical land of Hyrule was flooded to seal away Ganondorf. Now, a young hero from Outset Island must sail the vast ocean, discovering islands and uncovering the mystery of the Triforce. Featuring a revolutionary cel-shading art style that made the game timeless and beautiful.",
                 coverImg: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop", 
                 mechanics: [
                     "Sailing: Navigate a vast, seamless ocean aboard the sentient boat King of Red Lions.",
@@ -947,7 +957,7 @@
                 chronologyIndex: 4,
                 platform: "Nintendo 64",
                 shortDesc: "72 Hours remain. The darkest, most atmospheric game in the franchise.",
-                longDesc: "Link is pulled into the surreal, parallel world of Termina, where a terrifying, grimacing moon is destined to crash-land in exactly three days. You must manage a ticking clock, continuously reset the timeline, and learn the personal daily schedules of Termina's citizens to rescue them.",
+                longDesc: "Link is pulled into the surreal, parallel world of Termina, where a terrifying, grimacing moon is destined to crash-land in exactly three days. You must manage a ticking clock, resetting the world repeatedly while gradually uncovering secrets. It's a dark, psychologically engaging adventure unlike any other Zelda game.",
                 coverImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
                     "72-Hour Cycle: Complete objectives and rewind time before the moon impacts.",
@@ -967,7 +977,7 @@
                 chronologyIndex: 3,
                 platform: "Nintendo 64",
                 shortDesc: "The Hero of Time awakens. The transition to 3D adventure.",
-                longDesc: "A young forest boy is chosen by destiny to protect the Triforce. Traveling back and forth across a span of seven years, Link must stop the Gerudo thief Ganondorf from conquering Hyrule, pioneering the Lock-on 'Z-targeting' mechanical system that set the foundation of modern 3D action gaming.",
+                longDesc: "A young forest boy is chosen by destiny to protect the Triforce. Traveling back and forth across a span of seven years, Link must stop the Gerudo thief Ganondorf from conquering Hyrule. Ocarina of Time revolutionized gaming by being the first truly immersive 3D adventure, setting the gold standard for the entire industry.",
                 coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop", 
                 mechanics: [
                     "Time Manipulation: Travel freely between the child and adult eras of Hyrule.",
@@ -987,7 +997,7 @@
                 chronologyIndex: 2,
                 platform: "Super Nintendo",
                 shortDesc: "The 16-bit gold standard. Light and Dark worlds collide.",
-                longDesc: "Setting the template for structural progression throughout the franchise, A Link to the Past tasks the hero with traveling between the peaceful Light World and the corrupted, twisted Dark World to foil the wizard Agahnim and retrieve the legendary Master Sword.",
+                longDesc: "Setting the template for structural progression throughout the franchise, A Link to the Past tasks the hero with traveling between the peaceful Light World and the corrupted Dark World. It introduced many mechanics that would become series staples and remains one of the most influential games ever created.",
                 coverImg: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
                     "Parallel Worlds: Traverse between light and dark dimensions to solve puzzles.",
@@ -1000,223 +1010,185 @@
                     "Fire Rod"
                 ]
             },
-            "ss": {
-                title: "Skyward Sword",
-                year: "2011",
+            "loz1": {
+                title: "The Legend of Zelda",
+                year: "1986",
                 releaseIndex: 8,
                 chronologyIndex: 1,
-                platform: "Wii / Nintendo Switch",
-                shortDesc: "The origin of the master sword, high above the clouds.",
-                longDesc: "Chronologically the first chapter in the complex timeline, Skyward Sword tells the story of Skyloft, a floating archipelago above a cloud barrier, and Link's descent to the mysterious surface below to establish the foundations of Hyrule and forge the Master Sword itself.",
-                coverImg: "https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?q=80&w=800&auto=format&fit=crop",
+                platform: "Nintendo Entertainment System",
+                shortDesc: "It all began here. The original adventure that defined gaming.",
+                longDesc: "The game that started it all. With only a sword, shield, and your wits, you must explore the lands of Hyrule, conquer eight dungeons, and defeat Ganon. A groundbreaking title that essentially created the action-adventure genre and remains timeless in its design.",
+                coverImg: "https://images.unsplash.com/photo-1582522534106-2205847ab5af?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
-                    "Directional Combat: Precision physical angles determine enemy defenses.",
-                    "Sky Loft Travel: Fly atop an elegant giant bird called a Loftwing.",
-                    "Item Upgrades: Collect raw resources to systematically upgrade equipment."
+                    "Overworld Exploration: Discover secrets hidden throughout the open landscape.",
+                    "Dungeon Crawling: Navigate interconnected rooms filled with puzzles and enemies.",
+                    "Power-ups and Progression: Collect items that unlock new areas and abilities."
                 ],
                 items: [
-                    "Goddess Sword",
-                    "Sailcloth",
-                    "Beetle Drone"
+                    "Wooden Sword",
+                    "Boomerang",
+                    "Recorder"
                 ]
             }
         };
 
-        // Current UI state tracking
         let currentSortOrder = 'release';
+        let currentGameDetail = null;
 
-        // --- CORE VIEW SWITCHER ENGINE ---
-        function switchView(viewId) {
-            // Deactivate all sections
-            document.querySelectorAll('.view-section').forEach(section => {
-                section.classList.remove('active');
-            });
-
-            // Activate chosen section
-            const activeSection = document.getElementById(viewId);
-            if(activeSection) {
-                activeSection.classList.add('active');
-            }
-
-            // Sync Nav highlights
-            document.querySelectorAll('.menu a').forEach(link => {
-                link.classList.remove('active');
-            });
-            if(viewId === 'home-view') document.getElementById('nav-home').classList.add('active');
-            if(viewId === 'map-view') document.getElementById('nav-map').classList.add('active');
-            if(viewId === 'settings-view') document.getElementById('nav-settings').classList.add('active');
-
-            // Scroll safely to top on change
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // --- SORT & SEARCH CONTROLLER ---
-        function setSortOrder(order) {
-            currentSortOrder = order;
-            
-            // Adjust Active buttons
-            document.getElementById('btn-release').classList.remove('active');
-            document.getElementById('btn-chronology').classList.remove('active');
-            
-            if (order === 'release') {
-                document.getElementById('btn-release').classList.add('active');
-            } else {
-                document.getElementById('btn-chronology').classList.add('active');
-            }
-            
-            renderTimeline();
-        }
-
+        // --- PAGINATION & RENDERING ---
         function renderTimeline() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
             const container = document.getElementById('timeline-container');
             container.innerHTML = '';
 
-            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            let gamesArray = Object.entries(zeldaDatabase).map(([key, game]) => ({
+                key,
+                ...game
+            }));
 
-            // Convert to Array for processing
-            let gameList = Object.entries(zeldaDatabase).map(([key, data]) => ({ key, ...data }));
-
-            // Apply search filters
-            if (searchQuery) {
-                gameList = gameList.filter(game => 
-                    game.title.toLowerCase().includes(searchQuery) || 
-                    game.shortDesc.toLowerCase().includes(searchQuery)
-                );
-            }
-
-            // Apply specific sorting logic
             if (currentSortOrder === 'release') {
-                gameList.sort((a, b) => a.releaseIndex - b.releaseIndex);
+                gamesArray.sort((a, b) => a.releaseIndex - b.releaseIndex);
             } else {
-                gameList.sort((a, b) => a.chronologyIndex - b.chronologyIndex);
+                gamesArray.sort((a, b) => a.chronologyIndex - b.chronologyIndex);
             }
 
-            // Render output
-            gameList.forEach(game => {
-                const card = document.createElement('div');
-                card.className = 'game-card';
-                card.onclick = () => loadDeepDive(game.key);
-                
-                card.innerHTML = `
-                    <div class="card-img-container">
-                        <img src="${game.coverImg}" alt="${game.title}" loading="lazy">
-                        <span class="badge">Era ${game.chronologyIndex}</span>
-                    </div>
-                    <div class="metadata">${game.platform}</div>
-                    <h3>${game.title} <span style="font-size: 0.85rem; color: var(--sheikah-blue); font-weight: normal;">(${game.year})</span></h3>
-                    <p>${game.shortDesc}</p>
-                `;
-                container.appendChild(card);
+            gamesArray.forEach(game => {
+                if (game.title.toLowerCase().includes(searchTerm) || 
+                    game.shortDesc.toLowerCase().includes(searchTerm)) {
+                    
+                    const card = document.createElement('div');
+                    card.className = 'game-card';
+                    card.onclick = () => showGameDetail(game.key);
+                    
+                    card.innerHTML = `
+                        <div class="card-img-container">
+                            <img src="${game.coverImg}" alt="${game.title}">
+                            <span class="badge">${game.year}</span>
+                        </div>
+                        <h3>${game.title}</h3>
+                        <div class="metadata">${game.platform}</div>
+                        <p>${game.shortDesc}</p>
+                    `;
+                    
+                    container.appendChild(card);
+                }
             });
         }
 
-        // --- DEEP DIVE SYSTEM ---
-        function loadDeepDive(gameKey) {
+        function setSortOrder(order) {
+            currentSortOrder = order;
+            document.getElementById('btn-release').classList.toggle('active');
+            document.getElementById('btn-chronology').classList.toggle('active');
+            renderTimeline();
+        }
+
+        // --- DEEP DIVE FUNCTIONALITY ---
+        function showGameDetail(gameKey) {
+            currentGameDetail = gameKey;
             const game = zeldaDatabase[gameKey];
-            if(!game) return;
-            
-            switchView('deep-dive');
+            const deepDiveContent = document.getElementById('deep-dive-content');
 
-            const diveContent = document.getElementById('deep-dive-content');
-            
-            let mechanicsList = game.mechanics.map(m => `<li>${m}</li>`).join('');
-            let itemsList = game.items.map(i => `<li>${i}</li>`).join('');
-
-            diveContent.innerHTML = `
+            deepDiveContent.innerHTML = `
                 <div class="dive-header">
                     <img src="${game.coverImg}" alt="${game.title}">
                     <div class="dive-info">
                         <h2>${game.title}</h2>
-                        <h4 style="color: var(--sheikah-blue); margin-bottom: 20px; font-size: 1.1rem; letter-spacing: 1px;">
-                            ${game.platform} | Launched ${game.year}
-                        </h4>
+                        <p><strong>Release Year:</strong> ${game.year}</p>
+                        <p><strong>Platform:</strong> ${game.platform}</p>
                         <p>${game.longDesc}</p>
                     </div>
                 </div>
-                
+
                 <div class="dive-grid">
                     <div class="dive-section">
-                        <h3>Core Mechanics & Design</h3>
-                        <ul>${mechanicsList}</ul>
+                        <h3>Key Mechanics</h3>
+                        <ul>
+                            ${game.mechanics.map(m => `<li>${m}</li>`).join('')}
+                        </ul>
                     </div>
                     <div class="dive-section">
-                        <h3>Notable Items & Artifacts</h3>
-                        <ul>${itemsList}</ul>
+                        <h3>Essential Items</h3>
+                        <ul>
+                            ${game.items.map(i => `<li>${i}</li>`).join('')}
+                        </ul>
                     </div>
                 </div>
             `;
+
+            switchView('deep-dive');
         }
 
-        // --- INTERACTIVE MAP SYSTEM ---
-        const mapData = {
-            "hyrule-castle": {
-                title: "Hyrule Castle",
-                desc: "The regal epicenter of the kingdom, containing ancestral vaults, library corridors, and sanctuary spires. It serves as both the home of Princess Zelda and a frequent tactical stronghold for Ganon's forces."
-            },
-            "temple-of-time": {
-                title: "Temple of Time",
-                desc: "An ancient shrine constructed to guard the entrance to the Sacred Realm. Beneath its high-vaulted stone arches rest the Master Sword pedestal and the door sealed by the three Spiritual Stones."
-            },
-            "death-mountain": {
-                title: "Death Mountain",
-                desc: "An active volcano populated by the rock-dwelling Goron tribes. Its cavernous depths hide the fiery temples of old and volatile tectonic currents key to Hyrule's geology."
-            },
-            "gerudo-desert": {
-                title: "Gerudo Desert",
-                desc: "An arid, wind-swept territory of relentless heat and frozen nights. Home to the nomadic Gerudo, it is home to ancient tombs, ruins, and the hidden Arbiter's Grounds."
-            },
-            "zoras-domain": {
-                title: "Zora's Domain",
-                desc: "An elegant aquatic sanctuary carved directly into the mountain watersheds. It supplies clean, flowing water to Lake Hylia and acts as the kingdom's primary water filtration network."
+        // --- NAVIGATION ---
+        function switchView(viewId) {
+            document.querySelectorAll('.view-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(viewId).classList.add('active');
+
+            document.querySelectorAll('.menu a').forEach(link => link.classList.remove('active'));
+            if (viewId === 'home-view') document.getElementById('nav-home').classList.add('active');
+            if (viewId === 'map-view') document.getElementById('nav-map').classList.add('active');
+            if (viewId === 'settings-view') document.getElementById('nav-settings').classList.add('active');
+        }
+
+        // --- SETTINGS ---
+        function toggleGlow() {
+            const isEnabled = document.getElementById('glow-toggle').checked;
+            document.body.classList.toggle('glow-disabled', !isEnabled);
+            document.getElementById('glow-status').textContent = isEnabled ? 'Enabled' : 'Disabled';
+            localStorage.setItem('glowEnabled', isEnabled);
+        }
+
+        function setFontScheme(scheme) {
+            document.body.classList.remove('font-serif', 'font-sans', 'font-hylia');
+            document.getElementById('btn-font-hylia')?.classList.remove('active');
+            document.getElementById('btn-font-serif')?.classList.remove('active');
+            document.getElementById('btn-font-sans')?.classList.remove('active');
+
+            if (scheme === 'hylia') {
+                document.body.classList.add('font-hylia');
+                document.getElementById('btn-font-hylia').classList.add('active');
+            } else if (scheme === 'serif') {
+                document.body.classList.add('font-serif');
+                document.getElementById('btn-font-serif')?.classList.add('active');
+            } else if (scheme === 'sans') {
+                document.body.classList.add('font-sans');
+                document.getElementById('btn-font-sans').classList.add('active');
             }
+            localStorage.setItem('fontScheme', scheme);
+        }
+
+        // --- MAP FUNCTIONALITY ---
+        const mapData = {
+            'hyrule-castle': { title: 'Hyrule Castle', desc: 'The seat of royal power. Ancient fortress holding secrets of the kingdom.' },
+            'temple-of-time': { title: 'Temple of Time', desc: 'A mystical temple where time itself can be manipulated. Home of the Master Sword.' },
+            'death-mountain': { title: 'Death Mountain', desc: 'A volcanic peak shrouded in flame. Home to the Goron race and their elemental trials.' },
+            'gerudo-desert': { title: 'Gerudo Desert', desc: 'A vast, hostile desert where the Gerudo tribe dwells. Conceals ancient secrets.' },
+            'zoras-domain': { title: "Zora's Domain", desc: 'A frozen or aquatic realm home to the Zora people. Rich in water-based magic.' }
         };
 
-        function showMapDetail(locationKey) {
-            const data = mapData[locationKey];
-            if(!data) return;
-
+        function showMapDetail(locationId) {
             const card = document.getElementById('map-info-card');
-            document.getElementById('map-info-title').innerText = data.title;
-            document.getElementById('map-info-desc').innerText = data.desc;
-            
-            card.style.display = 'block';
+            const location = mapData[locationId];
+            if (location) {
+                document.getElementById('map-info-title').textContent = location.title;
+                document.getElementById('map-info-desc').textContent = location.desc;
+                card.style.display = 'block';
+            }
         }
 
         function closeMapDetail() {
             document.getElementById('map-info-card').style.display = 'none';
         }
 
-        // --- SYSTEM PREFERENCES SETTINGS ---
-        function toggleGlow() {
-            const isEnabled = document.getElementById('glow-toggle').checked;
-            const statusText = document.getElementById('glow-status');
-            
-            if (isEnabled) {
-                document.body.classList.remove('glow-disabled');
-                statusText.innerText = 'Enabled';
-                statusText.style.color = 'var(--sheikah-blue)';
-            } else {
-                document.body.classList.add('glow-disabled');
-                statusText.innerText = 'Disabled';
-                statusText.style.color = 'var(--text-muted)';
-            }
-        }
-
-        function setFontScheme(scheme) {
-            document.getElementById('btn-font-serif').classList.remove('active');
-            document.getElementById('btn-font-sans').classList.remove('active');
-
-            if (scheme === 'sans') {
-                document.body.classList.add('font-sans');
-                document.getElementById('btn-font-sans').classList.add('active');
-            } else {
-                document.body.classList.remove('font-sans');
-                document.getElementById('btn-font-serif').classList.add('active');
-            }
-        }
-
-        // Initialize Compendium on load
-        renderTimeline();
+        // --- INITIALIZATION ---
+        window.addEventListener('load', () => {
+            renderTimeline();
+            const savedFont = localStorage.getItem('fontScheme') || 'hylia';
+            setFontScheme(savedFont);
+            const glowEnabled = localStorage.getItem('glowEnabled') !== 'false';
+            if (!glowEnabled) toggleGlow();
+        });
     </script>
 </body>
 </html>
