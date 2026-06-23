@@ -6,34 +6,78 @@
     <title>The Hyrule Compendium</title>
     <!-- Premium Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         @font-face {
             font-family: 'HyliaSerif';
             src: url('HyliaSerifBeta-Regular.otf') format('opentype');
             font-display: swap;
         }
-        
+
+        /* ==========================================================================
+           1. USER THEME CONFIGURATION (SET YOUR BACKGROUNDS HERE)
+           ========================================================================== */
         :root {
-            --sheikah-blue: #00d1ff;
-            --sheikah-glow: rgba(0, 209, 255, 0.45);
-            --bg-dark: #070b12;
-            --bg-darker: #030509;
-            --bubble-bg: rgba(13, 20, 35, 0.75);
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
-            --gold: #d4af37;
-            --gold-glow: rgba(212, 175, 55, 0.3);
-            --transition-speed: 0.3s;
+            /* 
+              DARK MODE BACKGROUND (Ganon Themed) 
+              Replace the URL below with your custom Ganon artwork
+            */
+            --bg-image-dark: url('https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=2000&auto=format&fit=crop');
+            --bg-color-dark: #050e08;
+            --bubble-bg-dark: rgba(12, 28, 17, 0.85);
+            --text-main-dark: #e6f4ea;
+            --text-muted-dark: #8cb89a;
+            --card-border-dark: rgba(78, 159, 61, 0.2);
+
+            /* 
+              LIGHT MODE BACKGROUND (Link & Zelda Looking Away)
+              Replace the URL below with your custom Link/Zelda artwork
+            */
+            --bg-image-light: url('https://images.unsplash.com/photo-1500627869374-13cd993b1115?q=80&w=2000&auto=format&fit=crop');
+            --bg-color-light: #f5faf6;
+            --bubble-bg-light: rgba(255, 255, 255, 0.9);
+            --text-main-light: #16301d;
+            --text-muted-light: #4e6b55;
+            --card-border-light: rgba(78, 159, 61, 0.15);
+
+            /* KOKIRI FORESTY GREEN SCHEME */
+            --kokiri-green: #4E9F3D;
+            --kokiri-dark: #1E5128;
+            --kokiri-glow: rgba(78, 159, 61, 0.45);
+            --gold: #dfb235;
+            --gold-glow: rgba(223, 178, 53, 0.35);
+            --transition-speed: 0.4s;
         }
 
-        /* Ambient Glow Switcher Class */
+        /* ==========================================================================
+           2. ACTIVE THEME STYLING
+           ========================================================================== */
+        body.dark-theme {
+            --bg-current: var(--bg-color-dark);
+            --bg-image-current: var(--bg-image-dark);
+            --bubble-bg: var(--bubble-bg-dark);
+            --text-main: var(--text-main-dark);
+            --text-muted: var(--text-muted-dark);
+            --card-border: var(--card-border-dark);
+            color-scheme: dark;
+        }
+
+        body.light-theme {
+            --bg-current: var(--bg-color-light);
+            --bg-image-current: var(--bg-image-light);
+            --bubble-bg: var(--bubble-bg-light);
+            --text-main: var(--text-main-light);
+            --text-muted: var(--text-muted-light);
+            --card-border: var(--card-border-light);
+            color-scheme: light;
+        }
+
         body.glow-disabled {
-            --sheikah-glow: transparent;
+            --kokiri-glow: transparent;
             --gold-glow: transparent;
             text-shadow: none !important;
         }
 
-        /* Font Scheme Switcher Classes */
         body.font-sans {
             font-family: 'Nunito', sans-serif !important;
         }
@@ -41,13 +85,9 @@
             font-family: 'Nunito', sans-serif !important;
         }
 
-        body.font-hylia {
-            font-family: 'HyliaSerif', 'Georgia', serif !important;
-        }
-        body.font-hylia h1, body.font-hylia h2, body.font-hylia h3, body.font-hylia h4, body.font-hylia .zelda-font {
-            font-family: 'HyliaSerif', 'Georgia', serif !important;
-        }
-
+        /* ==========================================================================
+           3. BASE STYLES
+           ========================================================================== */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -55,35 +95,43 @@
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-current);
             color: var(--text-main);
-            font-family: 'HyliaSerif', 'Georgia', serif;
+            font-family: 'Cinzel', 'Georgia', serif;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(0, 209, 255, 0.12) 0%, transparent 60%),
-                linear-gradient(180deg, rgba(7, 11, 18, 0.4) 0%, var(--bg-dark) 100%),
-                url('https://zelda.nintendo.com/assets/img/about/header-about.jpg?q=80&w=2000&auto=format&fit=crop');
+                radial-gradient(circle at 50% 0%, rgba(78, 159, 61, 0.25) 0%, transparent 60%),
+                linear-gradient(180deg, rgba(5, 14, 8, 0.45) 0%, var(--bg-current) 100%),
+                var(--bg-image-current);
             background-size: cover;
+            background-position: center top;
             background-attachment: fixed;
             background-blend-mode: multiply;
             overflow-x: hidden;
             line-height: 1.6;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
 
         /* --- NAVIGATION --- */
         nav {
             width: 100%;
             padding: 15px 50px;
-            background: rgba(3, 5, 9, 0.92);
-            backdrop-filter: blur(12px);
-            border-bottom: 2px solid var(--sheikah-blue);
+            background: rgba(12, 28, 17, 0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 3px solid var(--kokiri-green);
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: fixed;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px var(--sheikah-glow);
+            box-shadow: 0 4px 30px var(--kokiri-glow);
             transition: all var(--transition-speed);
+        }
+
+        body.light-theme nav {
+            background: rgba(245, 250, 246, 0.95);
+            border-bottom-color: var(--kokiri-dark);
+            box-shadow: 0 4px 20px rgba(78, 159, 61, 0.15);
         }
 
         .nav-logo {
@@ -94,7 +142,6 @@
             text-decoration: none;
         }
 
-        /* Decorative Triforce in CSS */
         .triforce-mini {
             width: 0;
             height: 0;
@@ -106,47 +153,70 @@
         }
 
         nav h1 {
-            color: var(--sheikah-blue);
+            color: var(--kokiri-green);
             font-size: 22px;
-            text-shadow: 0 0 8px var(--sheikah-blue);
+            text-shadow: 0 0 8px var(--kokiri-glow);
             letter-spacing: 3px;
+        }
+
+        body.light-theme nav h1 {
+            color: var(--kokiri-dark);
+            text-shadow: none;
         }
 
         .menu {
             display: flex;
-            gap: 30px;
+            align-items: center;
+            gap: 20px;
         }
 
         .menu a {
             color: var(--text-main);
             text-decoration: none;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 2px;
             transition: var(--transition-speed);
             cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 4px;
+            padding: 8px 16px;
+            border-radius: 20px;
         }
 
         .menu a:hover, .menu a.active {
-            color: var(--sheikah-blue);
-            text-shadow: 0 0 10px var(--sheikah-blue);
-            background: rgba(0, 209, 255, 0.05);
+            color: var(--gold);
+            background: rgba(78, 159, 61, 0.15);
+        }
+
+        /* Modern bubble-style Quick Toggle in Nav */
+        .quick-theme-toggle {
+            background: rgba(78, 159, 61, 0.2);
+            border: 1px solid var(--kokiri-green);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+        }
+
+        .quick-theme-toggle:hover {
+            transform: scale(1.15) rotate(15deg);
         }
 
         /* --- HERO BANNER --- */
         #hero {
-            height: 50vh;
+            height: 45vh;
             margin-top: 60px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: linear-gradient(180deg, transparent, var(--bg-dark)), 
-                        url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop');
+            background: linear-gradient(180deg, transparent, var(--bg-current)), 
+                        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2000&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
             border-bottom: 2px solid var(--gold);
@@ -154,21 +224,21 @@
         }
 
         #hero h1 {
-            font-size: 4rem;
+            font-size: 4.2rem;
             color: var(--gold);
-            text-shadow: 0 0 20px rgba(0,0,0,0.9), 2px 2px 0px rgba(0,0,0,0.8);
+            text-shadow: 0 0 30px rgba(0,0,0,0.85);
             margin-bottom: 10px;
             font-weight: 900;
             letter-spacing: 4px;
         }
 
         #hero p {
-            font-family: 'HyliaSerif', 'Georgia', serif;
+            font-family: 'Cinzel', serif;
             letter-spacing: 3px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.85);
         }
 
-        /* --- MAIN LAYOUT --- */
+        /* --- LAYOUT STRUCTURE --- */
         #main-content {
             padding: 40px 50px;
             max-width: 1600px;
@@ -184,7 +254,7 @@
             display: block;
         }
 
-        /* --- CONTROLS / FILTER BAR --- */
+        /* --- BUBBLY MODERN FILTERS --- */
         .control-bar {
             display: flex;
             justify-content: space-between;
@@ -192,11 +262,12 @@
             flex-wrap: wrap;
             gap: 20px;
             background: var(--bubble-bg);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 15px;
-            padding: 15px 25px;
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            padding: 20px 30px;
             margin-bottom: 30px;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
         .search-box {
@@ -207,30 +278,33 @@
 
         .search-box input {
             width: 100%;
-            padding: 10px 15px 10px 40px;
-            background: rgba(3, 5, 9, 0.6);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
+            padding: 12px 15px 12px 45px;
+            background: rgba(0, 0, 0, 0.15);
+            border: 2px solid var(--card-border);
+            border-radius: 25px;
             color: var(--text-main);
             font-family: 'Nunito', sans-serif;
             font-size: 14px;
             transition: var(--transition-speed);
         }
 
+        body.light-theme .search-box input {
+            background: #ffffff;
+        }
+
         .search-box input:focus {
             outline: none;
-            border-color: var(--sheikah-blue);
-            box-shadow: 0 0 10px var(--sheikah-glow);
+            border-color: var(--kokiri-green);
+            box-shadow: 0 0 15px var(--kokiri-glow);
         }
 
         .search-box::before {
-            content: "🔍";
+            content: "🌿";
             position: absolute;
-            left: 15px;
+            left: 18px;
             top: 50%;
             transform: translateY(-50%);
             font-size: 14px;
-            opacity: 0.6;
         }
 
         .filter-buttons {
@@ -239,82 +313,81 @@
         }
 
         .filter-btn {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(78, 159, 61, 0.1);
             color: var(--text-main);
-            border: 1px solid rgba(255,255,255,0.15);
-            padding: 8px 16px;
-            border-radius: 8px;
+            border: 2px solid var(--card-border);
+            padding: 10px 22px;
+            border-radius: 25px;
             cursor: pointer;
-            font-family: 'HyliaSerif', 'Georgia', serif;
-            font-size: 12px;
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
             letter-spacing: 1px;
             transition: var(--transition-speed);
         }
 
         .filter-btn:hover, .filter-btn.active {
-            background: var(--sheikah-blue);
-            color: #030509;
-            border-color: var(--sheikah-blue);
-            box-shadow: 0 0 10px var(--sheikah-glow);
+            background: var(--kokiri-green);
+            color: #fff;
+            border-color: var(--kokiri-green);
+            box-shadow: 0 0 15px var(--kokiri-glow);
             font-weight: bold;
         }
 
-        /* --- TIMELINE GRID --- */
+        /* --- TIMELINE GRID & BUBBLE CARDS --- */
         .timeline-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
+            gap: 35px;
             padding-top: 10px;
         }
 
-        /* --- GAME CARDS --- */
         .game-card {
             background: var(--bubble-bg);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 32px;
+            padding: 24px;
+            border: 2px solid var(--card-border);
+            backdrop-filter: blur(16px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.25);
         }
 
         .game-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--sheikah-blue);
-            box-shadow: 0 15px 35px var(--sheikah-glow);
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--kokiri-green);
+            box-shadow: 0 20px 40px var(--kokiri-glow);
         }
 
         .card-img-container {
             position: relative;
             width: 100%;
-            height: 190px;
-            border-radius: 12px;
+            height: 200px;
+            border-radius: 22px;
             overflow: hidden;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         .game-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s ease;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .game-card:hover img {
-            transform: scale(1.08);
+            transform: scale(1.12);
         }
 
         .badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(3, 5, 9, 0.85);
+            top: 12px;
+            right: 12px;
+            background: rgba(30, 81, 40, 0.9);
             color: var(--gold);
             border: 1px solid var(--gold);
-            padding: 2px 10px;
+            padding: 4px 12px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: bold;
@@ -323,22 +396,27 @@
 
         .game-card h3 {
             color: var(--gold);
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 8px;
             letter-spacing: 1px;
         }
 
         .game-card .metadata {
             font-size: 12px;
-            color: var(--sheikah-blue);
-            margin-bottom: 8px;
+            color: var(--kokiri-green);
+            margin-bottom: 10px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+        }
+
+        body.light-theme .game-card .metadata {
+            color: var(--kokiri-dark);
         }
 
         .game-card p {
             font-size: 13px;
-            line-height: 1.5;
+            line-height: 1.6;
             color: var(--text-muted);
             font-family: 'Nunito', sans-serif;
         }
@@ -355,33 +433,33 @@
             flex-direction: row;
             gap: 40px;
             background: var(--bubble-bg);
-            border-radius: 24px;
+            border-radius: 32px;
             padding: 40px;
-            border: 1px solid var(--sheikah-blue);
-            box-shadow: 0 0 30px var(--sheikah-glow);
+            border: 2px solid var(--kokiri-green);
+            box-shadow: 0 15px 40px var(--kokiri-glow);
             margin-bottom: 40px;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
         }
 
         .dive-header img {
             width: 380px;
-            height: 240px;
+            height: 250px;
             object-fit: cover;
-            border-radius: 16px;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         .dive-info h2 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: var(--gold);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             letter-spacing: 2px;
         }
 
         .dive-info p {
-            font-size: 1.05rem;
-            line-height: 1.7;
+            font-size: 1.1rem;
+            line-height: 1.8;
             margin-bottom: 20px;
             color: var(--text-main);
             font-family: 'Nunito', sans-serif;
@@ -396,19 +474,19 @@
 
         .dive-section {
             background: var(--bubble-bg);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255,255,255,0.06);
-            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 35px;
+            border: 2px solid var(--card-border);
+            backdrop-filter: blur(16px);
         }
 
         .dive-section h3 {
-            color: var(--sheikah-blue);
-            border-bottom: 1px solid rgba(0, 209, 255, 0.3);
+            color: var(--kokiri-green);
+            border-bottom: 2px solid var(--card-border);
             padding-bottom: 12px;
             margin-bottom: 20px;
             letter-spacing: 1px;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
         }
 
         .dive-section ul {
@@ -424,12 +502,11 @@
         }
 
         .dive-section li::before {
-            content: '✦';
+            content: '🍃';
             position: absolute;
             left: 0;
-            color: var(--gold);
-            font-size: 1rem;
-            top: 0px;
+            font-size: 0.95rem;
+            top: 2px;
         }
 
         .back-btn {
@@ -437,68 +514,24 @@
             align-items: center;
             gap: 8px;
             margin-bottom: 25px;
-            padding: 10px 20px;
+            padding: 12px 24px;
             background: transparent;
-            color: var(--sheikah-blue);
-            border: 1px solid var(--sheikah-blue);
-            border-radius: 8px;
+            color: var(--kokiri-green);
+            border: 2px solid var(--kokiri-green);
+            border-radius: 25px;
             cursor: pointer;
-            font-family: 'HyliaSerif', 'Georgia', serif;
+            font-family: 'Cinzel', serif;
             font-weight: bold;
             transition: var(--transition-speed);
         }
 
         .back-btn:hover {
-            background: var(--sheikah-blue);
-            color: #030509;
-            box-shadow: 0 0 15px var(--sheikah-glow);
+            background: var(--kokiri-green);
+            color: #fff;
+            box-shadow: 0 0 20px var(--kokiri-glow);
         }
 
-        /* --- ARCHIVIST BIO VIEW --- */
-        .archivist-bio {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 50px;
-            padding-top: 100px;
-        }
-
-        .bio-container {
-            background: var(--bubble-bg);
-            border-radius: 24px;
-            padding: 50px;
-            border: 2px solid var(--gold);
-            box-shadow: 0 0 30px var(--gold-glow);
-            backdrop-filter: blur(15px);
-        }
-
-        .bio-container h2 {
-            color: var(--gold);
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            text-align: center;
-            letter-spacing: 2px;
-        }
-
-        .bio-container p {
-            color: var(--text-main);
-            font-family: 'Nunito', sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        .bio-quote {
-            background: rgba(0, 209, 255, 0.1);
-            border-left: 3px solid var(--sheikah-blue);
-            padding: 20px;
-            margin: 30px 0;
-            border-radius: 8px;
-            font-style: italic;
-            color: var(--sheikah-blue);
-            font-family: 'HyliaSerif', 'Georgia', serif;
-        }
-
-        /* --- MAP SECTION --- */
+        /* --- MAP MODULE --- */
         #map-view {
             padding-top: 100px;
             max-width: 1200px;
@@ -509,41 +542,38 @@
             position: relative;
             width: 100%;
             height: 600px;
-            background-image: url('https://imgur.com/QH4qJ6n.jpg');
-            background-size: cover;
-            background-position: center;
-            border: 2px solid var(--gold);
-            box-shadow: 0 0 35px rgba(212, 175, 55, 0.2);
-            border-radius: 24px;
+            background: #060e0a;
+            border: 3px solid var(--gold);
+            box-shadow: 0 15px 45px rgba(78, 159, 61, 0.25);
+            border-radius: 32px;
             overflow: hidden;
             margin-top: 20px;
         }
 
-        /* Graphic representation grid of Hyrule */
         .map-bg {
             position: absolute;
             inset: 0;
             background-image: 
-                radial-gradient(circle at 80% 20%, rgba(26, 44, 26, 0.4) 0%, transparent 40%), /* Lost Woods */
-                radial-gradient(circle at 20% 80%, rgba(47, 37, 24, 0.4) 0%, transparent 40%), /* Gerudo */
-                radial-gradient(circle at 85% 75%, rgba(24, 37, 53, 0.4) 0%, transparent 40%), /* Lake Hylia */
-                radial-gradient(circle at 50% 50%, rgba(30, 27, 21, 0.4) 0%, transparent 35%); /* Castle Plains */
-            opacity: 0.5;
+                radial-gradient(circle at 80% 20%, #1e4d2b 0%, transparent 45%), /* Lost Woods */
+                radial-gradient(circle at 20% 80%, #3e321e 0%, transparent 45%), /* Gerudo Desert */
+                radial-gradient(circle at 85% 75%, #182d44 0%, transparent 45%), /* Lake Hylia */
+                radial-gradient(circle at 50% 50%, #172419 0%, transparent 40%); /* Hyrule Plains */
+            opacity: 0.9;
         }
 
         .map-grid-lines {
             position: absolute;
             inset: 0;
-            background-size: 50px 50px;
+            background-size: 60px 60px;
             background-image: 
-                linear-gradient(to right, rgba(0, 209, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 209, 255, 0.05) 1px, transparent 1px);
+                linear-gradient(to right, rgba(78, 159, 61, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(78, 159, 61, 0.08) 1px, transparent 1px);
         }
 
         .map-pin {
             position: absolute;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             background: var(--gold);
             border: 2px solid #fff;
             border-radius: 50%;
@@ -561,15 +591,15 @@
             left: -12px;
             right: -12px;
             bottom: -12px;
-            border: 1px solid var(--gold);
+            border: 2px solid var(--kokiri-green);
             border-radius: 50%;
-            animation: ping 2s infinite ease-in-out;
+            animation: ping 2.5s infinite ease-in-out;
         }
 
         .map-pin:hover {
             transform: translate(-50%, -50%) scale(1.4);
-            background: var(--sheikah-blue);
-            box-shadow: 0 0 20px var(--sheikah-blue);
+            background: var(--kokiri-green);
+            box-shadow: 0 0 20px var(--kokiri-green);
         }
 
         .map-pin-label {
@@ -577,11 +607,11 @@
             top: 25px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(3, 5, 9, 0.9);
+            background: rgba(12, 28, 17, 0.92);
             border: 1px solid var(--gold);
             color: #fff;
-            padding: 4px 12px;
-            border-radius: 4px;
+            padding: 5px 14px;
+            border-radius: 20px;
             font-size: 11px;
             white-space: nowrap;
             pointer-events: none;
@@ -592,8 +622,8 @@
 
         .map-pin:hover .map-pin-label {
             opacity: 1;
-            color: var(--sheikah-blue);
-            border-color: var(--sheikah-blue);
+            color: var(--gold);
+            border-color: var(--kokiri-green);
         }
 
         .map-overlay-card {
@@ -601,99 +631,18 @@
             bottom: 30px;
             left: 30px;
             width: 360px;
-            background: rgba(3, 5, 9, 0.92);
-            border: 1px solid var(--sheikah-blue);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            background: rgba(12, 28, 17, 0.95);
+            border: 2px solid var(--kokiri-green);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
             z-index: 20;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             display: none;
             animation: fadeIn 0.4s ease-out;
         }
 
-        /* --- RANDOM FACT BUTTON --- */
-        .random-fact-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 100;
-        }
-
-        .random-fact-btn {
-            background: linear-gradient(135deg, var(--sheikah-blue), #00a8cc);
-            color: #030509;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'HyliaSerif', 'Georgia', serif;
-            font-weight: bold;
-            font-size: 14px;
-            letter-spacing: 1px;
-            box-shadow: 0 8px 25px rgba(0, 209, 255, 0.4);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        .random-fact-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 35px rgba(0, 209, 255, 0.6);
-        }
-
-        .fact-popup {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            background: rgba(3, 5, 9, 0.95);
-            border: 2px solid var(--sheikah-blue);
-            border-radius: 16px;
-            padding: 20px;
-            max-width: 350px;
-            box-shadow: 0 15px 40px rgba(0, 209, 255, 0.3);
-            display: none;
-            animation: slideUp 0.4s ease-out;
-            z-index: 101;
-            backdrop-filter: blur(10px);
-        }
-
-        .fact-popup.show {
-            display: block;
-        }
-
-        .fact-popup h4 {
-            color: var(--sheikah-blue);
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .fact-popup p {
-            color: var(--text-main);
-            font-family: 'Nunito', sans-serif;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .fact-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            color: var(--sheikah-blue);
-            font-size: 20px;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .fact-close:hover {
-            color: var(--gold);
-        }
-
-        /* --- SETTINGS SECTION --- */
+        /* --- SETTINGS PANEL --- */
         #settings-view {
             padding-top: 100px;
             max-width: 800px;
@@ -702,15 +651,15 @@
 
         .settings-grid {
             background: var(--bubble-bg);
-            border-radius: 24px;
+            border-radius: 32px;
             padding: 40px;
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 2px solid var(--card-border);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
         }
 
         .settings-group {
             margin-bottom: 35px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 2px solid var(--card-border);
             padding-bottom: 25px;
         }
 
@@ -722,7 +671,7 @@
         .settings-group h3 {
             color: var(--gold);
             margin-bottom: 10px;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             letter-spacing: 1px;
         }
 
@@ -739,12 +688,11 @@
             gap: 15px;
         }
 
-        /* Custom toggle switch styling */
         .switch {
             position: relative;
             display: inline-block;
-            width: 50px;
-            height: 26px;
+            width: 55px;
+            height: 28px;
         }
 
         .switch input {
@@ -765,8 +713,8 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
+            height: 20px;
+            width: 20px;
             left: 4px;
             bottom: 4px;
             background-color: white;
@@ -775,20 +723,38 @@
         }
 
         input:checked + .slider {
-            background-color: var(--sheikah-blue);
-        }
-
-        input:focus + .slider {
-            box-shadow: 0 0 8px var(--sheikah-glow);
+            background-color: var(--kokiri-green);
         }
 
         input:checked + .slider:before {
-            transform: translateX(24px);
+            transform: translateX(27px);
         }
 
         .font-button-group {
             display: flex;
             gap: 10px;
+        }
+
+        /* --- KOROK GRAPHICS & ANIMATIONS --- */
+        .korok-floating {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.65;
+            animation: floatUpDown 8s ease-in-out infinite;
+        }
+
+        /* Leaf particles generated by clicks */
+        .leaf-particle {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+            z-index: 9999;
+            transform-origin: center;
+            animation: leafFall 2.2s linear forwards;
         }
 
         /* --- DECORATIVE TRIFORCE DIVIDER --- */
@@ -801,10 +767,10 @@
         }
 
         .divider-line {
-            height: 1px;
+            height: 2px;
             background: linear-gradient(90deg, transparent, var(--gold), transparent);
             flex-grow: 1;
-            max-width: 200px;
+            max-width: 250px;
         }
 
         .triforce-icon {
@@ -816,20 +782,31 @@
             filter: drop-shadow(0 0 6px var(--gold-glow));
         }
 
-        /* --- ANIMATIONS & ADAPTATIONS --- */
+        /* --- ANIMATIONS --- */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes ping {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.8); opacity: 0; }
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.9); opacity: 0; }
+        }
+
+        @keyframes floatUpDown {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(15deg); }
+        }
+
+        @keyframes leafFall {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--leaf-x), var(--leaf-y)) rotate(var(--leaf-rotate)) scale(0.3);
+                opacity: 0;
+            }
         }
 
         @media (max-width: 850px) {
@@ -848,14 +825,14 @@
                 padding: 15px 20px;
             }
             .menu {
-                gap: 12px;
+                gap: 10px;
             }
             .menu a {
                 font-size: 11px;
-                padding: 5px 8px;
+                padding: 6px 12px;
             }
             #hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.6rem;
             }
             .map-container {
                 height: 450px;
@@ -866,19 +843,27 @@
                 right: 10px;
                 width: calc(100% - 20px);
             }
-            .random-fact-container {
-                bottom: 20px;
-                right: 20px;
-            }
-            .fact-popup {
-                bottom: 80px;
-                right: 20px;
-                max-width: 280px;
-            }
         }
     </style>
 </head>
-<body class="font-hylia">
+<body class="dark-theme">
+
+    <!-- FLOATING KOROKS (Gently animated decorations) -->
+    <svg class="korok-floating" style="top: 25%; left: 8%;" viewBox="0 0 100 100">
+        <!-- Mask Leaf -->
+        <path d="M50 15 C25 20, 20 60, 50 85 C80 60, 75 20, 50 15" fill="#4E9F3D" />
+        <!-- Face Features -->
+        <circle cx="40" cy="45" r="4" fill="#1E5128" />
+        <circle cx="60" cy="45" r="4" fill="#1E5128" />
+        <path d="M45 60 Q50 65 55 60" stroke="#1E5128" stroke-width="3" fill="none" />
+    </svg>
+
+    <svg class="korok-floating" style="bottom: 15%; right: 10%; animation-delay: -3s;" viewBox="0 0 100 100">
+        <path d="M50 10 C35 30, 20 50, 50 90 C80 50, 65 30, 50 10" fill="#dfb235" />
+        <circle cx="42" cy="50" r="4" fill="#1E5128" />
+        <circle cx="58" cy="50" r="4" fill="#1E5128" />
+        <path d="M48 65 Q50 68 52 65" stroke="#1E5128" stroke-width="3" fill="none" />
+    </svg>
 
     <nav>
         <div class="nav-logo" onclick="switchView('home-view')">
@@ -888,8 +873,12 @@
         <div class="menu">
             <a id="nav-home" class="active" onclick="switchView('home-view')">Timeline</a>
             <a id="nav-map" onclick="switchView('map-view')">Interactive Map</a>
-            <a id="nav-bio" onclick="switchView('archivist-view')">The Archivist</a>
             <a id="nav-settings" onclick="switchView('settings-view')">Settings</a>
+            
+            <!-- Dynamic Quick Switcher in Menu -->
+            <div class="quick-theme-toggle" onclick="toggleThemeQuick()" title="Switch Light/Dark Paradigm">
+                <span id="quick-toggle-icon">🌙</span>
+            </div>
         </div>
     </nav>
 
@@ -897,7 +886,7 @@
     <div id="home-view" class="view-section active">
         <section id="hero">
             <h1>The Legend of Zelda</h1>
-            <p class="zelda-font" style="font-size: 1.3rem; color: #fff;">A comprehensive visual timeline</p>
+            <p class="zelda-font" style="font-size: 1.3rem; color: #fff;">A comprehensive forest-inspired timeline</p>
         </section>
 
         <section id="main-content">
@@ -909,11 +898,11 @@
 
             <div class="control-bar">
                 <div class="search-box">
-                    <input type="text" id="search-input" placeholder="Search archives..." oninput="renderTimeline()">
+                    <input type="text" id="search-input" placeholder="Search the Great Library..." oninput="renderTimeline()">
                 </div>
                 <div class="filter-buttons">
                     <button class="filter-btn active" id="btn-release" onclick="setSortOrder('release')">Release Order</button>
-                    <button class="filter-btn" id="btn-chronology" onclick="setSortOrder('chronology')">Chronological Order</button>
+                    <button class="filter-btn" id="btn-chronology" onclick="setSortOrder('chronology')">Timeline Order</button>
                 </div>
             </div>
 
@@ -933,40 +922,11 @@
         </div>
     </div>
 
-    <!-- ARCHIVIST BIO VIEW -->
-    <div id="archivist-view" class="view-section">
-        <div class="archivist-bio">
-            <div class="bio-container">
-                <h2>About the Archivist</h2>
-                <p>
-                    Greetings. I am <strong>Calvin Slaven</strong>, Keeper of the Archives, Guardian of Questionably Accurate Zelda Lore, and Consumer of Excessive Quantities of Mountain Dew.
-                </p>
-                <p>
-                    For years, I have been cataloging the vast and increasingly convoluted history of Hyrule. My quest began not with the official timeline—no, I sought to understand the deeper mysteries that Nintendo left ambiguous. Why does the timeline split? What happened between each game? And most importantly: where did all these Maps and Timelines come from?
-                </p>
-                <div class="bio-quote">
-                    "The greatest treasure in all of Hyrule is not the Triforce or the Master Sword. It's a properly indexed spreadsheet."
-                </div>
-                <p>
-                    This archive was created to serve as a beacon for fellow Zelda enthusiasts, speedrunners, lore hunters, and anyone who has ever wondered why there are three separate timelines. If you've scrolled through forums at 2 AM debating whether the Kingdom of Hyrule exists in a flat plane or a spherical realm, this place is for you.
-                </p>
-                <p>
-                    The Hyrule Archives is my contribution to preserving the legacy of one of gaming's greatest franchises—complete with interactive timelines, hidden easter eggs (if you know where to look), and a sincere belief that someday, Nintendo will release a game that canonically clarifies everything we've been arguing about.
-                </p>
-                <p style="margin-top: 30px; text-align: center; color: var(--sheikah-blue); font-style: italic;">
-                    May your wifi be strong and your discoveries legendary.
-                    <br><br>
-                    — Calvin Slaven, Archivist
-                </p>
-            </div>
-        </div>
-    </div>
-
     <!-- MAP VIEW -->
     <div id="map-view" class="view-section">
         <div style="padding: 0 50px; margin-bottom: 50px;">
             <h2 style="font-size: 2.5rem; border-bottom: 2px solid var(--gold); padding-bottom: 10px;">Cartography of Hyrule</h2>
-            <p style="margin-top: 10px; color: var(--text-muted); font-family: 'Nunito', sans-serif;">Select active geographical coordinates to view historical events associated with these key locations.</p>
+            <p style="margin-top: 10px; color: var(--text-muted); font-family: 'Nunito', sans-serif;">Select active geographical coordinates to view historical events associated with these key landmarks.</p>
             
             <div class="map-container">
                 <div class="map-bg"></div>
@@ -992,7 +952,7 @@
                 <!-- Info popup card overlay -->
                 <div class="map-overlay-card" id="map-info-card">
                     <h4 id="map-info-title" style="color: var(--gold); font-size: 1.25rem; margin-bottom: 8px;">Landmark</h4>
-                    <p id="map-info-desc" style="font-family: 'Nunito', sans-serif; font-size: 13px; color: var(--text-main); margin-bottom: 15px;">Description text.</p>
+                    <p id="map-info-desc" style="font-family: 'Nunito', sans-serif; font-size: 13px; color: #fff; margin-bottom: 15px;">Description text.</p>
                     <button class="filter-btn" style="width: 100%;" onclick="closeMapDetail()">Dismiss Coordinate</button>
                 </div>
             </div>
@@ -1006,406 +966,661 @@
             
             <div class="settings-grid">
                 <div class="settings-group">
-                    <h3>Sheikah Tech Glow</h3>
-                    <p>Enables or disables atmospheric cyan glows and text shadows to maximize performance on classic hardware.</p>
+                    <h3>Visual Paradigm Theme</h3>
+                    <p>Toggle between Dark (Malicious Shadow) and Light (Sacred Canopy) themes seamlessly.</p>
+                    <div class="font-button-group">
+                        <button class="filter-btn active" id="btn-theme-dark" onclick="setExplicitTheme('dark')">Dark (Ganon Style)</button>
+                        <button class="filter-btn" id="btn-theme-light" onclick="setExplicitTheme('light')">Light (Zelda Style)</button>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3>Forest Magic Glow</h3>
+                    <p>Enables or disables atmospheric forest glows and text shadows to maximize performance on classic devices.</p>
                     <div class="switch-container">
                         <label class="switch">
                             <input type="checkbox" id="glow-toggle" checked onchange="toggleGlow()">
                             <span class="slider"></span>
                         </label>
-                        <span id="glow-status" style="font-family: 'Nunito', sans-serif; font-weight: bold; color: var(--sheikah-blue);">Enabled</span>
+                        <span id="glow-status" style="font-family: 'Nunito', sans-serif; font-weight: bold; color: var(--kokiri-green);">Enabled</span>
                     </div>
                 </div>
 
                 <div class="settings-group">
                     <h3>Typography Engine</h3>
-                    <p>Select your interface presentation typeface. Choose between the classic Hylia serif, elegant serif layout, or a modern high-readability sans-serif build.</p>
+                    <p>Select your interface presentation typeface. Choose between the classic high-fantasy serif layout or a modern high-readability sans-serif build.</p>
                     <div class="font-button-group">
-                        <button class="filter-btn active" id="btn-font-hylia" onclick="setFontScheme('hylia')">Hylia Serif</button>
-                        <button class="filter-btn" id="btn-font-serif" onclick="setFontScheme('serif')">Classic Serif</button>
+                        <button class="filter-btn active" id="btn-font-serif" onclick="setFontScheme('serif')">Classic Serif</button>
                         <button class="filter-btn" id="btn-font-sans" onclick="setFontScheme('sans')">Modern Sans-Serif</button>
                     </div>
-                </div>
-
-                <div class="settings-group">
-                    <h3>Compendium Data State</h3>
-                    <p>Restore default historical chronology parameters and wipe temporary browser cache layers.</p>
-                    <button class="filter-btn" onclick="alert('Compendium records validated. Synchronized with the Royal Library.')" style="border-color: var(--gold); color: var(--gold);">Re-Verify Records</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Random Fact Button & Popup -->
-    <div class="random-fact-container">
-        <button class="random-fact-btn" onclick="showRandomFact()">💡 Tell me something weird</button>
-        <div class="fact-popup" id="fact-popup">
-            <button class="fact-close" onclick="closeRandomFact()">✕</button>
-            <h4>Zelda Trivia</h4>
-            <p id="fact-text"></p>
-        </div>
-    </div>
-
     <script>
-        // --- RANDOM ZELDA FACTS DATABASE ---
-        const zeldaFacts = [
-            "The moon in Majora's Mask has a fully modeled face—you can see it breathing and blinking throughout the game.",
-            "Link never speaks a word in any Zelda game. All his communication is through grunts, yells, and the occasional epic scream.",
-            "In Ocarina of Time, if you don't feed your sword after catching it, it dies. Nintendo removed this mechanic before release.",
-            "The Triforce represents Power (Ganondorf), Wisdom (Zelda), and Courage (Link). The missing fourth piece represents the player.",
-            "Wind Waker's Tingle debuted so obsessively collecting rupees that he nearly broke the game's economy on first release.",
-            "Speedrunners have discovered that certain glitches in Ocarina of Time can sequence break the entire game in under 15 minutes.",
-            "The Hyrule Historia timeline book officially splits into three separate timelines, causing decades of fan debates.",
-            "In Breath of the Wild, you can complete the final boss fight without ever speaking to any NPC in the entire game.",
-            "Majora's Mask was originally intended to be a dream sequence in Ocarina of Time before becoming its own game.",
-            "The Master Sword respawns infinitely in the Lost Woods, but it was originally coded to be a one-time pickup.",
-            "In A Link to the Past, the Triforce was originally going to be collectible by the player, but Nintendo decided against it.",
-            "Every incarnation of Link across timelines is supposedly the same person reincarnated through magic.",
-            "Darknuts in the Legend of Zelda series are actually possessed suits of armor—their souls are being controlled.",
-            "The lost kingdom of Lorule in A Link Between Worlds is actually the inverse/dark world of Hyrule.",
-            "Link's Awakening takes place in Link's dream, meaning everyone in that game is a figment of his imagination.",
-            "In Windwaker, the entire Hyrule you explored in Ocarina of Time is actually underwater, submerged by the flood.",
-            "The Ocarina from Ocarina of Time has 12 different songs you can learn, each with mystical properties tied to time itself.",
-            "Sheikah are an ancient tribe of ninja-like beings—their name translates to 'those who see.' They have a third eye.",
-            "Zoras were originally humanoid fish-like creatures until Twilight Princess redesigned them to look more dragon-like.",
-            "If you melt all the ice in certain areas of Breath of the Wild, you can find completely different landscapes hidden underneath."
-        ];
-
-        // --- COMPLETE HIGH-RESOLUTION RECONSTRUCTED DATA ENGINE ---
+        // --- COMPLETE HIGH-RESOLUTION RECONSTRUCTED DATABASE ---
+        // Contains every major mainline Nintendo-published Zelda release.
         const zeldaDatabase = {
+            "oot_remake": {
+                title: "Ocarina of Time: Remake",
+                year: "Upcoming",
+                releaseIndex: 1,
+                chronologyIndex: 5,
+                platform: "Nintendo Switch 2",
+                shortDesc: "Recreating the greatest rated game of all time for a new generation.",
+                longDesc: "The highly anticipated, full ground-up remake of the timeless masterpiece. Built to push next-generation systems to their absolute visual limits with updated organic Kokiri atmospheres, seamless time transition mechanics, and newly fleshed out dungeon chambers.",
+                coverImg: "https://media.altchar.com/prod/images/gm_featured_image/fd2be5f1e1ca-zelda-ocarina-of-time-remake.webp?q=80&w=800&auto=format&fit=crop", 
+                mechanics: [
+                    "Next-Gen Engine: Beautiful ray-traced lightning and real-time physical foliage interactions.",
+                    "Seamless Eras: Transition between the Child and Adult eras near-instantly.",
+                    "Expanded Dungeons: New challenges integrated smoothly into classical geometry."
+                ],
+                items: ["Master Sword", "Ocarina of Time", "Kokiri Sword", "Mirror Shield"]
+            },
+            "eow": {
+                title: "Echoes of Wisdom",
+                year: "2024",
+                releaseIndex: 2,
+                chronologyIndex: 22,
+                platform: "Nintendo Switch",
+                shortDesc: "Princess Zelda takes the stage in an elegant, innovative puzzle adventure.",
+                longDesc: "The people of Hyrule are being stolen away by mysterious rifts that have appeared, including a certain swordsman. Now, Zelda must step up to rescue her kingdom using the Tri Rod to create 'echoes'—replications of things found in the environment.",
+                coverImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Echo Replication: Copy and paste objects and monsters found throughout the wild.",
+                    "Tri Rod Navigation: Bridge chasms, scale high cliffs, and build custom paths.",
+                    "Playable Princess: Experience traditional puzzle mechanics from Zelda's perspective."
+                ],
+                items: ["Tri Rod", "Sword of Might", "Bow of Might"]
+            },
             "totk": {
                 title: "Tears of the Kingdom",
                 year: "2023",
-                releaseIndex: 1,
-                chronologyIndex: 8,
+                releaseIndex: 3,
+                chronologyIndex: 21,
                 platform: "Nintendo Switch",
-                shortDesc: "The skies open up above a changing kingdom in absolute physics-driven chaos.",
-                longDesc: "A direct sequel to Breath of the Wild that expands Hyrule into both the sky islands and the dark depths below. It introduces revolutionary building mechanics that allow players to create their own vehicles and weapons on the fly.",
+                shortDesc: "The skies open up in absolute physics-driven world-building chaos.",
+                longDesc: "A direct sequel to Breath of the Wild that expands Hyrule into both the high sky islands and the dark depths below. It introduces revolutionary structural building mechanics that allow you to construct customized machinery and complex vehicles using ancient Zonai power.",
                 coverImg: "https://images.unsplash.com/photo-1685019803155-2ff1b6264d8a?q=80&w=800&auto=format&fit=crop", 
                 mechanics: [
-                    "Ultrahand: Seamlessly assemble objects to build dynamic vehicles.",
-                    "Fuse: Synthesize materials instantly with weapons or shields to alter stats.",
-                    "Ascend: Swim vertically through solid physical ceilings to access cliffs easily."
+                    "Ultrahand: Seamlessly fuse environmental objects to build unique operational vehicles.",
+                    "Fuse: Synthesize materials directly onto weapons or shields to alter stats instantly.",
+                    "Ascend: Swim vertically through solid cave roofs to reach mountain peaks easily."
                 ],
-                items: [
-                    "Zonai Devices (Fans, Rockets, Lasers)",
-                    "Purah Pad",
-                    "Decayed Master Sword"
-                ]
+                items: ["Zonai Devices (Fans, Rockets, Lasers)", "Purah Pad", "Decayed Master Sword"]
+            },
+            "la_remake": {
+                title: "Link's Awakening (Remake)",
+                year: "2019",
+                releaseIndex: 4,
+                chronologyIndex: 12,
+                platform: "Nintendo Switch",
+                shortDesc: "A gorgeous, toy-like reimagining of Koholint Island's dreamscape.",
+                longDesc: "A complete visual and mechanical remake of the 1993 Game Boy classic. Link is shipwrecked on the mysterious, tropical Koholint Island, where the only way to escape is to wake the slumbering Wind Fish at the mountain top.",
+                coverImg: "https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Chamber Dungeons: Collect, arrange, and challenge customized dungeon layouts.",
+                    "Vibrant Art Style: A gorgeous, dioramas-inspired toy-like aesthetic with modern lighting.",
+                    "360-Degree Movement: Fully updated analog movement controls."
+                ],
+                items: ["Roc's Feather", "Power Bracelet", "Pegasus Boots"]
             },
             "botw": {
                 title: "Breath of the Wild",
                 year: "2017",
-                releaseIndex: 2,
-                chronologyIndex: 7,
+                releaseIndex: 5,
+                chronologyIndex: 20,
                 platform: "Nintendo Switch / Wii U",
                 shortDesc: "Climb anything. Go anywhere. Complete open-world freedom.",
-                longDesc: "Waking up after a century-long slumber, Link must explore a ruined, quiet Hyrule to defeat Calamity Ganon. It shattered every established convention of the Zelda formula.",
+                longDesc: "Waking up after a century-long slumber, Link must explore a ruined, quiet Hyrule to defeat Calamity Ganon. It shattered every established convention of the Zelda formula, introducing a massive chemistry engine and physical sandbox that leaves exploration to the complete discretion of the player.",
                 coverImg: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
                     "Climbing Engine: Scale any vertical surface from mountains to structures.",
                     "Physics Sandbox: Utilize magnetism, time-stasis, and kinetic force modules.",
                     "Non-linear Progression: Venture directly to the final confrontation at any time."
                 ],
-                items: [
-                    "Paraglider",
-                    "Sheikah Slate",
-                    "Master Sword"
-                ]
+                items: ["Paraglider", "Sheikah Slate", "Master Sword"]
+            },
+            "tfh": {
+                title: "Tri Force Heroes",
+                year: "2015",
+                releaseIndex: 6,
+                chronologyIndex: 14,
+                platform: "Nintendo 3DS",
+                shortDesc: "Three heroes unite in fashion-forward cooperative puzzle arenas.",
+                longDesc: "Set in the fashion-obsessed kingdom of Hytopia, three co-op players control three colored Links who must team up to conquer the Drablands and break a curse put on the beloved Princess Frill.",
+                coverImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Totem Mechanic: Stack three Links on top of each other to reach tall switches.",
+                    "Outfit Buffs: Craft and wear outfits that grant unique special abilities.",
+                    "Cooperative Emotes: Communicate using expressive touchscreen icons."
+                ],
+                items: ["Big Bomb", "Kokiri Clothes", "Water Rod"]
+            },
+            "albw": {
+                title: "A Link Between Worlds",
+                year: "2013",
+                releaseIndex: 7,
+                chronologyIndex: 13,
+                platform: "Nintendo 3DS",
+                shortDesc: "Return to the world of A Link to the Past with a painting-merging twist.",
+                longDesc: "A direct spiritual sequel to the SNES classic. Set in the same map generation of Hyrule, this game introduces a beautiful mechanic allowing Link to turn into a 2D drawing and merge flat onto walls to slide through cracks.",
+                coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Wall Merging: Merge flat onto walls as a drawing to slip into parallel cracks.",
+                    "Item Renting: Rent and upgrade dungeon items in any desired order from Ravio.",
+                    "Parallel Dimensions: Explore the contrasting worlds of Hyrule and Lorule."
+                ],
+                items: ["Ravio's Bracelet", "Tornado Rod", "Sand Rod"]
+            },
+            "ss": {
+                title: "Skyward Sword",
+                year: "2011",
+                releaseIndex: 8,
+                chronologyIndex: 1,
+                platform: "Wii / Nintendo Switch",
+                shortDesc: "The origin of the master sword, high above the clouds.",
+                longDesc: "Chronologically the first chapter in the complex timeline, Skyward Sword tells the story of Skyloft, a floating archipelago above a cloud barrier, and Link's descent to the mysterious surface below to establish the foundations of Hyrule and forge the Master Sword itself.",
+                coverImg: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Directional Combat: Precision physical angles determine enemy defenses.",
+                    "Sky Loft Travel: Fly atop an elegant giant bird called a Loftwing.",
+                    "Item Upgrades: Collect raw resources to systematically upgrade equipment."
+                ],
+                items: ["Goddess Sword", "Sailcloth", "Beetle Drone"]
+            },
+            "st": {
+                title: "Spirit Tracks",
+                year: "2009",
+                releaseIndex: 9,
+                chronologyIndex: 19,
+                platform: "Nintendo DS",
+                shortDesc: "All aboard! Conduct steam trains across New Hyrule.",
+                longDesc: "Set 100 years after Phantom Hourglass. Link is a train engineer who teams up with the spirit of Zelda, who has been separated from her physical body, to travel across New Hyrule to repair the sacred Spirit Tracks.",
+                coverImg: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Train Navigation: Plot safe courses and defend a physical train carriage.",
+                    "Zelda Companion: Control a lumbering Phantom armor shell containing Zelda's ghost.",
+                    "Spirit Flute: Play touchscreen pan pipes with physical mic blowing mechanics."
+                ],
+                items: ["Spirit Flute", "Whirlwind", "Whip"]
+            },
+            "ph": {
+                title: "Phantom Hourglass",
+                year: "2007",
+                releaseIndex: 10,
+                chronologyIndex: 18,
+                platform: "Nintendo DS",
+                shortDesc: "A touch-controlled high-seas journey continuing Wind Waker's story.",
+                longDesc: "A direct touch-screen sequel to Wind Waker. Link must explore the waters to rescue Tetra from a mysterious Ghost Ship, using the mystical Phantom Hourglass to safely traverse a massive, central cursed temple.",
+                coverImg: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Stylus Control: Draw paths for boomerang flights, ship navigation, and sword strikes.",
+                    "Hourglass Timer: Safely explore the life-draining Temple of the Ocean King.",
+                    "Sea Navigation: Custom build and upgrade your steamship, the S.S. Linebeck."
+                ],
+                items: ["Phantom Hourglass", "Grappling Hook", "Salvage Crane"]
             },
             "tp": {
                 title: "Twilight Princess",
                 year: "2006",
-                releaseIndex: 3,
-                chronologyIndex: 5,
+                releaseIndex: 11,
+                chronologyIndex: 15,
                 platform: "GameCube / Wii",
                 shortDesc: "Dark, gritty, and epic. The shadow invasion of the Twilight Realm.",
-                longDesc: "Hyrule is being slowly consumed by the shadowy Twilight Realm. Link must ally with the mischievous imp Midna and transform into a blue-eyed wolf to tear through the darkness.",
+                longDesc: "Hyrule is being slowly consumed by the shadowy Twilight Realm. Link must ally with the mischievous imp Midna and transform into a blue-eyed wolf to tear through the dark incursions, rescue the kingdom, and confront the usurper king Zant and Ganondorf.",
                 coverImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
                     "Wolf Transformation: Utilize animal instincts, track scents, and dig through terrain.",
                     "Mounted Cavalry Combat: Participate in high-speed sword matches atop Epona.",
                     "Hidden Sword Skills: Learn 7 devastating advanced techniques from the Hero's Shade."
                 ],
-                items: [
-                    "Double Clawshots - Traverse walls like a grapple-hook.",
-                    "Spinner - Ride along ancient rails and smash massive defense barriers.",
-                    "Ball and Chain - Decimate stone structures and heavy armor plating."
-                ]
+                items: ["Double Clawshots", "Spinner", "Ball and Chain"]
+            },
+            "tmc": {
+                title: "The Minish Cap",
+                year: "2004",
+                releaseIndex: 12,
+                chronologyIndex: 2,
+                platform: "Game Boy Advance",
+                shortDesc: "Shrink down to insect size with the aid of Ezlo, the talking hat.",
+                longDesc: "Link meets Ezlo, a magical hat that lets him shrink down to the microscopic size of the Minish—tiny sprites living in Hyrule. This dual-perspective adventure challenges you to navigate standard blades of grass as massive forest trees.",
+                coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Minish Shrinking: Swap between standard size and tiny bug scale.",
+                    "Kinstone Fusion: Merge stone halves with NPCs to trigger world events.",
+                    "Ezlo Guide: Use your talking bird cap to glide across wind drafts."
+                ],
+                items: ["Ezlo Cap", "Gust Jar", "Cane of Pacci"]
+            },
+            "fsa": {
+                title: "Four Swords Adventures",
+                year: "2004",
+                releaseIndex: 13,
+                chronologyIndex: 10,
+                platform: "GameCube",
+                shortDesc: "A cooperative retro campaign for up to four tactical players.",
+                longDesc: "Divided into stages rather than a continuous open world, this campaign utilizes the Game Boy Advance linked to the GameCube for multi-screen tactical cooperation.",
+                coverImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Formation System: Arrange Links in lines, boxes, or diamond structures.",
+                    "Multi-Screen Play: Transfer the action to your individual handheld GBA screens.",
+                    "Force Gem Gathering: Race to collect energy fragments to empower the Four Sword."
+                ],
+                items: ["Four Sword", "Fire Rod", "Roc's Feather"]
             },
             "ww": {
                 title: "The Wind Waker",
                 year: "2002",
-                releaseIndex: 4,
-                chronologyIndex: 6,
+                releaseIndex: 14,
+                chronologyIndex: 17,
                 platform: "Nintendo GameCube",
                 shortDesc: "Sail the Great Sea. A vibrant, beautiful cel-shaded masterpiece.",
-                longDesc: "Set centuries after Ocarina of Time, the physical land of Hyrule was flooded to seal away Ganondorf. Now, a young hero from Outset Island must sail the vast ocean, discovering new lands.",
+                longDesc: "Set centuries after Ocarina of Time, the physical land of Hyrule was flooded to seal away Ganondorf. Now, a young hero from Outset Island must sail the vast ocean, direct the flow of the wind with a conductor's baton, and find his lost sister in a brilliantly stylized seafaring journey.",
                 coverImg: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop", 
                 mechanics: [
                     "Sailing: Navigate a vast, seamless ocean aboard the sentient boat King of Red Lions.",
                     "Wind Conduction: Play melodies to command the physical direction of the wind.",
                     "Parry System: React to enemy combat indicators to vault and perform counters."
                 ],
-                items: [
-                    "Grappling Hook",
-                    "Deku Leaf",
-                    "Skull Hammer"
-                ]
+                items: ["Grappling Hook", "Deku Leaf", "Skull Hammer"]
+            },
+            "fs": {
+                title: "Four Swords",
+                year: "2002",
+                releaseIndex: 15,
+                chronologyIndex: 9,
+                platform: "Game Boy Advance",
+                shortDesc: "The franchise's first multiplayer cooperative dungeon crawler.",
+                longDesc: "Packaged alongside the GBA port of A Link to the Past, this multiplayer-only adventure splits the player into up to four colorful copies of Link to defeat Vaati.",
+                coverImg: "https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Cooperative Puzzles: Stand on synchronous switches and coordinate weights.",
+                    "Rupee Competitions: Outwork teammates to gather private treasure spoils.",
+                    "Procedural Layouts: Dungeon chambers scale depending on the active player count."
+                ],
+                items: ["Four Sword", "Pegasus Seeds", "Magnetic Glove"]
+            },
+            "ooa_oos": {
+                title: "Oracle of Ages / Seasons",
+                year: "2001",
+                releaseIndex: 16,
+                chronologyIndex: 11,
+                platform: "Game Boy Color",
+                shortDesc: "Two interlinked adventures utilizing time and seasonal manipulation.",
+                longDesc: "Developed in collaboration with Capcom, this dual-release lets players connect both games via a password link system to unlock the true canonical ending of the quest.",
+                coverImg: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Ages - Time Travel: Shift between past and present eras of Labrynna.",
+                    "Seasons - Weather: Switch between summer, winter, autumn, and spring.",
+                    "Linked Passwords: Port completed stats, items, and plots between cartridges."
+                ],
+                items: ["Harp of Ages", "Rod of Seasons", "Switch Hook"]
             },
             "mm": {
                 title: "Majora's Mask",
                 year: "2000",
-                releaseIndex: 5,
-                chronologyIndex: 4,
+                releaseIndex: 17,
+                chronologyIndex: 7,
                 platform: "Nintendo 64",
                 shortDesc: "72 Hours remain. The darkest, most atmospheric game in the franchise.",
-                longDesc: "Link is pulled into the surreal, parallel world of Termina, where a terrifying, grimacing moon is destined to crash-land in exactly three days. You must manage a ticking clock.",
+                longDesc: "Link is pulled into the surreal, parallel world of Termina, where a terrifying, grimacing moon is destined to crash-land in exactly three days. You must manage a ticking clock, continuously reset the timeline, and learn the personal daily schedules of Termina's citizens to rescue them.",
                 coverImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
                     "72-Hour Cycle: Complete objectives and rewind time before the moon impacts.",
                     "Mask Transformations: Don specialized masks to transform into Deku, Goron, or Zora.",
                     "Bomber's Notebook: Log detailed schedules and questlines of every NPC."
                 ],
-                items: [
-                    "Fierce Deity's Mask",
-                    "Gilded Sword",
-                    "Bunny Hood"
-                ]
+                items: ["Fierce Deity's Mask", "Gilded Sword", "Bunny Hood"]
             },
             "oot": {
                 title: "Ocarina of Time",
                 year: "1998",
-                releaseIndex: 6,
-                chronologyIndex: 3,
+                releaseIndex: 18,
+                chronologyIndex: 6,
                 platform: "Nintendo 64",
                 shortDesc: "The Hero of Time awakens. The transition to 3D adventure.",
-                longDesc: "A young forest boy is chosen by destiny to protect the Triforce. Traveling back and forth across a span of seven years, Link must stop the Gerudo thief Ganondorf.",
+                longDesc: "A young forest boy is chosen by destiny to protect the Triforce. Traveling back and forth across a span of seven years, Link must stop the Gerudo thief Ganondorf from conquering Hyrule, pioneering the Lock-on 'Z-targeting' mechanical system that set the foundation of modern 3D action gaming.",
                 coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop", 
                 mechanics: [
                     "Time Manipulation: Travel freely between the child and adult eras of Hyrule.",
                     "Ocarina Melodies: Perform 12 mystical songs to warp or summon aid.",
                     "Z-Targeting: Focus combat perspective onto individual enemies seamlessly."
                 ],
-                items: [
-                    "Hookshot",
-                    "Megaton Hammer",
-                    "Hover Boots"
-                ]
+                items: ["Hookshot", "Megaton Hammer", "Hover Boots"]
+            },
+            "la": {
+                title: "Link's Awakening",
+                year: "1993",
+                releaseIndex: 19,
+                chronologyIndex: 12,
+                platform: "Game Boy",
+                shortDesc: "The surreal dream island adventure that defined handheld gaming.",
+                longDesc: "Washed ashore on the strange Koholint Island, Link discovers there is no Zelda or Ganon in sight. He must gather eight instruments of the Sirens to awaken the sleeping Wind Fish.",
+                coverImg: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Instrument Gathering: Seek out eight magical instruments of the Sirens.",
+                    "Surreal Crossover: Interact with characters from Mario, Kirby, and SimCity.",
+                    "Jump Action: Introduces Roc's feather, allowing Link to jump over pits."
+                ],
+                items: ["Roc's Feather", "Yoshi Doll", "Wind Marimba"]
             },
             "alttp": {
                 title: "A Link to the Past",
                 year: "1991",
-                releaseIndex: 7,
-                chronologyIndex: 2,
+                releaseIndex: 20,
+                chronologyIndex: 8,
                 platform: "Super Nintendo",
                 shortDesc: "The 16-bit gold standard. Light and Dark worlds collide.",
-                longDesc: "Setting the template for structural progression throughout the franchise, A Link to the Past tasks the hero with traveling between the peaceful Light World and the corrupted Dark World.",
-                coverImg: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?q=80&w=800&auto=format&fit=crop",
+                longDesc: "Setting the template for structural progression throughout the franchise, A Link to the Past tasks the hero with traveling between the peaceful Light World and the corrupted, twisted Dark World to foil the wizard Agahnim and retrieve the legendary Master Sword.",
+                coverImg: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
-                    "Dual World System: Transition between Light and Dark realms to solve puzzles.",
-                    "Classic Dungeon Design: Solve intricate puzzles and master a unique item in each temple.",
-                    "Dynamic Sword/Shield Progression: Upgrade gear by discovering new artifacts."
+                    "Parallel Worlds: Traverse between light and dark dimensions to solve puzzles.",
+                    "Multi-tiered Dungeons: Complex, multi-floor maps designed for spatial navigation.",
+                    "Spin Attack: Introduces Link's classic sweeping charging sword technique."
                 ],
-                items: [
-                    "Master Sword",
-                    "Pegasus Boots",
-                    "Magic Mirror"
-                ]
+                items: ["Pegasus Boots", "Magic Cape", "Fire Rod"]
             },
-            "zelda1": {
+            "aol": {
+                title: "Zelda II: The Adventure of Link",
+                year: "1987",
+                releaseIndex: 21,
+                chronologyIndex: 16,
+                platform: "Nintendo Entertainment System",
+                shortDesc: "A challenging side-scrolling departure with RPG mechanics.",
+                longDesc: "A radical mechanics shift from the original game, Zelda II adopts a top-down world map with side-scrolling action platform combat and explicit experience point systems.",
+                coverImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Side-scrolling Combat: High and low defense options with sword pokes.",
+                    "XP & Levels: Earn experience points to directly level up Attack, Magic, and Life.",
+                    "Spells: Learn magical abilities like Shield, Jump, and Fairy form."
+                ],
+                items: ["Handy Glove", "Flute", "Magical Key"]
+            },
+            "loz": {
                 title: "The Legend of Zelda",
                 year: "1986",
-                releaseIndex: 8,
-                chronologyIndex: 1,
+                releaseIndex: 22,
+                chronologyIndex: 8,
                 platform: "Nintendo Entertainment System",
-                shortDesc: "It all began here. The game that changed everything.",
-                longDesc: "The game that launched a thousand sequels. A young boy emerges in a vast overworld filled with monsters, dungeons, and ancient secrets. Simple, yet infinitely replayable.",
-                coverImg: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=800&auto=format&fit=crop",
+                shortDesc: "The 8-bit classic that started it all. Explore a raw, open world.",
+                longDesc: "Dropped into a sprawling world with little guidance, players must navigate dangerous wilderness and deep underground dungeons to rebuild the fractured Triforce of Wisdom.",
+                coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
-                    "Overworld Exploration: Discover secrets and hidden dungeons scattered across a vast landscape.",
-                    "Dungeon Crawling: Master the art of puzzle-solving and enemy combat.",
-                    "Item Collection: Gather weapons and tools to progress."
+                    "Absolute Freedom: Attack dungeons in almost any order from the start.",
+                    "Second Quest: Unlock an entirely reshuffled campaign after finishing.",
+                    "Screen-by-screen Scrolling: Traverse an isometric 8-bit overworld grid."
                 ],
-                items: [
-                    "Wooden Sword",
-                    "Boomerang",
-                    "Blue Candle"
-                ]
+                items: ["Wooden Sword", "Blue Candle", "Boots"]
             }
         };
 
-        let currentSort = 'release';
-        let currentGameId = null;
+        // Current UI state tracking
+        let currentSortOrder = 'release';
 
-        // Random Fact Functions
-        function showRandomFact() {
-            const randomIndex = Math.floor(Math.random() * zeldaFacts.length);
-            const fact = zeldaFacts[randomIndex];
-            document.getElementById('fact-text').textContent = fact;
-            document.getElementById('fact-popup').classList.add('show');
-        }
+        // --- CORE VIEW SWITCHER ENGINE ---
+        function switchView(viewId) {
+            document.querySelectorAll('.view-section').forEach(section => {
+                section.classList.remove('active');
+            });
 
-        function closeRandomFact() {
-            document.getElementById('fact-popup').classList.remove('show');
-        }
-
-        // Timeline rendering
-        function renderTimeline() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const container = document.getElementById('timeline-container');
-            container.innerHTML = '';
-
-            let games = Object.keys(zeldaDatabase).map(key => ({
-                id: key,
-                ...zeldaDatabase[key]
-            }));
-
-            if (currentSort === 'chronology') {
-                games.sort((a, b) => a.chronologyIndex - b.chronologyIndex);
-            } else {
-                games.sort((a, b) => a.releaseIndex - b.releaseIndex);
+            const activeSection = document.getElementById(viewId);
+            if(activeSection) {
+                activeSection.classList.add('active');
             }
 
-            games.forEach(game => {
-                if (game.title.toLowerCase().includes(searchTerm) || 
-                    game.year.includes(searchTerm) ||
-                    game.shortDesc.toLowerCase().includes(searchTerm)) {
-                    
-                    const card = document.createElement('div');
-                    card.className = 'game-card';
-                    card.onclick = () => showDeepDive(game.id);
-                    
-                    card.innerHTML = `
-                        <div class="card-img-container">
-                            <img src="${game.coverImg}" alt="${game.title}">
-                            <div class="badge">${game.year}</div>
-                        </div>
-                        <h3>${game.title}</h3>
-                        <div class="metadata">${game.platform}</div>
-                        <p>${game.shortDesc}</p>
-                    `;
-                    
-                    container.appendChild(card);
-                }
+            document.querySelectorAll('.menu a').forEach(link => {
+                link.classList.remove('active');
             });
+            if(viewId === 'home-view') document.getElementById('nav-home').classList.add('active');
+            if(viewId === 'map-view') document.getElementById('nav-map').classList.add('active');
+            if(viewId === 'settings-view') document.getElementById('nav-settings').classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // --- THEME SWITCHER CONTROLS ---
+        function toggleThemeQuick() {
+            const body = document.body;
+            const toggleIcon = document.getElementById('quick-toggle-icon');
+            if (body.classList.contains('dark-theme')) {
+                setExplicitTheme('light');
+            } else {
+                setExplicitTheme('dark');
+            }
+        }
+
+        function setExplicitTheme(theme) {
+            const body = document.body;
+            const toggleIcon = document.getElementById('quick-toggle-icon');
+            const btnDark = document.getElementById('btn-theme-dark');
+            const btnLight = document.getElementById('btn-theme-light');
+
+            if (theme === 'light') {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                toggleIcon.innerText = '☀️';
+                if(btnLight) btnLight.classList.add('active');
+                if(btnDark) btnDark.classList.remove('active');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                toggleIcon.innerText = '🌙';
+                if(btnDark) btnDark.classList.add('active');
+                if(btnLight) btnLight.classList.remove('active');
+            }
+        }
+
+        // --- SORT & SEARCH CONTROLLER ---
         function setSortOrder(order) {
-            currentSort = order;
-            document.getElementById('btn-release').classList.toggle('active', order === 'release');
-            document.getElementById('btn-chronology').classList.toggle('active', order === 'chronology');
+            currentSortOrder = order;
+            document.getElementById('btn-release').classList.remove('active');
+            document.getElementById('btn-chronology').classList.remove('active');
+            
+            if (order === 'release') {
+                document.getElementById('btn-release').classList.add('active');
+            } else {
+                document.getElementById('btn-chronology').classList.add('active');
+            }
             renderTimeline();
         }
 
-        function showDeepDive(gameId) {
-            currentGameId = gameId;
-            const game = zeldaDatabase[gameId];
+        function renderTimeline() {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = '';
+
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            let gameList = Object.entries(zeldaDatabase).map(([key, data]) => ({ key, ...data }));
+
+            if (searchQuery) {
+                gameList = gameList.filter(game => 
+                    game.title.toLowerCase().includes(searchQuery) || 
+                    game.shortDesc.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            if (currentSortOrder === 'release') {
+                gameList.sort((a, b) => a.releaseIndex - b.releaseIndex);
+            } else {
+                gameList.sort((a, b) => a.chronologyIndex - b.chronologyIndex);
+            }
+
+            gameList.forEach(game => {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.onclick = (e) => {
+                    spawnLeaves(e);
+                    loadDeepDive(game.key);
+                };
+                
+                card.innerHTML = `
+                    <div class="card-img-container">
+                        <img src="${game.coverImg}" alt="${game.title}" loading="lazy">
+                        <span class="badge">Era ${game.chronologyIndex}</span>
+                    </div>
+                    <div class="metadata">${game.platform}</div>
+                    <h3>${game.title} <span style="font-size: 0.85rem; color: var(--gold); font-weight: normal;">(${game.year})</span></h3>
+                    <p>${game.shortDesc}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- DEEP DIVE SYSTEM ---
+        function loadDeepDive(gameKey) {
+            const game = zeldaDatabase[gameKey];
+            if(!game) return;
             
-            const content = document.getElementById('deep-dive-content');
-            content.innerHTML = `
+            switchView('deep-dive');
+            const diveContent = document.getElementById('deep-dive-content');
+            
+            let mechanicsList = game.mechanics.map(m => `<li>${m}</li>`).join('');
+            let itemsList = game.items.map(i => `<li>${i}</li>`).join('');
+
+            diveContent.innerHTML = `
                 <div class="dive-header">
                     <img src="${game.coverImg}" alt="${game.title}">
                     <div class="dive-info">
                         <h2>${game.title}</h2>
-                        <p><strong>Released:</strong> ${game.year} on ${game.platform}</p>
+                        <h4 style="color: var(--kokiri-green); margin-bottom: 20px; font-size: 1.1rem; letter-spacing: 1px;">
+                            ${game.platform} | Launched ${game.year}
+                        </h4>
                         <p>${game.longDesc}</p>
                     </div>
                 </div>
                 
                 <div class="dive-grid">
                     <div class="dive-section">
-                        <h3>Signature Mechanics</h3>
-                        <ul>
-                            ${game.mechanics.map(m => `<li>${m}</li>`).join('')}
-                        </ul>
+                        <h3>Core Mechanics & Design</h3>
+                        <ul>${mechanicsList}</ul>
                     </div>
                     <div class="dive-section">
-                        <h3>Key Items</h3>
-                        <ul>
-                            ${game.items.map(i => `<li>${i}</li>`).join('')}
-                        </ul>
+                        <h3>Notable Items & Artifacts</h3>
+                        <ul>${itemsList}</ul>
                     </div>
                 </div>
             `;
-            
-            switchView('deep-dive');
         }
 
-        function switchView(viewId) {
-            document.querySelectorAll('.view-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(viewId).classList.add('active');
-            
-            document.querySelectorAll('.menu a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            const navMap = {
-                'home-view': 'nav-home',
-                'map-view': 'nav-map',
-                'archivist-view': 'nav-bio',
-                'settings-view': 'nav-settings'
-            };
-            
-            if (navMap[viewId]) {
-                document.getElementById(navMap[viewId]).classList.add('active');
-            }
-        }
-
-        // Settings functions
-        function toggleGlow() {
-            const isChecked = document.getElementById('glow-toggle').checked;
-            document.body.classList.toggle('glow-disabled', !isChecked);
-            document.getElementById('glow-status').textContent = isChecked ? 'Enabled' : 'Disabled';
-        }
-
-        function setFontScheme(scheme) {
-            document.body.className = 'font-' + scheme;
-            
-            document.querySelectorAll('.font-button-group .filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById('btn-font-' + scheme).classList.add('active');
-        }
-
-        // Map functions
-        const mapDetails = {
-            'hyrule-castle': {
-                title: 'Hyrule Castle',
-                desc: 'The royal stronghold of Hyrule. Home to the royal family and seat of the kingdom\'s power.'
+        // --- INTERACTIVE MAP SYSTEM ---
+        const mapData = {
+            "hyrule-castle": {
+                title: "Hyrule Castle",
+                desc: "The regal epicenter of the kingdom, containing ancestral vaults, library corridors, and sanctuary spires. It serves as both the home of Princess Zelda and a frequent tactical stronghold for Ganon's forces."
             },
-            'temple-of-time': {
-                title: 'Temple of Time',
-                desc: 'An ancient shrine dedicated to the flow of time itself. Contains the Master Sword.'
+            "temple-of-time": {
+                title: "Temple of Time",
+                desc: "An ancient shrine constructed to guard the entrance to the Sacred Realm. Beneath its high-vaulted stone arches rest the Master Sword pedestal and the door sealed by the three Spiritual Stones."
             },
-            'death-mountain': {
-                title: 'Death Mountain',
-                desc: 'A volcanic region home to Gorons and various fire-based creatures and temples.'
+            "death-mountain": {
+                title: "Death Mountain",
+                desc: "An active volcano populated by the rock-dwelling Goron tribes. Its cavernous depths hide the fiery temples of old and volatile tectonic currents key to Hyrule's geology."
             },
-            'gerudo-desert': {
-                title: 'Gerudo Desert',
-                desc: 'A vast, unforgiving desert inhabited by the Gerudo tribe and their fortresses.'
+            "gerudo-desert": {
+                title: "Gerudo Desert",
+                desc: "An arid, wind-swept territory of relentless heat and frozen nights. Home to the nomadic Gerudo, it is home to ancient tombs, ruins, and the hidden Arbiter's Grounds."
             },
-            'zoras-domain': {
-                title: 'Zora\'s Domain',
-                desc: 'A frozen or watery region home to the Zora race and their aquatic civilization.'
+            "zoras-domain": {
+                title: "Zora's Domain",
+                desc: "An elegant aquatic sanctuary carved directly into the mountain watersheds. It supplies clean, flowing water to Lake Hylia and acts as the kingdom's primary water filtration network."
             }
         };
 
-        function showMapDetail(id) {
-            const detail = mapDetails[id];
-            document.getElementById('map-info-title').textContent = detail.title;
-            document.getElementById('map-info-desc').textContent = detail.desc;
-            document.getElementById('map-info-card').style.display = 'block';
+        function showMapDetail(locationKey) {
+            const data = mapData[locationKey];
+            if(!data) return;
+
+            const card = document.getElementById('map-info-card');
+            document.getElementById('map-info-title').innerText = data.title;
+            document.getElementById('map-info-desc').innerText = data.desc;
+            
+            card.style.display = 'block';
         }
 
         function closeMapDetail() {
             document.getElementById('map-info-card').style.display = 'none';
         }
 
-        // Initialize
+        // --- SETTINGS PANEL LOGIC ---
+        function toggleGlow() {
+            const isEnabled = document.getElementById('glow-toggle').checked;
+            const statusText = document.getElementById('glow-status');
+            
+            if (isEnabled) {
+                document.body.classList.remove('glow-disabled');
+                statusText.innerText = 'Enabled';
+                statusText.style.color = 'var(--kokiri-green)';
+            } else {
+                document.body.classList.add('glow-disabled');
+                statusText.innerText = 'Disabled';
+                statusText.style.color = 'var(--text-muted)';
+            }
+        }
+
+        function setFontScheme(scheme) {
+            document.getElementById('btn-font-serif').classList.remove('active');
+            document.getElementById('btn-font-sans').classList.remove('active');
+
+            if (scheme === 'sans') {
+                document.body.classList.add('font-sans');
+                document.getElementById('btn-font-sans').classList.add('active');
+            } else {
+                document.body.classList.remove('font-sans');
+                document.getElementById('btn-font-serif').classList.add('active');
+            }
+        }
+
+        // --- KOKIRI LEAF SPARK / EXPLOSION MECHANIC ---
+        function spawnLeaves(e) {
+            const numLeaves = 12;
+            const colors = ['#4E9F3D', '#3e8e41', '#2e7d32', '#aed581', '#dfb235'];
+            
+            for (let i = 0; i < numLeaves; i++) {
+                const leaf = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                leaf.setAttribute("class", "leaf-particle");
+                leaf.setAttribute("viewBox", "0 0 24 24");
+                
+                // Randomize leaf path shape slightly
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", "M17,8C8,10 5.9,16.17 3.82,21.34L2.18,19.66C7.3,16.2 13,11 15,6C13,6 10.5,6.5 8,8.5C5.5,10.5 4,13 4,13C4,13 5.5,9.5 8,7.5C10.5,5.5 13.5,5 16,5C17.5,5 19,5.5 20,6.5C21.42,7.92 21,11 17,8Z");
+                
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                path.setAttribute("fill", color);
+                leaf.appendChild(path);
+
+                // Set initial click coordinate origin
+                leaf.style.left = `${e.clientX}px`;
+                leaf.style.top = `${e.clientY}px`;
+
+                // Calculate custom expansion physics
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 60 + Math.random() * 120;
+                const destX = Math.cos(angle) * distance;
+                const destY = Math.sin(angle) * distance + 100; // gravity pull
+                const rotate = `${Math.random() * 360 + 180}deg`;
+
+                leaf.style.setProperty('--leaf-x', `${destX}px`);
+                leaf.style.setProperty('--leaf-y', `${destY}px`);
+                leaf.style.setProperty('--leaf-rotate', rotate);
+
+                document.body.appendChild(leaf);
+
+                // Clean up leaf DOM node after animation finishes
+                setTimeout(() => {
+                    leaf.remove();
+                }, 2200);
+            }
+        }
+
+        // Attach dynamic leaf burst to general click states across interactive surfaces
+        document.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.closest('a') || e.target.classList.contains('map-pin')) {
+                spawnLeaves(e);
+            }
+        });
+
+        // Initialize website
         renderTimeline();
     </script>
 </body>
