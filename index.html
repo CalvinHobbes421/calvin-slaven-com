@@ -2,428 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Unemployment Simulator - Prototype v0.1</title>
+    <title>Calvin's Retro Hub</title>
     <style>
-        :root { --main-cyan: #00ffff; --main-magenta: #ff00ff; --bg-black: #050505; --text-white: #e0e0e0; }
-        body { margin: 0; overflow: hidden; background-color: var(--bg-black); font-family: 'Courier New', Courier, monospace; color: var(--text-white); }
+        body { 
+            background-color: #080808; 
+            color: #fff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            height: 100vh;
+            background-image: radial-gradient(circle at 50% 0%, #1a1a2e 0%, #080808 60%);
+        }
         
-        /* The main UI HUD overlay */
-        #hud { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box; }
-        .stat-box { display: flex; gap: 15px; font-size: 22px; font-weight: bold; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
-        .stat span { border-bottom: 2px solid; }
-        .cash-stat span { color: limegreen; border-color: limegreen; }
-        .char-stat span { color: var(--main-cyan); border-color: var(--main-cyan); }
-        .hunger-stat span { color: gold; border-color: gold; }
+        #header { 
+            width: 100%; 
+            padding: 30px 20px; 
+            text-align: center; 
+            border-bottom: 1px solid #d4af37; 
+            box-shadow: 0 4px 25px rgba(212, 175, 55, 0.1); 
+            background: rgba(10, 10, 10, 0.8);
+        }
         
-        #time-display { font-size: 26px; color: var(--main-magenta); font-weight: bold; text-align: right; }
+        h1 { 
+            margin: 0; 
+            font-size: 2.8em; 
+            text-transform: uppercase; 
+            letter-spacing: 6px; 
+            color: #d4af37; /* Zelda Gold */
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.4); 
+        }
         
-        /* Interaction Prompt (e.g., Press E to enter) */
-        #interaction-prompt { position: absolute; bottom: 10%; width: 100%; text-align: center; color: var(--main-cyan); font-size: 24px; font-weight: bold; text-shadow: 0 0 15px var(--main-cyan); visibility: hidden; }
-
-        /* The Options Menu (Resolution, Save, etc) */
-        #options-btn { position: absolute; top: 20px; right: 20px; color: #555; background: none; border: 2px solid #555; cursor: pointer; font-family: inherit; font-size: 16px; padding: 5px 10px; z-index: 10; pointer-events: auto; }
-        #options-btn:hover { color: var(--text-white); border-color: var(--text-white); }
+        .subtitle { 
+            color: #888; 
+            font-size: 1.2em; 
+            margin-top: 10px; 
+            letter-spacing: 2px;
+        }
         
-        #options-menu { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; max-width: 90%; background: rgba(10,10,10,0.95); border: 4px solid var(--main-magenta); padding: 30px; box-sizing: border-box; display: none; z-index: 20; text-align: center; pointer-events: auto; }
-        #options-menu h2 { color: var(--main-cyan); text-transform: uppercase; margin-top: 0; }
-        .menu-row { margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
-        .menu-row label { color: #888; font-size: 14px; text-transform: uppercase; }
-        .btn-group { display: flex; gap: 10px; justify-content: center; }
+        #game-wrapper { 
+            width: 85%; 
+            max-width: 1400px; 
+            height: 75vh; 
+            margin-top: 40px; 
+            border: 1px solid #333; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 15px 50px rgba(0,0,0,0.9); 
+            background: #000; 
+        }
         
-        .menu-btn { background: none; border: 2px solid var(--main-cyan); color: var(--main-cyan); padding: 10px 20px; cursor: pointer; font-family: inherit; font-size: 16px; text-transform: uppercase; }
-        .menu-btn:hover { background: var(--main-cyan); color: #000; }
-        .menu-btn.active { background: var(--main-magenta); color: #000; border-color: var(--main-magenta); }
+        .instructions { 
+            margin-top: 25px;
+            max-width: 700px; 
+            text-align: center; 
+            color: #666; 
+            line-height: 1.6; 
+            font-size: 1.1em;
+        }
         
-        #close-menu { margin-top: 30px; color: #555; border-color: #555; }
-        #save-status { margin-top: 10px; font-size: 12px; color: gold; display: none;}
+        .highlight { color: #d4af37; font-weight: bold; }
     </style>
 </head>
 <body>
+    <div id="header">
+        <h1>Hyrule Web Terminal</h1>
+        <div class="subtitle">Direct-to-Browser Hardware Emulation</div>
+    </div>
     
-    <div id="hud">
-        <div class="top-row" style="display: flex; justify-content: space-between;">
-            <div class="stat-box">
-                <div class="stat cash-stat">CASH: $<span id="cash-value">12.50</span></div>
-                <div class="stat char-stat">CHARISMA: <span id="char-value">1</span></div>
-                <div class="stat hunger-stat">HUNGER: <span id="hunger-value">100%</span></div>
-            </div>
-            <div id="time-display">Day <span id="day-value">1</span> - <span id="clock-value">09:00</span></div>
+    <div id="game-wrapper">
+        <div style="width:100%;height:100%;max-width:100%">
+            <div id="game"></div>
         </div>
-        <div id="interaction-prompt">PRESS 'E' TO INTERACT</div>
     </div>
 
-    <button id="options-btn" onclick="toggleMenu()">OPTIONS / SAVE</button>
-    
-    <div id="options-menu">
-        <h2>System Settings</h2>
-        
-        <div class="menu-row">
-            <label>Render Quality (Internal Scale)</label>
-            <div class="btn-group">
-                <button class="menu-btn active" onclick="setResolution(1)">Full (Ultrawide)</button>
-                <button class="menu-btn" onclick="setResolution(0.5)">Half (Save FPS)</button>
-                <button class="menu-btn" onclick="setResolution(0.25)">Low (Retro)</button>
-            </div>
-        </div>
-        
-        <div class="menu-row">
-            <label>Data Management</label>
-            <button class="menu-btn" style="border-color: gold; color: gold;" onclick="saveGame()">SAVE PROGRESS</button>
-            <span id="save-status">GAME SAVED SUCCESSFULLY</span>
-        </div>
-        
-        <button id="close-menu" class="menu-btn" onclick="toggleMenu()">BACK TO GAME</button>
+    <div class="instructions">
+        <p>System is ready. Click the folder icon in the center of the screen to load a local ROM file from your PC.</p>
+        <p>Currently configured for N64 (<span class="highlight">.z64, .n64</span>). Full gamepad support is automatically enabled.</p>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
     <script>
-        /**********************************************
-         * I. SYSTEM & STATS STATE
-         **********************************************/
-        const config = {
-            resScale: 1,
-            moveSpeed: 0.25,
-            jumpForce: 0.15,
-            interactionRange: 3.5,
-            timeScale: 60 // 1 real second = 60 in-game seconds (1 min per sec)
-        };
-
-        let playerState = {
-            cash: 12.50,
-            charisma: 1,
-            hunger: 100, // 100 is full, 0 is starving
-            xp: 0,
-            currentDay: 1,
-            timeInSeconds: 32400 // Starting time: 09:00 AM (9 * 3600)
-        };
-
-        let activeInteraction = null; // Stores building callback data if near an entrance
-        const CLOCK_EL = document.getElementById('clock-value');
-        const DAY_EL = document.getElementById('day-value');
-        const MENU_EL = document.getElementById('options-menu');
-        const SAVE_STATUS_EL = document.getElementById('save-status');
-        
-        const keyMap = { W: false, A: false, S: false, D: false, Space: false, KeyE: false };
-
-        /**********************************************
-         * II. THREE.JS INITIALIZATION
-         **********************************************/
-        const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x050505, 0.015);
-
-        const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const cameraOffset = new THREE.Vector3(0, 7, 10); // Third person position behind player
-
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setPixelRatio(window.devicePixelRatio); // Lock to native screen DPI for maximum sharp OLED visuals
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-
-        // Advanced lighting setup (Skybox color + sun)
-        const lightA = new THREE.HemisphereLight( 0x440044, 0x050505, 1 ); // Purple vaporwave sky, dark ground
-        scene.add( lightA );
-        const lightD = new THREE.DirectionalLight(0x00ffff, 0.8);
-        lightD.position.set(5, 10, 5);
-        scene.add(lightD);
-
-        /**********************************************
-         * III. GAME PHYSICS & OBJECT DEFINITIONS
-         **********************************************/
-        const collidableObjects = []; // Used for physics blocking
-        const interactionObjects = []; // Used for 'Press E' detection
-
-        // Define Building Database
-        const buildingsData = [
-            { id: 'apartment', name: "My Dump Apartment", position: {x: -30, z: -30}, size: {w: 10, h: 20, d: 10}, color: 0xff00ff },
-            { id: 'job_center', name: "Desperate Job Bureau", position: {x: 30, z: -20}, size: {w: 15, h: 25, d: 15}, color: 0x00ffff },
-            { id: 'bodega', name: "Late Night Bodega (Open 24/7)", position: {x: 0, z: -40}, size: {w: 8, h: 8, d: 12}, color: 0xffff00 },
-            { id: 'casino', name: "Neon Dreams Casino", position: {x: 35, z: 30}, size: {w: 20, h: 30, d: 20}, color: 0xff4400 },
-        ];
-
-        // 1. World Generator
-        function createWorld() {
-            // Neon Grid Floor
-            const gridHelper = new THREE.GridHelper(200, 100, 0xff00ff, 0x330033);
-            scene.add(gridHelper);
-
-            // Generate Buildings
-            buildingsData.forEach(b => {
-                const geo = new THREE.BoxGeometry(b.size.w, b.size.h, b.size.d);
-                const mat = new THREE.MeshStandardMaterial({
-                    color: b.color,
-                    emissive: b.color,
-                    emissiveIntensity: 0.3,
-                    wireframe: true // Vaporwave style
-                });
-                const mesh = new THREE.Mesh(geo, mat);
-                mesh.position.set(b.position.x, b.size.h / 2, b.position.z);
-                scene.add(mesh);
-                collidableObjects.push(mesh); // Add to physics collision list
-
-                // Add Entrance (Interaction Point)
-                const pointGeo = new THREE.SphereGeometry(0.5, 8, 8);
-                const pointMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 });
-                const point = new THREE.Mesh(pointGeo, pointMat);
-                // Position door relative to building (hardcoded for prototype map)
-                let offsetZ = b.size.d / 2 + 0.5;
-                point.position.set(b.position.x, 1, b.position.z + offsetZ);
-                point.userData = { type: 'building', buildingId: b.id }; // Store logic data
-                scene.add(point);
-                interactionObjects.push(point); // Add to E detection list
-            });
-        }
-        createWorld();
-
-        // 2. Character Generator (Stick Dude on Skateboard prototype)
-        function createPlayer() {
-            const playerGroup = new THREE.Group();
-            
-            // The Skateboard (base)
-            const skateMat = new THREE.MeshStandardMaterial({ color: 0x333333 });
-            const deckGeo = new THREE.BoxGeometry(2.5, 0.2, 1);
-            const deck = new THREE.Mesh(deckGeo, skateMat);
-            deck.position.y = 0.2;
-            playerGroup.add(deck);
-
-            // Stick Figure Body (Blocks for prototype)
-            const bodyMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.5 });
-            const torsoGeo = new THREE.BoxGeometry(0.8, 2.5, 0.4);
-            const torso = new THREE.Mesh(torsoGeo, bodyMat);
-            torso.position.y = 1.6;
-            playerGroup.add(torso);
-            
-            const headGeo = new THREE.SphereGeometry(0.6, 12, 12);
-            const head = new THREE.Mesh(headGeo, bodyMat);
-            head.position.y = 3.2;
-            playerGroup.add(head);
-
-            playerGroup.position.set(0, 0, 0); // Start position
-            scene.add(playerGroup);
-            return {
-                model: playerGroup,
-                velocity: new THREE.Vector3(),
-                onGround: true,
-                targetRotation: 0
-            };
-        }
-        const player = createPlayer();
-
-        /**********************************************
-         * IV. SYSTEMS & LOGIC (Stats, Save, Time)
-         **********************************************/
-        
-        // 1. Clock Logic
-        function updateClock(dt) {
-            playerState.timeInSeconds += dt * config.timeScale;
-
-            // Handle day advancement
-            if (playerState.timeInSeconds >= 86400) { // Seconds in a day (24 * 3600)
-                playerState.timeInSeconds = 0;
-                playerState.currentDay++;
-                DAY_EL.innerText = playerState.currentDay;
-            }
-
-            // Passive Hunger Loss
-            if (!MENU_EL.style.display || MENU_EL.style.display === 'none') {
-                playerState.hunger -= (dt / 10); // Lose 0.1% hunger per second real time
-                if (playerState.hunger < 0) playerState.hunger = 0;
-                // update UI hud values
-                document.getElementById('hunger-value').innerText = Math.round(playerState.hunger) + '%';
-            }
-
-            // Convert total seconds to HH:MM display
-            const h = Math.floor(playerState.timeInSeconds / 3600);
-            const m = Math.floor((playerState.timeInSeconds % 3600) / 60);
-            const formatted = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-            CLOCK_EL.innerText = formatted;
-        }
-
-        // 2. Interaction Logic Database
-        function handleBuildingInteraction(bId) {
-            console.log("Entering logic for: " + bId);
-            const hudText = document.getElementById('interaction-prompt');
-
-            switch(bId) {
-                case 'apartment':
-                    // Pass 8 hours (sleep)
-                    alert("You slept on your terrible mattress for 8 hours. Time passed.");
-                    playerState.timeInSeconds += (8 * 3600);
-                    playerState.hunger += 20; // Some rest helps hunger slightly? (prototyping logic)
-                    if(playerState.hunger > 100) playerState.hunger = 100;
-                    break;
-                case 'job_center':
-                    // Attempt 'Level 1' job (begging outside bureau)
-                    if(playerState.charisma >= 2) {
-                        alert("Your Charisma is high enough! You applied for 'Fry Cook' - wait 2 days for response.");
-                        playerState.timeInSeconds += (1 * 3600); // Wait in line
-                    } else {
-                        alert("The clerk ignored you. Charisma too low. 'Go gain some life experience, kid.'");
-                    }
-                    break;
-                case 'bodega':
-                    alert("Bought a microwave burrito. It smells bad but fills you up. (-$3.50)");
-                    playerState.cash -= 3.50;
-                    playerState.hunger = 100; // instant full
-                    break;
-                case 'casino':
-                    alert("YOLO. Bet your last $5... you lost.");
-                    playerState.cash -= 5.00;
-                    break;
-            }
-
-            // Refesh all hud elements
-            document.getElementById('cash-value').innerText = playerState.cash.toFixed(2);
-            document.getElementById('char-value').innerText = playerState.charisma;
-            document.getElementById('hunger-value').innerText = Math.round(playerState.hunger) + '%';
-            
-            // Hide prompt after action
-            hudText.style.visibility = 'hidden';
-            activeInteraction = null;
-        }
-
-        /**********************************************
-         * V. USER INTERFACE FUNCTIONS (Menu, Save)
-         **********************************************/
-        function toggleMenu() {
-            if (!MENU_EL.style.display || MENU_EL.style.display === 'none') {
-                MENU_EL.style.display = 'block';
-                // Stop player inputs? Optional.
-            } else {
-                MENU_EL.style.display = 'none';
-                SAVE_STATUS_EL.style.display = 'none'; // Hide saved text if open
-            }
-        }
-
-        // requested Resolution Setting
-        function setResolution(scale) {
-            config.resScale = scale;
-            renderer.setSize(window.innerWidth * scale, window.innerHeight * scale, false);
-            // Update button styles in menu
-            const btns = document.querySelectorAll('.menu-row .menu-btn');
-            btns.forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active'); // highlight current selection
-        }
-
-        // Save Function to Local Browser Storage
-        function saveGame() {
-            try {
-                // Serialze player state and config to JSON string
-                const saveData = JSON.stringify({
-                    player: playerState,
-                    config: {resScale: config.resScale}
-                });
-                localStorage.setItem('UnemploymentSim_v01', saveData);
-                SAVE_STATUS_EL.style.display = 'block'; // Show success text
-            } catch (e) {
-                alert("Could not save. Is browser storage full?");
-            }
-        }
-        
-        // Auto-load on boot
-        function loadGame() {
-            const saved = localStorage.getItem('UnemploymentSim_v01');
-            if(saved) {
-                const data = JSON.parse(saved);
-                playerState = data.player; // Reload stats
-                console.log("Game loaded.");
-                // Update resolution from save
-                setResolution(data.config.resScale || 1);
-            }
-        }
-        loadGame(); // Run load function immediately
-
-        /**********************************************
-         * VI. CONTROLS, PHYSICS, AND LOOP
-         **********************************************/
-        window.addEventListener('keydown', (e) => keyMap[e.code] = true );
-        window.addEventListener('keyup', (e) => {
-            keyMap[e.code] = false;
-            if(e.code === 'KeyE') {
-                if(activeInteraction) handleBuildingInteraction(activeInteraction.buildingId);
-            }
-        });
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth * config.resScale, window.innerHeight * config.resScale, false);
-        });
-
-        // Use Raycasting for interaction point detection (Press E check)
-        const raycaster = new THREE.Raycaster();
-        const mouseCenter = new THREE.Vector2(0, 0); // Always center screen
-
-        const hudPrompt = document.getElementById('interaction-prompt');
-        const clock = new THREE.Clock();
-
-        function animate() {
-            const dt = clock.getDelta(); // time between frames
-            requestAnimationFrame(animate);
-
-            // 1. Time System
-            updateClock(dt);
-
-            // 2. Player Input/Physics
-            const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(player.model.quaternion);
-            const side = new THREE.Vector3(1, 0, 0).applyQuaternion(player.model.quaternion);
-            let moveVector = new THREE.Vector3();
-
-            if (keyMap.KeyW) moveVector.add(forward);
-            if (keyMap.KeyS) moveVector.sub(forward);
-            if (keyMap.KeyA) moveVector.sub(side);
-            if (keyMap.KeyD) moveVector.add(side);
-
-            // Smooth Skateboard turning
-            if(keyMap.KeyA) player.targetRotation += dt * 3;
-            if(keyMap.KeyD) player.targetRotation -= dt * 3;
-            player.model.rotation.y = THREE.MathUtils.lerp(player.model.rotation.y, player.targetRotation, 0.1);
-
-            // Simple Collision Detection
-            let newX = player.model.position.x + moveVector.x * config.moveSpeed;
-            let newZ = player.model.position.z + moveVector.z * config.moveSpeed;
-            
-            let collision = false;
-            // Iterate over all collidable boxes
-            for (let obj of collidableObjects) {
-                if(!obj.geometry.boundingBox) obj.geometry.computeBoundingBox();
-                const box = obj.geometry.boundingBox.clone().applyMatrix4(obj.matrixWorld);
-                // Expand player hitbox slightly
-                const pBox = new THREE.Box3(new THREE.Vector3(newX - 1, 0, newZ-1), new THREE.Vector3(newX + 1, 4, newZ+1));
-                
-                if (pBox.intersectsBox(box)) { collision = true; break; }
-            }
-
-            if (!collision) {
-                player.model.position.x = newX;
-                player.model.position.z = newZ;
-            }
-
-            // 3. Camera Follow (smooth interp)
-            const targetCamPos = player.model.position.clone().add(cameraOffset.clone().applyQuaternion(player.model.quaternion));
-            camera.position.lerp(targetCamPos, 0.1);
-            camera.lookAt(player.model.position.clone().add(new THREE.Vector3(0, 3, 0))); // Look slightly above character base
-
-            // 4. Interaction Point System (Detect nearby building entrances)
-            activeInteraction = null;
-            hudPrompt.style.visibility = 'hidden';
-
-            // Find closest interaction sphere
-            let closestDist = Infinity;
-            for(let p of interactionObjects) {
-                let dist = player.model.position.distanceTo(p.position);
-                if(dist < config.interactionRange && dist < closestDist) {
-                    closestDist = dist;
-                    activeInteraction = p.userData; // set callback data
-                    hudPrompt.style.visibility = 'visible'; // Show 'Press E'
-                }
-            }
-
-            renderer.render(scene, camera);
-        }
-
-        // Start engine
-        animate();
-
+        EJS_player = '#game';
+        EJS_biosUrl = ''; 
+        EJS_gameUrl = ''; // Left blank intentionally so you can upload your own local files
+        EJS_core = 'n64'; // Booting the N64 core
+        EJS_pathtodata = 'https://raw.githack.com/EmulatorJS/EmulatorJS/main/data/';
     </script>
+    <script src="https://raw.githack.com/EmulatorJS/EmulatorJS/main/data/loader.js"></script>
 </body>
 </html>
