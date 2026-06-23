@@ -15,32 +15,24 @@
         }
 
         /* ==========================================================================
-           1. USER THEME CONFIGURATION (SET YOUR BACKGROUNDS HERE)
+           1. USER THEME CONFIGURATION (SET YOUR BACKGROUNDS & COLORS HERE)
            ========================================================================== */
         :root {
-            /* 
-              DARK MODE BACKGROUND (Ganon Themed) 
-              Replace the URL below with your custom Ganon artwork
-            */
-            --bg-image-dark: url('https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=2000&auto=format&fit=crop');
-            --bg-color-dark: #050e08;
-            --bubble-bg-dark: rgba(12, 28, 17, 0.85);
+            /* DARK MODE (Calamity Ganon Theme) */
+            --bg-color-dark: #041408;
+            --bubble-bg-dark: rgba(10, 22, 13, 0.88);
             --text-main-dark: #e6f4ea;
             --text-muted-dark: #8cb89a;
-            --card-border-dark: rgba(78, 159, 61, 0.2);
+            --card-border-dark: rgba(78, 159, 61, 0.3);
 
-            /* 
-              LIGHT MODE BACKGROUND (Link & Zelda Looking Away)
-              Replace the URL below with your custom Link/Zelda artwork
-            */
-            --bg-image-light: url('https://images.unsplash.com/photo-1500627869374-13cd993b1115?q=80&w=2000&auto=format&fit=crop');
-            --bg-color-light: #f5faf6;
-            --bubble-bg-light: rgba(255, 255, 255, 0.9);
-            --text-main-light: #16301d;
-            --text-muted-light: #4e6b55;
-            --card-border-light: rgba(78, 159, 61, 0.15);
+            /* LIGHT MODE (Sacred Canopy Theme) - Text changed to Zelda Gold */
+            --bg-color-light: #071b0e; /* Royal dark green to make the gold text pop beautifully */
+            --bubble-bg-light: rgba(14, 34, 21, 0.92);
+            --text-main-light: #dfb235; /* Standard Zelda Gold */
+            --text-muted-light: #c09e30; /* Subdued Gold */
+            --card-border-light: rgba(223, 178, 53, 0.3);
 
-            /* KOKIRI FORESTY GREEN SCHEME */
+            /* KOKIRI FOREST GREEN SCHEME */
             --kokiri-green: #4E9F3D;
             --kokiri-dark: #1E5128;
             --kokiri-glow: rgba(78, 159, 61, 0.45);
@@ -54,28 +46,42 @@
            ========================================================================== */
         body.dark-theme {
             --bg-current: var(--bg-color-dark);
-            --bg-image-current: var(--bg-image-dark);
             --bubble-bg: var(--bubble-bg-dark);
             --text-main: var(--text-main-dark);
             --text-muted: var(--text-muted-dark);
             --card-border: var(--card-border-dark);
+            animation: colorShift 25s ease infinite;
             color-scheme: dark;
         }
 
         body.light-theme {
             --bg-current: var(--bg-color-light);
-            --bg-image-current: var(--bg-image-light);
             --bubble-bg: var(--bubble-bg-light);
             --text-main: var(--text-main-light);
             --text-muted: var(--text-muted-light);
             --card-border: var(--card-border-light);
+            animation: colorShiftLight 25s ease infinite;
             color-scheme: light;
+        }
+
+        /* Slowly shifts background from green to blue like the official Nintendo page */
+        @keyframes colorShift {
+            0% { background-color: #031407; } /* Deep Forest Green */
+            50% { background-color: #021124; } /* Deep Ocean Blue */
+            100% { background-color: #031407; }
+        }
+
+        @keyframes colorShiftLight {
+            0% { background-color: #06170d; } /* Dark Emerald */
+            50% { background-color: #031221; } /* Dark Oceanic Sapphire */
+            100% { background-color: #06170d; }
         }
 
         body.glow-disabled {
             --kokiri-glow: transparent;
             --gold-glow: transparent;
             text-shadow: none !important;
+            animation: none !important;
         }
 
         body.font-sans {
@@ -86,7 +92,7 @@
         }
 
         /* ==========================================================================
-           3. BASE STYLES
+           3. BASE STYLES & TRIFORCE REPEATING BACKGROUND
            ========================================================================== */
         * {
             box-sizing: border-box;
@@ -98,14 +104,14 @@
             background-color: var(--bg-current);
             color: var(--text-main);
             font-family: 'Cinzel', 'Georgia', serif;
+            
+            /* Custom Repeating SVG Triforce Pattern Overlay combined with standard lighting gradients */
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(78, 159, 61, 0.25) 0%, transparent 60%),
-                linear-gradient(180deg, rgba(5, 14, 8, 0.45) 0%, var(--bg-current) 100%),
-                var(--bg-image-current);
-            background-size: cover;
-            background-position: center top;
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='1'%3E%3Cpath d='M40 10 L55 36 L25 36 Z M55 36 L70 62 L40 62 Z M25 36 L40 62 L10 62 Z'/%3E%3C/g%3E%3C/svg%3E"),
+                radial-gradient(circle at 50% 0%, rgba(78, 159, 61, 0.25) 0%, transparent 60%);
+            background-size: auto, cover;
+            background-position: top left, center top;
             background-attachment: fixed;
-            background-blend-mode: multiply;
             overflow-x: hidden;
             line-height: 1.6;
             transition: background-color var(--transition-speed), color var(--transition-speed);
@@ -129,9 +135,9 @@
         }
 
         body.light-theme nav {
-            background: rgba(245, 250, 246, 0.95);
-            border-bottom-color: var(--kokiri-dark);
-            box-shadow: 0 4px 20px rgba(78, 159, 61, 0.15);
+            background: rgba(14, 34, 21, 0.95);
+            border-bottom-color: var(--gold);
+            box-shadow: 0 4px 20px rgba(223, 178, 53, 0.15);
         }
 
         .nav-logo {
@@ -160,7 +166,7 @@
         }
 
         body.light-theme nav h1 {
-            color: var(--kokiri-dark);
+            color: var(--gold);
             text-shadow: none;
         }
 
@@ -188,18 +194,23 @@
             background: rgba(78, 159, 61, 0.15);
         }
 
-        /* Modern bubble-style Quick Toggle in Nav */
+        /* Theme Icon Button wrapper */
         .quick-theme-toggle {
             background: rgba(78, 159, 61, 0.2);
-            border: 1px solid var(--kokiri-green);
+            border: 2px solid var(--kokiri-green);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 46px;
+            height: 46px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: transform var(--transition-speed);
+            transition: transform var(--transition-speed), border-color var(--transition-speed);
+        }
+
+        body.light-theme .quick-theme-toggle {
+            border-color: var(--gold);
+            background: rgba(223, 178, 53, 0.15);
         }
 
         .quick-theme-toggle:hover {
@@ -215,8 +226,9 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            /* Updated to exactly use the official banner image requested */
             background: linear-gradient(180deg, transparent, var(--bg-current)), 
-                        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2000&auto=format&fit=crop');
+                        url('https://zelda.nintendo.com/assets/img/about/header-about.jpg');
             background-size: cover;
             background-position: center;
             border-bottom: 2px solid var(--gold);
@@ -262,7 +274,7 @@
             flex-wrap: wrap;
             gap: 20px;
             background: var(--bubble-bg);
-            border: 1px solid var(--card-border);
+            border: 2px solid var(--card-border);
             border-radius: 30px;
             padding: 20px 30px;
             margin-bottom: 30px;
@@ -289,7 +301,8 @@
         }
 
         body.light-theme .search-box input {
-            background: #ffffff;
+            background: rgba(14, 34, 21, 0.5);
+            color: var(--text-main);
         }
 
         .search-box input:focus {
@@ -333,6 +346,13 @@
             font-weight: bold;
         }
 
+        body.light-theme .filter-btn:hover, body.light-theme .filter-btn.active {
+            background: var(--gold);
+            color: #071b0e;
+            border-color: var(--gold);
+            box-shadow: 0 0 15px var(--gold-glow);
+        }
+
         /* --- TIMELINE GRID & BUBBLE CARDS --- */
         .timeline-grid {
             display: grid;
@@ -358,6 +378,11 @@
             transform: translateY(-10px) scale(1.02);
             border-color: var(--kokiri-green);
             box-shadow: 0 20px 40px var(--kokiri-glow);
+        }
+
+        body.light-theme .game-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 20px 40px var(--gold-glow);
         }
 
         .card-img-container {
@@ -411,7 +436,7 @@
         }
 
         body.light-theme .game-card .metadata {
-            color: var(--kokiri-dark);
+            color: var(--gold);
         }
 
         .game-card p {
@@ -439,6 +464,11 @@
             box-shadow: 0 15px 40px var(--kokiri-glow);
             margin-bottom: 40px;
             backdrop-filter: blur(20px);
+        }
+
+        body.light-theme .dive-header {
+            border-color: var(--gold);
+            box-shadow: 0 15px 40px var(--gold-glow);
         }
 
         .dive-header img {
@@ -489,6 +519,10 @@
             font-size: 1.4rem;
         }
 
+        body.light-theme .dive-section h3 {
+            color: var(--gold);
+        }
+
         .dive-section ul {
             list-style-type: none;
         }
@@ -525,10 +559,21 @@
             transition: var(--transition-speed);
         }
 
+        body.light-theme .back-btn {
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+
         .back-btn:hover {
             background: var(--kokiri-green);
             color: #fff;
             box-shadow: 0 0 20px var(--kokiri-glow);
+        }
+
+        body.light-theme .back-btn:hover {
+            background: var(--gold);
+            color: #071b0e;
+            box-shadow: 0 0 20px var(--gold-glow);
         }
 
         /* --- MAP MODULE --- */
@@ -875,9 +920,11 @@
             <a id="nav-map" onclick="switchView('map-view')">Interactive Map</a>
             <a id="nav-settings" onclick="switchView('settings-view')">Settings</a>
             
-            <!-- Dynamic Quick Switcher in Menu -->
+            <!-- Dynamic Themed Switcher (Majora's Mask for Dark Mode / Silent Princess for Light Mode) -->
             <div class="quick-theme-toggle" onclick="toggleThemeQuick()" title="Switch Light/Dark Paradigm">
-                <span id="quick-toggle-icon">🌙</span>
+                <div id="quick-toggle-container">
+                    <!-- Dynamic SVG Rendered via JS -->
+                </div>
             </div>
         </div>
     </nav>
@@ -1000,125 +1047,13 @@
 
     <script>
         // --- COMPLETE HIGH-RESOLUTION RECONSTRUCTED DATABASE ---
-        // Contains every major mainline Nintendo-published Zelda release.
+        // Complete list of 22 games configured with fully accurate chronological lore indexing.
         const zeldaDatabase = {
-            "oot_remake": {
-                title: "Ocarina of Time: Remake",
-                year: "Upcoming",
-                releaseIndex: 1,
-                chronologyIndex: 5,
-                platform: "Nintendo Switch 2",
-                shortDesc: "Recreating the greatest rated game of all time for a new generation.",
-                longDesc: "The highly anticipated, full ground-up remake of the timeless masterpiece. Built to push next-generation systems to their absolute visual limits with updated organic Kokiri atmospheres, seamless time transition mechanics, and newly fleshed out dungeon chambers.",
-                coverImg: "https://media.altchar.com/prod/images/gm_featured_image/fd2be5f1e1ca-zelda-ocarina-of-time-remake.webp?q=80&w=800&auto=format&fit=crop", 
-                mechanics: [
-                    "Next-Gen Engine: Beautiful ray-traced lightning and real-time physical foliage interactions.",
-                    "Seamless Eras: Transition between the Child and Adult eras near-instantly.",
-                    "Expanded Dungeons: New challenges integrated smoothly into classical geometry."
-                ],
-                items: ["Master Sword", "Ocarina of Time", "Kokiri Sword", "Mirror Shield"]
-            },
-            "eow": {
-                title: "Echoes of Wisdom",
-                year: "2024",
-                releaseIndex: 2,
-                chronologyIndex: 22,
-                platform: "Nintendo Switch",
-                shortDesc: "Princess Zelda takes the stage in an elegant, innovative puzzle adventure.",
-                longDesc: "The people of Hyrule are being stolen away by mysterious rifts that have appeared, including a certain swordsman. Now, Zelda must step up to rescue her kingdom using the Tri Rod to create 'echoes'—replications of things found in the environment.",
-                coverImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
-                mechanics: [
-                    "Echo Replication: Copy and paste objects and monsters found throughout the wild.",
-                    "Tri Rod Navigation: Bridge chasms, scale high cliffs, and build custom paths.",
-                    "Playable Princess: Experience traditional puzzle mechanics from Zelda's perspective."
-                ],
-                items: ["Tri Rod", "Sword of Might", "Bow of Might"]
-            },
-            "totk": {
-                title: "Tears of the Kingdom",
-                year: "2023",
-                releaseIndex: 3,
-                chronologyIndex: 21,
-                platform: "Nintendo Switch",
-                shortDesc: "The skies open up in absolute physics-driven world-building chaos.",
-                longDesc: "A direct sequel to Breath of the Wild that expands Hyrule into both the high sky islands and the dark depths below. It introduces revolutionary structural building mechanics that allow you to construct customized machinery and complex vehicles using ancient Zonai power.",
-                coverImg: "https://images.unsplash.com/photo-1685019803155-2ff1b6264d8a?q=80&w=800&auto=format&fit=crop", 
-                mechanics: [
-                    "Ultrahand: Seamlessly fuse environmental objects to build unique operational vehicles.",
-                    "Fuse: Synthesize materials directly onto weapons or shields to alter stats instantly.",
-                    "Ascend: Swim vertically through solid cave roofs to reach mountain peaks easily."
-                ],
-                items: ["Zonai Devices (Fans, Rockets, Lasers)", "Purah Pad", "Decayed Master Sword"]
-            },
-            "la_remake": {
-                title: "Link's Awakening (Remake)",
-                year: "2019",
-                releaseIndex: 4,
-                chronologyIndex: 12,
-                platform: "Nintendo Switch",
-                shortDesc: "A gorgeous, toy-like reimagining of Koholint Island's dreamscape.",
-                longDesc: "A complete visual and mechanical remake of the 1993 Game Boy classic. Link is shipwrecked on the mysterious, tropical Koholint Island, where the only way to escape is to wake the slumbering Wind Fish at the mountain top.",
-                coverImg: "https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?q=80&w=800&auto=format&fit=crop",
-                mechanics: [
-                    "Chamber Dungeons: Collect, arrange, and challenge customized dungeon layouts.",
-                    "Vibrant Art Style: A gorgeous, dioramas-inspired toy-like aesthetic with modern lighting.",
-                    "360-Degree Movement: Fully updated analog movement controls."
-                ],
-                items: ["Roc's Feather", "Power Bracelet", "Pegasus Boots"]
-            },
-            "botw": {
-                title: "Breath of the Wild",
-                year: "2017",
-                releaseIndex: 5,
-                chronologyIndex: 20,
-                platform: "Nintendo Switch / Wii U",
-                shortDesc: "Climb anything. Go anywhere. Complete open-world freedom.",
-                longDesc: "Waking up after a century-long slumber, Link must explore a ruined, quiet Hyrule to defeat Calamity Ganon. It shattered every established convention of the Zelda formula, introducing a massive chemistry engine and physical sandbox that leaves exploration to the complete discretion of the player.",
-                coverImg: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop",
-                mechanics: [
-                    "Climbing Engine: Scale any vertical surface from mountains to structures.",
-                    "Physics Sandbox: Utilize magnetism, time-stasis, and kinetic force modules.",
-                    "Non-linear Progression: Venture directly to the final confrontation at any time."
-                ],
-                items: ["Paraglider", "Sheikah Slate", "Master Sword"]
-            },
-            "tfh": {
-                title: "Tri Force Heroes",
-                year: "2015",
-                releaseIndex: 6,
-                chronologyIndex: 14,
-                platform: "Nintendo 3DS",
-                shortDesc: "Three heroes unite in fashion-forward cooperative puzzle arenas.",
-                longDesc: "Set in the fashion-obsessed kingdom of Hytopia, three co-op players control three colored Links who must team up to conquer the Drablands and break a curse put on the beloved Princess Frill.",
-                coverImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
-                mechanics: [
-                    "Totem Mechanic: Stack three Links on top of each other to reach tall switches.",
-                    "Outfit Buffs: Craft and wear outfits that grant unique special abilities.",
-                    "Cooperative Emotes: Communicate using expressive touchscreen icons."
-                ],
-                items: ["Big Bomb", "Kokiri Clothes", "Water Rod"]
-            },
-            "albw": {
-                title: "A Link Between Worlds",
-                year: "2013",
-                releaseIndex: 7,
-                chronologyIndex: 13,
-                platform: "Nintendo 3DS",
-                shortDesc: "Return to the world of A Link to the Past with a painting-merging twist.",
-                longDesc: "A direct spiritual sequel to the SNES classic. Set in the same map generation of Hyrule, this game introduces a beautiful mechanic allowing Link to turn into a 2D drawing and merge flat onto walls to slide through cracks.",
-                coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop",
-                mechanics: [
-                    "Wall Merging: Merge flat onto walls as a drawing to slip into parallel cracks.",
-                    "Item Renting: Rent and upgrade dungeon items in any desired order from Ravio.",
-                    "Parallel Dimensions: Explore the contrasting worlds of Hyrule and Lorule."
-                ],
-                items: ["Ravio's Bracelet", "Tornado Rod", "Sand Rod"]
-            },
             "ss": {
                 title: "Skyward Sword",
                 year: "2011",
                 releaseIndex: 8,
-                chronologyIndex: 1,
+                chronologyIndex: 1, // Earliest Era: Sky Creation
                 platform: "Wii / Nintendo Switch",
                 shortDesc: "The origin of the master sword, high above the clouds.",
                 longDesc: "Chronologically the first chapter in the complex timeline, Skyward Sword tells the story of Skyloft, a floating archipelago above a cloud barrier, and Link's descent to the mysterious surface below to establish the foundations of Hyrule and forge the Master Sword itself.",
@@ -1130,59 +1065,11 @@
                 ],
                 items: ["Goddess Sword", "Sailcloth", "Beetle Drone"]
             },
-            "st": {
-                title: "Spirit Tracks",
-                year: "2009",
-                releaseIndex: 9,
-                chronologyIndex: 19,
-                platform: "Nintendo DS",
-                shortDesc: "All aboard! Conduct steam trains across New Hyrule.",
-                longDesc: "Set 100 years after Phantom Hourglass. Link is a train engineer who teams up with the spirit of Zelda, who has been separated from her physical body, to travel across New Hyrule to repair the sacred Spirit Tracks.",
-                coverImg: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop",
-                mechanics: [
-                    "Train Navigation: Plot safe courses and defend a physical train carriage.",
-                    "Zelda Companion: Control a lumbering Phantom armor shell containing Zelda's ghost.",
-                    "Spirit Flute: Play touchscreen pan pipes with physical mic blowing mechanics."
-                ],
-                items: ["Spirit Flute", "Whirlwind", "Whip"]
-            },
-            "ph": {
-                title: "Phantom Hourglass",
-                year: "2007",
-                releaseIndex: 10,
-                chronologyIndex: 18,
-                platform: "Nintendo DS",
-                shortDesc: "A touch-controlled high-seas journey continuing Wind Waker's story.",
-                longDesc: "A direct touch-screen sequel to Wind Waker. Link must explore the waters to rescue Tetra from a mysterious Ghost Ship, using the mystical Phantom Hourglass to safely traverse a massive, central cursed temple.",
-                coverImg: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=800&auto=format&fit=crop",
-                mechanics: [
-                    "Stylus Control: Draw paths for boomerang flights, ship navigation, and sword strikes.",
-                    "Hourglass Timer: Safely explore the life-draining Temple of the Ocean King.",
-                    "Sea Navigation: Custom build and upgrade your steamship, the S.S. Linebeck."
-                ],
-                items: ["Phantom Hourglass", "Grappling Hook", "Salvage Crane"]
-            },
-            "tp": {
-                title: "Twilight Princess",
-                year: "2006",
-                releaseIndex: 11,
-                chronologyIndex: 15,
-                platform: "GameCube / Wii",
-                shortDesc: "Dark, gritty, and epic. The shadow invasion of the Twilight Realm.",
-                longDesc: "Hyrule is being slowly consumed by the shadowy Twilight Realm. Link must ally with the mischievous imp Midna and transform into a blue-eyed wolf to tear through the dark incursions, rescue the kingdom, and confront the usurper king Zant and Ganondorf.",
-                coverImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
-                mechanics: [
-                    "Wolf Transformation: Utilize animal instincts, track scents, and dig through terrain.",
-                    "Mounted Cavalry Combat: Participate in high-speed sword matches atop Epona.",
-                    "Hidden Sword Skills: Learn 7 devastating advanced techniques from the Hero's Shade."
-                ],
-                items: ["Double Clawshots", "Spinner", "Ball and Chain"]
-            },
             "tmc": {
                 title: "The Minish Cap",
                 year: "2004",
                 releaseIndex: 12,
-                chronologyIndex: 2,
+                chronologyIndex: 2, // Second Era: Era of the Force
                 platform: "Game Boy Advance",
                 shortDesc: "Shrink down to insect size with the aid of Ezlo, the talking hat.",
                 longDesc: "Link meets Ezlo, a magical hat that lets him shrink down to the microscopic size of the Minish—tiny sprites living in Hyrule. This dual-perspective adventure challenges you to navigate standard blades of grass as massive forest trees.",
@@ -1194,11 +1081,91 @@
                 ],
                 items: ["Ezlo Cap", "Gust Jar", "Cane of Pacci"]
             },
+            "fs": {
+                title: "Four Swords",
+                year: "2002",
+                releaseIndex: 15,
+                chronologyIndex: 3, // Third Era: Vaati Resurrection
+                platform: "Game Boy Advance",
+                shortDesc: "The franchise's first multiplayer cooperative dungeon crawler.",
+                longDesc: "Packaged alongside the GBA port of A Link to the Past, this multiplayer-only adventure splits the player into up to four colorful copies of Link to defeat Vaati.",
+                coverImg: "https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Cooperative Puzzles: Stand on synchronous switches and coordinate weights.",
+                    "Rupee Competitions: Outwork teammates to gather private treasure spoils.",
+                    "Procedural Layouts: Dungeon chambers scale depending on the active player count."
+                ],
+                items: ["Four Sword", "Pegasus Seeds", "Magnetic Glove"]
+            },
+            "oot": {
+                title: "Ocarina of Time",
+                year: "1998",
+                releaseIndex: 18,
+                chronologyIndex: 4, // Fourth Era: Hero of Time
+                platform: "Nintendo 64",
+                shortDesc: "The Hero of Time awakens. The transition to 3D adventure.",
+                longDesc: "A young forest boy is chosen by destiny to protect the Triforce. Traveling back and forth across a span of seven years, Link must stop the Gerudo thief Ganondorf from conquering Hyrule, pioneering the Lock-on 'Z-targeting' mechanical system that set the foundation of modern 3D action gaming.",
+                coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop", 
+                mechanics: [
+                    "Time Manipulation: Travel freely between the child and adult eras of Hyrule.",
+                    "Ocarina Melodies: Perform 12 mystical songs to warp or summon aid.",
+                    "Z-Targeting: Focus combat perspective onto individual enemies seamlessly."
+                ],
+                items: ["Hookshot", "Megaton Hammer", "Hover Boots"]
+            },
+            "oot_remake": {
+                title: "Ocarina of Time: Remake",
+                year: "Upcoming",
+                releaseIndex: 1,
+                chronologyIndex: 5, // Concurrent with Era of Time
+                platform: "Nintendo Switch 2",
+                shortDesc: "Recreating the greatest rated game of all time for a new generation.",
+                longDesc: "The highly anticipated, full ground-up remake of the timeless masterpiece. Built to push next-generation systems to their absolute visual limits with updated organic Kokiri atmospheres, seamless time transition mechanics, and newly fleshed out dungeon chambers.",
+                coverImg: "https://media.altchar.com/prod/images/gm_featured_image/fd2be5f1e1ca-zelda-ocarina-of-time-remake.webp?q=80&w=800&auto=format&fit=crop", 
+                mechanics: [
+                    "Next-Gen Engine: Beautiful ray-traced lightning and real-time physical foliage interactions.",
+                    "Seamless Eras: Transition between the Child and Adult eras near-instantly.",
+                    "Expanded Dungeons: New challenges integrated smoothly into classical geometry."
+                ],
+                items: ["Master Sword", "Ocarina of Time", "Kokiri Sword", "Mirror Shield"]
+            },
+            "mm": {
+                title: "Majora's Mask",
+                year: "2000",
+                releaseIndex: 17,
+                chronologyIndex: 6, // Child Timeline (First Stage)
+                platform: "Nintendo 64",
+                shortDesc: "72 Hours remain. The darkest, most atmospheric game in the franchise.",
+                longDesc: "Link is pulled into the surreal, parallel world of Termina, where a terrifying, grimacing moon is destined to crash-land in exactly three days. You must manage a ticking clock, continuously reset the timeline, and learn the personal daily schedules of Termina's citizens to rescue them.",
+                coverImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "72-Hour Cycle: Complete objectives and rewind time before the moon impacts.",
+                    "Mask Transformations: Don specialized masks to transform into Deku, Goron, or Zora.",
+                    "Bomber's Notebook: Log detailed schedules and questlines of every NPC."
+                ],
+                items: ["Fierce Deity's Mask", "Gilded Sword", "Bunny Hood"]
+            },
+            "tp": {
+                title: "Twilight Princess",
+                year: "2006",
+                releaseIndex: 11,
+                chronologyIndex: 7, // Child Timeline (Twilight Era)
+                platform: "GameCube / Wii",
+                shortDesc: "Dark, gritty, and epic. The shadow invasion of the Twilight Realm.",
+                longDesc: "Hyrule is being slowly consumed by the shadowy Twilight Realm. Link must ally with the mischievous imp Midna and transform into a blue-eyed wolf to tear through the dark incursions, rescue the kingdom, and confront the usurper king Zant and Ganondorf.",
+                coverImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Wolf Transformation: Utilize animal instincts, track scents, and dig through terrain.",
+                    "Mounted Cavalry Combat: Participate in high-speed sword matches atop Epona.",
+                    "Hidden Sword Skills: Learn 7 devastating advanced techniques from the Hero's Shade."
+                ],
+                items: ["Double Clawshots", "Spinner", "Ball and Chain"]
+            },
             "fsa": {
                 title: "Four Swords Adventures",
                 year: "2004",
                 releaseIndex: 13,
-                chronologyIndex: 10,
+                chronologyIndex: 8, // Child Timeline (Shadow Era)
                 platform: "GameCube",
                 shortDesc: "A cooperative retro campaign for up to four tactical players.",
                 longDesc: "Divided into stages rather than a continuous open world, this campaign utilizes the Game Boy Advance linked to the GameCube for multi-screen tactical cooperation.",
@@ -1214,7 +1181,7 @@
                 title: "The Wind Waker",
                 year: "2002",
                 releaseIndex: 14,
-                chronologyIndex: 17,
+                chronologyIndex: 9, // Adult Timeline (Great Sea Era)
                 platform: "Nintendo GameCube",
                 shortDesc: "Sail the Great Sea. A vibrant, beautiful cel-shaded masterpiece.",
                 longDesc: "Set centuries after Ocarina of Time, the physical land of Hyrule was flooded to seal away Ganondorf. Now, a young hero from Outset Island must sail the vast ocean, direct the flow of the wind with a conductor's baton, and find his lost sister in a brilliantly stylized seafaring journey.",
@@ -1226,91 +1193,43 @@
                 ],
                 items: ["Grappling Hook", "Deku Leaf", "Skull Hammer"]
             },
-            "fs": {
-                title: "Four Swords",
-                year: "2002",
-                releaseIndex: 15,
-                chronologyIndex: 9,
-                platform: "Game Boy Advance",
-                shortDesc: "The franchise's first multiplayer cooperative dungeon crawler.",
-                longDesc: "Packaged alongside the GBA port of A Link to the Past, this multiplayer-only adventure splits the player into up to four colorful copies of Link to defeat Vaati.",
-                coverImg: "https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?q=80&w=800&auto=format&fit=crop",
+            "ph": {
+                title: "Phantom Hourglass",
+                year: "2007",
+                releaseIndex: 10,
+                chronologyIndex: 10, // Adult Timeline (Great Voyage)
+                platform: "Nintendo DS",
+                shortDesc: "A touch-controlled high-seas journey continuing Wind Waker's story.",
+                longDesc: "A direct touch-screen sequel to Wind Waker. Link must explore the waters to rescue Tetra from a mysterious Ghost Ship, using the mystical Phantom Hourglass to safely traverse a massive, central cursed temple.",
+                coverImg: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
-                    "Cooperative Puzzles: Stand on synchronous switches and coordinate weights.",
-                    "Rupee Competitions: Outwork teammates to gather private treasure spoils.",
-                    "Procedural Layouts: Dungeon chambers scale depending on the active player count."
+                    "Stylus Control: Draw paths for boomerang flights, ship navigation, and sword strikes.",
+                    "Hourglass Timer: Safely explore the life-draining Temple of the Ocean King.",
+                    "Sea Navigation: Custom build and upgrade your steamship, the S.S. Linebeck."
                 ],
-                items: ["Four Sword", "Pegasus Seeds", "Magnetic Glove"]
+                items: ["Phantom Hourglass", "Grappling Hook", "Salvage Crane"]
             },
-            "ooa_oos": {
-                title: "Oracle of Ages / Seasons",
-                year: "2001",
-                releaseIndex: 16,
-                chronologyIndex: 11,
-                platform: "Game Boy Color",
-                shortDesc: "Two interlinked adventures utilizing time and seasonal manipulation.",
-                longDesc: "Developed in collaboration with Capcom, this dual-release lets players connect both games via a password link system to unlock the true canonical ending of the quest.",
-                coverImg: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop",
-                mechanics: [
-                    "Ages - Time Travel: Shift between past and present eras of Labrynna.",
-                    "Seasons - Weather: Switch between summer, winter, autumn, and spring.",
-                    "Linked Passwords: Port completed stats, items, and plots between cartridges."
-                ],
-                items: ["Harp of Ages", "Rod of Seasons", "Switch Hook"]
-            },
-            "mm": {
-                title: "Majora's Mask",
-                year: "2000",
-                releaseIndex: 17,
-                chronologyIndex: 7,
-                platform: "Nintendo 64",
-                shortDesc: "72 Hours remain. The darkest, most atmospheric game in the franchise.",
-                longDesc: "Link is pulled into the surreal, parallel world of Termina, where a terrifying, grimacing moon is destined to crash-land in exactly three days. You must manage a ticking clock, continuously reset the timeline, and learn the personal daily schedules of Termina's citizens to rescue them.",
-                coverImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
-                mechanics: [
-                    "72-Hour Cycle: Complete objectives and rewind time before the moon impacts.",
-                    "Mask Transformations: Don specialized masks to transform into Deku, Goron, or Zora.",
-                    "Bomber's Notebook: Log detailed schedules and questlines of every NPC."
-                ],
-                items: ["Fierce Deity's Mask", "Gilded Sword", "Bunny Hood"]
-            },
-            "oot": {
-                title: "Ocarina of Time",
-                year: "1998",
-                releaseIndex: 18,
-                chronologyIndex: 6,
-                platform: "Nintendo 64",
-                shortDesc: "The Hero of Time awakens. The transition to 3D adventure.",
-                longDesc: "A young forest boy is chosen by destiny to protect the Triforce. Traveling back and forth across a span of seven years, Link must stop the Gerudo thief Ganondorf from conquering Hyrule, pioneering the Lock-on 'Z-targeting' mechanical system that set the foundation of modern 3D action gaming.",
-                coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop", 
-                mechanics: [
-                    "Time Manipulation: Travel freely between the child and adult eras of Hyrule.",
-                    "Ocarina Melodies: Perform 12 mystical songs to warp or summon aid.",
-                    "Z-Targeting: Focus combat perspective onto individual enemies seamlessly."
-                ],
-                items: ["Hookshot", "Megaton Hammer", "Hover Boots"]
-            },
-            "la": {
-                title: "Link's Awakening",
-                year: "1993",
-                releaseIndex: 19,
-                chronologyIndex: 12,
-                platform: "Game Boy",
-                shortDesc: "The surreal dream island adventure that defined handheld gaming.",
-                longDesc: "Washed ashore on the strange Koholint Island, Link discovers there is no Zelda or Ganon in sight. He must gather eight instruments of the Sirens to awaken the sleeping Wind Fish.",
+            "st": {
+                title: "Spirit Tracks",
+                year: "2009",
+                releaseIndex: 9,
+                chronologyIndex: 11, // Adult Timeline (Rebirth of Hyrule)
+                platform: "Nintendo DS",
+                shortDesc: "All aboard! Conduct steam trains across New Hyrule.",
+                longDesc: "Set 100 years after Phantom Hourglass. Link is a train engineer who teams up with the spirit of Zelda, who has been separated from her physical body, to travel across New Hyrule to repair the sacred Spirit Tracks.",
                 coverImg: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
-                    "Instrument Gathering: Seek out eight magical instruments of the Sirens.",
-                    "Surreal Crossover: Interact with characters from Mario, Kirby, and SimCity.",
-                    "Jump Action: Introduces Roc's feather, allowing Link to jump over pits."
+                    "Train Navigation: Plot safe courses and defend a physical train carriage.",
+                    "Zelda Companion: Control a lumbering Phantom armor shell containing Zelda's ghost.",
+                    "Spirit Flute: Play touchscreen pan pipes with physical mic blowing mechanics."
                 ],
-                items: ["Roc's Feather", "Yoshi Doll", "Wind Marimba"]
+                items: ["Spirit Flute", "Whirlwind", "Whip"]
             },
             "alttp": {
                 title: "A Link to the Past",
                 year: "1991",
                 releaseIndex: 20,
-                chronologyIndex: 8,
+                chronologyIndex: 12, // Downfall Timeline (Light & Dark Era)
                 platform: "Super Nintendo",
                 shortDesc: "The 16-bit gold standard. Light and Dark worlds collide.",
                 longDesc: "Setting the template for structural progression throughout the franchise, A Link to the Past tasks the hero with traveling between the peaceful Light World and the corrupted, twisted Dark World to foil the wizard Agahnim and retrieve the legendary Master Sword.",
@@ -1322,11 +1241,123 @@
                 ],
                 items: ["Pegasus Boots", "Magic Cape", "Fire Rod"]
             },
+            "ooa_oos": {
+                title: "Oracle of Ages / Seasons",
+                year: "2001",
+                releaseIndex: 16,
+                chronologyIndex: 13, // Downfall Timeline (Oracles Era)
+                platform: "Game Boy Color",
+                shortDesc: "Two interlinked adventures utilizing time and seasonal manipulation.",
+                longDesc: "Developed in collaboration with Capcom, this dual-release lets players connect both games via a password link system to unlock the true canonical ending of the quest.",
+                coverImg: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Ages - Time Travel: Shift between past and present eras of Labrynna.",
+                    "Seasons - Weather: Switch between summer, winter, autumn, and spring.",
+                    "Linked Passwords: Port completed stats, items, and plots between cartridges."
+                ],
+                items: ["Harp of Ages", "Rod of Seasons", "Switch Hook"]
+            },
+            "la": {
+                title: "Link's Awakening",
+                year: "1993",
+                releaseIndex: 19,
+                chronologyIndex: 14, // Downfall Timeline (Koholint Island)
+                platform: "Game Boy",
+                shortDesc: "The surreal dream island adventure that defined handheld gaming.",
+                longDesc: "Washed ashore on the strange Koholint Island, Link discovers there is no Zelda or Ganon in sight. He must gather eight instruments of the Sirens to awaken the sleeping Wind Fish.",
+                coverImg: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Instrument Gathering: Seek out eight magical instruments of the Sirens.",
+                    "Surreal Crossover: Interact with characters from Mario, Kirby, and SimCity.",
+                    "Jump Action: Introduces Roc's feather, allowing Link to jump over pits."
+                ],
+                items: ["Roc's Feather", "Yoshi Doll", "Wind Marimba"]
+            },
+            "la_remake": {
+                title: "Link's Awakening (Remake)",
+                year: "2019",
+                releaseIndex: 4,
+                chronologyIndex: 15, // Downfall Timeline (Modern Remake Era)
+                platform: "Nintendo Switch",
+                shortDesc: "A gorgeous, toy-like reimagining of Koholint Island's dreamscape.",
+                longDesc: "A complete visual and mechanical remake of the 1993 Game Boy classic. Link is shipwrecked on the mysterious, tropical Koholint Island, where the only way to escape is to wake the slumbering Wind Fish at the mountain top.",
+                coverImg: "https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Chamber Dungeons: Collect, arrange, and challenge customized dungeon layouts.",
+                    "Vibrant Art Style: A gorgeous, dioramas-inspired toy-like aesthetic with modern lighting.",
+                    "360-Degree Movement: Fully updated analog movement controls."
+                ],
+                items: ["Roc's Feather", "Power Bracelet", "Pegasus Boots"]
+            },
+            "albw": {
+                title: "A Link Between Worlds",
+                year: "2013",
+                releaseIndex: 7,
+                chronologyIndex: 16, // Downfall Timeline (Return to Lorule)
+                platform: "Nintendo 3DS",
+                shortDesc: "Return to the world of A Link to the Past with a painting-merging twist.",
+                longDesc: "A direct spiritual sequel to the SNES classic. Set in the same map generation of Hyrule, this game introduces a beautiful mechanic allowing Link to turn into a 2D drawing and merge flat onto walls to slide through cracks.",
+                coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Wall Merging: Merge flat onto walls as a drawing to slip into parallel cracks.",
+                    "Item Renting: Rent and upgrade dungeon items in any desired order from Ravio.",
+                    "Parallel Dimensions: Explore the contrasting worlds of Hyrule and Lorule."
+                ],
+                items: ["Ravio's Bracelet", "Tornado Rod", "Sand Rod"]
+            },
+            "tfh": {
+                title: "Tri Force Heroes",
+                year: "2015",
+                releaseIndex: 6,
+                chronologyIndex: 17, // Downfall Timeline (Hytopia Fashion)
+                platform: "Nintendo 3DS",
+                shortDesc: "Three heroes unite in fashion-forward cooperative puzzle arenas.",
+                longDesc: "Set in the fashion-obsessed kingdom of Hytopia, three co-op players control three colored Links who must team up to conquer the Drablands and break a curse put on the beloved Princess Frill.",
+                coverImg: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Totem Mechanic: Stack three Links on top of each other to reach tall switches.",
+                    "Outfit Buffs: Craft and wear outfits that grant unique special abilities.",
+                    "Cooperative Emotes: Communicate using expressive touchscreen icons."
+                ],
+                items: ["Big Bomb", "Kokiri Clothes", "Water Rod"]
+            },
+            "eow": {
+                title: "Echoes of Wisdom",
+                year: "2024",
+                releaseIndex: 2,
+                chronologyIndex: 18, // Downfall Timeline (Continuation)
+                platform: "Nintendo Switch",
+                shortDesc: "Princess Zelda takes the stage in an elegant, innovative puzzle adventure.",
+                longDesc: "The people of Hyrule are being stolen away by mysterious rifts that have appeared, including a certain swordsman. Now, Zelda must step up to rescue her kingdom using the Tri Rod to create 'echoes'—replications of things found in the environment.",
+                coverImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Echo Replication: Copy and paste objects and monsters found throughout the wild.",
+                    "Tri Rod Navigation: Bridge chasms, scale high cliffs, and build custom paths.",
+                    "Playable Princess: Experience traditional puzzle mechanics from Zelda's perspective."
+                ],
+                items: ["Tri Rod", "Sword of Might", "Bow of Might"]
+            },
+            "loz": {
+                title: "The Legend of Zelda",
+                year: "1986",
+                releaseIndex: 22,
+                chronologyIndex: 19, // Downfall Timeline (Original Era of Decline)
+                platform: "Nintendo Entertainment System",
+                shortDesc: "The 8-bit classic that started it all. Explore a raw, open world.",
+                longDesc: "Dropped into a sprawling world with little guidance, players must navigate dangerous wilderness and deep underground dungeons to rebuild the fractured Triforce of Wisdom.",
+                coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop",
+                mechanics: [
+                    "Absolute Freedom: Attack dungeons in almost any order from the start.",
+                    "Second Quest: Unlock an entirely reshuffled campaign after finishing.",
+                    "Screen-by-screen Scrolling: Traverse an isometric 8-bit overworld grid."
+                ],
+                items: ["Wooden Sword", "Blue Candle", "Boots"]
+            },
             "aol": {
                 title: "Zelda II: The Adventure of Link",
                 year: "1987",
                 releaseIndex: 21,
-                chronologyIndex: 16,
+                chronologyIndex: 20, // Downfall Timeline (Final Stage)
                 platform: "Nintendo Entertainment System",
                 shortDesc: "A challenging side-scrolling departure with RPG mechanics.",
                 longDesc: "A radical mechanics shift from the original game, Zelda II adopts a top-down world map with side-scrolling action platform combat and explicit experience point systems.",
@@ -1338,21 +1369,37 @@
                 ],
                 items: ["Handy Glove", "Flute", "Magical Key"]
             },
-            "loz": {
-                title: "The Legend of Zelda",
-                year: "1986",
-                releaseIndex: 22,
-                chronologyIndex: 8,
-                platform: "Nintendo Entertainment System",
-                shortDesc: "The 8-bit classic that started it all. Explore a raw, open world.",
-                longDesc: "Dropped into a sprawling world with little guidance, players must navigate dangerous wilderness and deep underground dungeons to rebuild the fractured Triforce of Wisdom.",
-                coverImg: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop",
+            "botw": {
+                title: "Breath of the Wild",
+                year: "2017",
+                releaseIndex: 5,
+                chronologyIndex: 21, // Far Future (Unified/Undetermined Era)
+                platform: "Nintendo Switch / Wii U",
+                shortDesc: "Climb anything. Go anywhere. Complete open-world freedom.",
+                longDesc: "Waking up after a century-long slumber, Link must explore a ruined, quiet Hyrule to defeat Calamity Ganon. It shattered every established convention of the Zelda formula, introducing a massive chemistry engine and physical sandbox that leaves exploration to the complete discretion of the player.",
+                coverImg: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop",
                 mechanics: [
-                    "Absolute Freedom: Attack dungeons in almost any order from the start.",
-                    "Second Quest: Unlock an entirely reshuffled campaign after finishing.",
-                    "Screen-by-screen Scrolling: Traverse an isometric 8-bit overworld grid."
+                    "Climbing Engine: Scale any vertical surface from mountains to structures.",
+                    "Physics Sandbox: Utilize magnetism, time-stasis, and kinetic force modules.",
+                    "Non-linear Progression: Venture directly to the final confrontation at any time."
                 ],
-                items: ["Wooden Sword", "Blue Candle", "Boots"]
+                items: ["Paraglider", "Sheikah Slate", "Master Sword"]
+            },
+            "totk": {
+                title: "Tears of the Kingdom",
+                year: "2023",
+                releaseIndex: 3,
+                chronologyIndex: 22, // Chronological End of Current Timeline
+                platform: "Nintendo Switch",
+                shortDesc: "The skies open up in absolute physics-driven world-building chaos.",
+                longDesc: "A direct sequel to Breath of the Wild that expands Hyrule into both the high sky islands and the dark depths below. It introduces revolutionary structural building mechanics that allow you to construct customized machinery and complex vehicles using ancient Zonai power.",
+                coverImg: "https://images.unsplash.com/photo-1685019803155-2ff1b6264d8a?q=80&w=800&auto=format&fit=crop", 
+                mechanics: [
+                    "Ultrahand: Seamlessly fuse environmental objects to build unique operational vehicles.",
+                    "Fuse: Synthesize materials directly onto weapons or shields to alter stats instantly.",
+                    "Ascend: Swim vertically through solid cave roofs to reach mountain peaks easily."
+                ],
+                items: ["Zonai Devices (Fans, Rockets, Lasers)", "Purah Pad", "Decayed Master Sword"]
             }
         };
 
@@ -1383,7 +1430,6 @@
         // --- THEME SWITCHER CONTROLS ---
         function toggleThemeQuick() {
             const body = document.body;
-            const toggleIcon = document.getElementById('quick-toggle-icon');
             if (body.classList.contains('dark-theme')) {
                 setExplicitTheme('light');
             } else {
@@ -1393,22 +1439,51 @@
 
         function setExplicitTheme(theme) {
             const body = document.body;
-            const toggleIcon = document.getElementById('quick-toggle-icon');
             const btnDark = document.getElementById('btn-theme-dark');
             const btnLight = document.getElementById('btn-theme-light');
+            const iconContainer = document.getElementById('quick-toggle-container');
 
             if (theme === 'light') {
                 body.classList.remove('dark-theme');
                 body.classList.add('light-theme');
-                toggleIcon.innerText = '☀️';
                 if(btnLight) btnLight.classList.add('active');
                 if(btnDark) btnDark.classList.remove('active');
+                
+                // Silent Princess Flower SVG for Light Mode
+                iconContainer.innerHTML = `
+                    <svg viewBox="0 0 100 100" width="32" height="32" style="display: block;">
+                        <path d="M50 90 Q48 70 50 50" stroke="#4a8f5d" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <path d="M49 70 Q40 65 38 60" stroke="#4a8f5d" stroke-width="2" fill="none"/>
+                        <path d="M51 75 Q60 70 62 65" stroke="#4a8f5d" stroke-width="2" fill="none"/>
+                        <circle cx="50" cy="50" r="6" fill="#dfb235"/>
+                        <path d="M50 50 Q40 30 50 20 Q60 30 50 50" fill="#e0f7fa" stroke="#4dd0e1" stroke-width="1.5"/>
+                        <path d="M50 50 Q70 40 80 50 Q70 60 50 50" fill="#e0f7fa" stroke="#4dd0e1" stroke-width="1.5"/>
+                        <path d="M50 50 Q60 70 50 80 Q40 70 50 50" fill="#e0f7fa" stroke="#4dd0e1" stroke-width="1.5"/>
+                        <path d="M50 50 Q30 60 20 50 Q30 40 50 50" fill="#e0f7fa" stroke="#4dd0e1" stroke-width="1.5"/>
+                        <path d="M50 50 Q58 35 68 32 Q58 48 50 50" fill="#ffffff" stroke="#4dd0e1" stroke-width="1"/>
+                        <path d="M50 50 Q42 35 32 32 Q42 48 50 50" fill="#ffffff" stroke="#4dd0e1" stroke-width="1"/>
+                    </svg>
+                `;
             } else {
                 body.classList.remove('light-theme');
                 body.classList.add('dark-theme');
-                toggleIcon.innerText = '🌙';
                 if(btnDark) btnDark.classList.add('active');
                 if(btnLight) btnLight.classList.remove('active');
+                
+                // Majora's Mask SVG for Dark Mode
+                iconContainer.innerHTML = `
+                    <svg viewBox="0 0 100 100" width="32" height="32" style="display: block;">
+                        <path d="M50 85 C20 65 10 40 25 20 C40 5 50 25 50 25 C50 25 60 5 75 20 C90 40 80 65 50 85 Z" fill="#7a219e" stroke="#dfb235" stroke-width="2.5"/>
+                        <circle cx="35" cy="40" r="10" fill="#e8341e" stroke="#dfb235" stroke-width="2"/>
+                        <circle cx="35" cy="40" r="4" fill="#ffeb3b"/>
+                        <circle cx="65" cy="40" r="10" fill="#e8341e" stroke="#dfb235" stroke-width="2"/>
+                        <circle cx="65" cy="40" r="4" fill="#ffeb3b"/>
+                        <path d="M20 22 L5 12" stroke="#4E9F3D" stroke-width="3.5" stroke-linecap="round"/>
+                        <path d="M15 35 L0 32" stroke="#dfb235" stroke-width="3.5" stroke-linecap="round"/>
+                        <path d="M80 22 L95 12" stroke="#4E9F3D" stroke-width="3.5" stroke-linecap="round"/>
+                        <path d="M85 35 L100 32" stroke="#dfb235" stroke-width="3.5" stroke-linecap="round"/>
+                    </svg>
+                `;
             }
         }
 
@@ -1581,7 +1656,6 @@
                 leaf.setAttribute("class", "leaf-particle");
                 leaf.setAttribute("viewBox", "0 0 24 24");
                 
-                // Randomize leaf path shape slightly
                 const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
                 path.setAttribute("d", "M17,8C8,10 5.9,16.17 3.82,21.34L2.18,19.66C7.3,16.2 13,11 15,6C13,6 10.5,6.5 8,8.5C5.5,10.5 4,13 4,13C4,13 5.5,9.5 8,7.5C10.5,5.5 13.5,5 16,5C17.5,5 19,5.5 20,6.5C21.42,7.92 21,11 17,8Z");
                 
@@ -1589,15 +1663,13 @@
                 path.setAttribute("fill", color);
                 leaf.appendChild(path);
 
-                // Set initial click coordinate origin
                 leaf.style.left = `${e.clientX}px`;
                 leaf.style.top = `${e.clientY}px`;
 
-                // Calculate custom expansion physics
                 const angle = Math.random() * Math.PI * 2;
                 const distance = 60 + Math.random() * 120;
                 const destX = Math.cos(angle) * distance;
-                const destY = Math.sin(angle) * distance + 100; // gravity pull
+                const destY = Math.sin(angle) * distance + 100;
                 const rotate = `${Math.random() * 360 + 180}deg`;
 
                 leaf.style.setProperty('--leaf-x', `${destX}px`);
@@ -1606,21 +1678,21 @@
 
                 document.body.appendChild(leaf);
 
-                // Clean up leaf DOM node after animation finishes
                 setTimeout(() => {
                     leaf.remove();
                 }, 2200);
             }
         }
 
-        // Attach dynamic leaf burst to general click states across interactive surfaces
+        // Attach leaf click bursts to interactive buttons & navigation items
         document.addEventListener('click', (e) => {
             if(e.target.tagName === 'BUTTON' || e.target.closest('a') || e.target.classList.contains('map-pin')) {
                 spawnLeaves(e);
             }
         });
 
-        // Initialize website
+        // Initialize state, set default SVG, and run list rendering
+        setExplicitTheme('dark');
         renderTimeline();
     </script>
 </body>
