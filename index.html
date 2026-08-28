@@ -3,50 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Game Stash</title>
+<title>Execcute</title>
 
 <style>
-*{
+body{
 margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+height:100vh;
+display:flex;
+background:#111;
+color:white;
+font-family:Arial;
 }
 
-body{
-background:#0d0d0d;
-color:white;
-height:100vh;
+#left{
+width:50%;
 display:flex;
 flex-direction:column;
 }
 
-header{
-padding:15px;
-background:#111;
-display:flex;
-gap:10px;
-align-items:center;
-border-bottom:1px solid #222;
+#right{
+width:50%;
+position:relative;
 }
 
-button,
-input{
-padding:10px;
-background:#1d1d1d;
-color:white;
+textarea{
+flex:1;
+background:#1a1a1a;
+color:#00ff88;
 border:none;
-border-radius:8px;
+outline:none;
+padding:15px;
+resize:none;
+font-family:monospace;
+font-size:14px;
+}
+
+.controls{
+padding:10px;
+display:flex;
+gap:10px;
+background:#181818;
+}
+
+button{
+padding:10px 15px;
+border:none;
+background:#333;
+color:white;
 cursor:pointer;
+border-radius:6px;
 }
 
 button:hover{
-background:#333;
-}
-
-#wrap{
-flex:1;
-position:relative;
+background:#555;
 }
 
 iframe{
@@ -57,52 +66,48 @@ background:white;
 }
 </style>
 </head>
-
 <body>
 
-<header>
-<input type="file" id="pick" accept=".html">
-<button id="full">Fullscreen</button>
-</header>
+<div id="left">
 
-<div id="wrap">
-<iframe id="view"></iframe>
+<div class="controls">
+<button onclick="runCode()">Run</button>
+<button onclick="goFull()">Fullscreen</button>
+</div>
+
+<textarea id="editor">
+<!DOCTYPE html>
+<html>
+<body style="background:black;color:white;text-align:center;">
+<h1>Hello World</h1>
+<button onclick="alert('works')">Click Me</button>
+</body>
+</html>
+</textarea>
+
+</div>
+
+<div id="right">
+<iframe id="output"></iframe>
 </div>
 
 <script>
-const pick=document.getElementById("pick");
-const view=document.getElementById("view");
-const wrap=document.getElementById("wrap");
-const full=document.getElementById("full");
+function runCode(){
+const code=document.getElementById("editor").value;
+document.getElementById("output").srcdoc=code;
+}
 
-pick.addEventListener("change",e=>{
-const file=e.target.files[0];
-if(!file) return;
-
-const reader=new FileReader();
-
-reader.onload=function(evt){
-const blob=new Blob(
-[evt.target.result],
-{type:"text/html"}
-);
-
-const url=URL.createObjectURL(blob);
-view.src=url;
-};
-
-reader.readAsText(file);
-});
-
-full.addEventListener("click",()=>{
+function goFull(){
+const frame=document.getElementById("output");
 
 if(!document.fullscreenElement){
-wrap.requestFullscreen();
+frame.requestFullscreen();
 }else{
 document.exitFullscreen();
 }
+}
 
-});
+runCode();
 </script>
 
 </body>
