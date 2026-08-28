@@ -2,65 +2,107 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Playground</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Classroom</title>
 
 <style>
-body{
+*{
 margin:0;
-height:100vh;
-display:flex;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
 background:#111;
 color:white;
-font-family:Arial;
-}
-
-#left{
-width:50%;
+height:100vh;
 display:flex;
 flex-direction:column;
+overflow:hidden;
 }
 
-#right{
-width:50%;
-position:relative;
+header{
+height:55px;
+background:#1a1a1a;
+display:flex;
+align-items:center;
+padding:0 15px;
+border-bottom:1px solid #2d2d2d;
+gap:10px;
+}
+
+.title{
+font-size:20px;
+font-weight:bold;
+}
+
+.tab{
+padding:8px 16px;
+background:#2a2a2a;
+border-radius:8px;
+cursor:pointer;
+user-select:none;
+}
+
+.tab.active{
+background:#4285f4;
+}
+
+.page{
+flex:1;
+display:none;
+height:calc(100vh - 55px);
+}
+
+.page.active{
+display:flex;
+}
+
+#codePage{
+padding:10px;
 }
 
 textarea{
-flex:1;
-background:#1a1a1a;
+width:100%;
+height:100%;
+background:#1b1b1b;
 color:#00ff88;
 border:none;
 outline:none;
-padding:15px;
 resize:none;
+padding:15px;
 font-family:monospace;
 font-size:14px;
 }
 
+#runPage{
+flex-direction:column;
+}
+
 .controls{
 padding:10px;
+background:#191919;
 display:flex;
 gap:10px;
-background:#181818;
 }
 
 button{
-padding:10px 15px;
-border:none;
-background:#333;
+background:#4285f4;
 color:white;
+border:none;
+padding:10px 15px;
+border-radius:8px;
 cursor:pointer;
-border-radius:6px;
 }
 
 button:hover{
-background:#555;
+background:#5d95f5;
 }
 
 iframe{
+flex:1;
 width:100%;
-height:100%;
 border:none;
 background:white;
 }
@@ -68,46 +110,90 @@ background:white;
 </head>
 <body>
 
-<div id="left">
+<header>
+<div class="title">Google Classroom</div>
 
-<div class="controls">
-<button onclick="runCode()">Run</button>
-<button onclick="goFull()">Fullscreen</button>
+<div class="tab active" onclick="showTab('runPage',this)">
+Execute
 </div>
 
-<textarea id="editor">
+<div class="tab" onclick="showTab('codePage',this)">
+Code
+</div>
+</header>
+
+<div id="runPage" class="page active">
+
+<div class="controls">
+<button onclick="runStuff()">Run</button>
+<button onclick="fullscreenStuff()">Fullscreen</button>
+</div>
+
+<iframe id="screen"></iframe>
+
+</div>
+
+<div id="codePage" class="page">
+
+<textarea id="storedCode">
+
 <!DOCTYPE html>
 <html>
 <body style="background:black;color:white;text-align:center;">
-<h1>Hello World</h1>
-<button onclick="alert('works')">Click Me</button>
+<h1>Game Loaded</h1>
+
+<button onclick="alert('hello')">
+Start
+</button>
+
 </body>
 </html>
+
 </textarea>
 
 </div>
 
-<div id="right">
-<iframe id="output"></iframe>
-</div>
-
 <script>
-function runCode(){
-const code=document.getElementById("editor").value;
-document.getElementById("output").srcdoc=code;
+
+function showTab(id,element){
+
+document.querySelectorAll(".page").forEach(page=>{
+page.classList.remove("active");
+});
+
+document.querySelectorAll(".tab").forEach(tab=>{
+tab.classList.remove("active");
+});
+
+document.getElementById(id).classList.add("active");
+element.classList.add("active");
+
 }
 
-function goFull(){
-const frame=document.getElementById("output");
+function runStuff(){
+
+const code =
+document.getElementById("storedCode").value;
+
+document.getElementById("screen").srcdoc = code;
+
+}
+
+function fullscreenStuff(){
+
+const frame =
+document.getElementById("screen");
 
 if(!document.fullscreenElement){
 frame.requestFullscreen();
 }else{
 document.exitFullscreen();
 }
+
 }
 
-runCode();
+runStuff();
+
 </script>
 
 </body>
